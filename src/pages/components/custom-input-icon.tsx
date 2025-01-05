@@ -1,0 +1,81 @@
+import React from "react";
+import { UseFormRegisterReturn } from "react-hook-form";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+
+interface CustomerInputProps {
+  error?: string;
+  label?: string;
+  name: string;
+  placeholder?: string;
+  required?: boolean;
+  type?: string;
+  register?: UseFormRegisterReturn; // react-hook-form's register return
+  disabled?: boolean;
+  iconLeft?: string;
+  leftOnclick?: () => void;
+  iconRight?: string;
+  rightOnclick?: () => void;
+}
+
+const CustomInput: React.FC<CustomerInputProps> = ({
+  error,
+  label,
+  name,
+  register,
+  required,
+  placeholder,
+  type = "text",
+  iconLeft,
+  leftOnclick,
+  iconRight,
+  rightOnclick,
+  ...props
+}) => {
+  return (
+    <div>
+      {label && (
+        <label htmlFor={name}>
+          {label} {required && <span className="text-red-600 text-xs">*</span>}
+        </label>
+      )}
+      <div className="border border-gray-300 w-full rounded h-[40px] flex items-center">
+        {iconLeft && (
+          <div className="pl-3">
+            <img
+              src={iconLeft}
+              width={14}
+              height={14}
+              alt="icon left"
+              onClick={() => (leftOnclick ? leftOnclick() : null)}
+              className={leftOnclick ? "cursor-pointer" : ""}
+            />
+          </div>
+        )}
+        <Input
+          id={name}
+          type={type}
+          {...props}
+          {...register}
+          placeholder={placeholder}
+          className={cn("border-none h-[36px]", error ? "border-red-600" : "")}
+        />
+        {iconRight && (
+          <div className="pr-3">
+            <img
+              src={iconRight}
+              width={14}
+              height={14}
+              alt="icon right"
+              onClick={() => (rightOnclick ? rightOnclick() : null)}
+              className={rightOnclick ? "cursor-pointer" : ""}
+            />
+          </div>
+        )}
+      </div>
+      {error && <span className="mt-1 text-red-600 text-xs">{error}</span>}
+    </div>
+  );
+};
+
+export default CustomInput;

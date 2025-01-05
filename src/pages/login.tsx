@@ -1,8 +1,12 @@
 import WelcomeImage from "@/assets/images/welcome.png";
 import { Button } from "@/components/ui/button";
-import { CustomInput } from "./components";
+import { CustomInput, CustomInputIcon } from "./components";
+import CloseEyeIcon from "@/assets/icons/icon-close-eye.png";
+import { useState } from "react";
 
 const LoginPage = () => {
+  const [closePassword, setClosePassword] = useState<boolean>(true);
+
   return (
     <div className="grid grid-cols-2 h-screen p-4">
       <div className="bg-primary h-full rounded-[20px] flex flex-col items-center justify-center gap-20">
@@ -46,11 +50,13 @@ const LoginPage = () => {
             />
           </div>
           <div className="w-full">
-            <CustomInput
+            <CustomInputIcon
               name="password"
               label="รหัสผ่าน"
-              type="password"
+              type={closePassword ? "password" : "text"}
               placeholder="รหัสผ่าน"
+              iconRight={CloseEyeIcon}
+              rightOnclick={() => setClosePassword(!closePassword)}
             />
           </div>
           <Button className="w-full rounded-[14px]">เข้าสู่ระบบ</Button>
