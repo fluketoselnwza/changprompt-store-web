@@ -32,8 +32,8 @@ const LoginPage: React.FC<IPageProps> = (props) => {
     console.log("data --* ", data);
 
     if (data.phoneNumber && data.password) {
-      navigate("/");
       setErrorMsg("");
+      navigate("/manage-task/all-tasks");
     } else {
       setErrorMsg("เบอร์โทรศัพท์หรือรหัสผ่านไม่ถูกต้อง");
     }

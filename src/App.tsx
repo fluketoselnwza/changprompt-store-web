@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-import { LoginPage } from "./pages";
+import { LoginPage, AllTasksPage } from "./pages";
 import MainLayout from "./main-layout";
 
 function App() {
@@ -11,6 +11,7 @@ function App() {
         <Routes>
           <Route element={<MainLayout />}>
             <Route path="/" element={<LoginPage />} />
+            <Route path="/manage-task/all-tasks" element={<AllTasksPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
