@@ -13,6 +13,7 @@ import { openLoading, closeLoading } from "@/redux/loading/action";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import WrongPasswordIcon from "@/assets/icons/icon-wrong-password.png";
+import { useNavigate } from "react-router";
 
 type Inputs = {
   phoneNumber?: string;
@@ -21,6 +22,7 @@ type Inputs = {
 
 const LoginPage: React.FC<IPageProps> = (props) => {
   const { openModalWarning } = props;
+  const navigate = useNavigate();
   const [closePassword, setClosePassword] = useState<boolean>(true);
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -28,7 +30,13 @@ const LoginPage: React.FC<IPageProps> = (props) => {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log("data --* ", data);
-    setErrorMsg("เบอร์โทรศัพท์หรือรหัสผ่านไม่ถูกต้อง");
+
+    if (data.phoneNumber && data.password) {
+      navigate("/");
+      setErrorMsg("");
+    } else {
+      setErrorMsg("เบอร์โทรศัพท์หรือรหัสผ่านไม่ถูกต้อง");
+    }
   };
 
   const onForgetPassword = () => {
