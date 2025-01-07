@@ -4,13 +4,23 @@ import { CustomInput, CustomInputIcon } from "./components";
 import CloseEyeIcon from "@/assets/icons/icon-close-eye.png";
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { IPageProps } from "./interface";
+import {
+  openModalWarning,
+  closeModalWarning,
+} from "@/redux/modal-warning/action";
+import { openLoading, closeLoading } from "@/redux/loading/action";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
+import WrongPasswordIcon from "@/assets/icons/icon-wrong-password.png";
 
 type Inputs = {
   phoneNumber?: string;
   password?: string;
 };
 
-const LoginPage: React.FC = () => {
+const LoginPage: React.FC<IPageProps> = (props) => {
+  const { openModalWarning } = props;
   const [closePassword, setClosePassword] = useState<boolean>(true);
   const [errorMsg, setErrorMsg] = useState<string>("");
 
@@ -19,6 +29,15 @@ const LoginPage: React.FC = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log("data --* ", data);
     setErrorMsg("เบอร์โทรศัพท์หรือรหัสผ่านไม่ถูกต้อง");
+  };
+
+  const onForgetPassword = () => {
+    console.log("forgottt");
+    openModalWarning(
+      WrongPasswordIcon,
+      "",
+      "หากผู้ใช้ลืมรหัสผ่าน กรุณาติดต่อ Super Admin<enter>เพื่อรีเซ็ตรหัสผ่านใหม่สำหรับเข้าใช้งาน"
+    );
   };
 
   return (
@@ -78,7 +97,11 @@ const LoginPage: React.FC = () => {
             </div>
             {errorMsg && <p className="text-red-600">{errorMsg}</p>}
             <Button className="w-full rounded-[14px]">เข้าสู่ระบบ</Button>
-            <Button variant={"link"} type="button">
+            <Button
+              variant={"link"}
+              type="button"
+              onClick={() => onForgetPassword()}
+            >
               <p>ลืมรหัสผ่าน ?</p>
             </Button>
           </div>
@@ -88,4 +111,35 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  openModalWarning: (
+    image: string | null,
+    title: string,
+    description: string,
+    labelBtnFirst?: string,
+    fnBtnFirst?: () => void | null,
+    labelBtnSecond?: string,
+    fnBtnSecond?: () => void | null
+  ) =>
+    openModalWarning(dispatch, {
+      image,
+      title,
+      description,
+      labelBtnFirst,
+      fnBtnFirst,
+      labelBtnSecond,
+      fnBtnSecond,
+    }),
+  closeModalWarning: () => closeModalWarning(dispatch),
+  openLoading: () => openLoading(dispatch),
+  closeLoading: () => closeLoading(dispatch),
+});
+
+const mapStateToProps = () => ({});
+
+const LoginPageWithConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginPage);
+
+export default LoginPageWithConnect;

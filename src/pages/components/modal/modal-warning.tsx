@@ -36,7 +36,7 @@ const ModalWarningComponent: React.FC<IModalWarningProps> = (props) => {
         <div className="flex justify-end">
           <img
             src={CloseIcon}
-            className="w-3 h-3"
+            className="w-3 h-3 cursor-pointer"
             alt="icon close"
             onClick={() => closeModalWarning()}
           />
@@ -53,7 +53,10 @@ const ModalWarningComponent: React.FC<IModalWarningProps> = (props) => {
                     return <br />;
                   } else {
                     return (
-                      <DialogDescription className="text-sm" key={index}>
+                      <DialogDescription
+                        className="text-sm text-center"
+                        key={index}
+                      >
                         {str}
                       </DialogDescription>
                     );
