@@ -1,69 +1,39 @@
 import * as React from "react";
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
-
 import { NavMain } from "@/components/nav-main";
 import { Sidebar, SidebarContent } from "@/components/ui/sidebar";
+import IconManageTask from "@/assets/icons/icon-manage-task.png";
+import IconManageStore from "@/assets/icons/icon-manage-store.png";
+import IconManageTechnician from "@/assets/icons/icon-manage-technician.png";
+import IconManageReview from "@/assets/icons/icon-namage-review.png";
+import IconManageUser from "@/assets/icons/icon-manage-user.png";
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
   navMain: [
     {
-      title: "Playground",
+      title: "จัดการงาน",
       url: "#",
-      icon: SquareTerminal,
+      icon: IconManageTask,
       isActive: true,
       items: [
         {
-          title: "History",
+          title: "ใบงานทั้งหมด",
           url: "#",
         },
         {
-          title: "Starred",
+          title: "งานรอช่างกดรับ",
           url: "#",
         },
         {
-          title: "Settings",
+          title: "ประวัติใบงาน",
           url: "#",
         },
       ],
     },
     {
-      title: "Models",
+      title: "จัดการร้านค้า",
       url: "#",
-      icon: Bot,
+      icon: IconManageStore,
       items: [
         {
           title: "Genesis",
@@ -80,9 +50,9 @@ const data = {
       ],
     },
     {
-      title: "Documentation",
+      title: "จัดการช่าง",
       url: "#",
-      icon: BookOpen,
+      icon: IconManageTechnician,
       items: [
         {
           title: "Introduction",
@@ -103,9 +73,9 @@ const data = {
       ],
     },
     {
-      title: "Settings",
+      title: "จัดการรีวิว",
       url: "#",
-      icon: Settings2,
+      icon: IconManageReview,
       items: [
         {
           title: "General",
@@ -125,22 +95,28 @@ const data = {
         },
       ],
     },
-  ],
-  projects: [
     {
-      name: "Design Engineering",
+      title: "จัดการผู้ใช้งาน",
       url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      icon: IconManageUser,
+      items: [
+        {
+          title: "General",
+          url: "#",
+        },
+        {
+          title: "Team",
+          url: "#",
+        },
+        {
+          title: "Billing",
+          url: "#",
+        },
+        {
+          title: "Limits",
+          url: "#",
+        },
+      ],
     },
   ],
 };
