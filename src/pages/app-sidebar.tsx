@@ -5,7 +5,7 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
+  //   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -40,17 +40,21 @@ const items = [
   },
 ];
 
-export function AppSidebar() {
+interface IAppSidebarProps {
+  headerBar?: boolean;
+}
+
+export function AppSidebar({ headerBar = true }: IAppSidebarProps) {
   return (
-    <Sidebar>
-      <SidebarContent className="bg-white">
+    <Sidebar className={headerBar ? "mt-[56px]" : ""}>
+      <SidebarContent className="bg-white px-1 pt-2">
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          {/* <SidebarGroupLabel>Application</SidebarGroupLabel> */}
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                  <SidebarMenuButton asChild className="py-2 text-[14px]">
                     <a href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>

@@ -1,6 +1,8 @@
 import React from "react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+// import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "./app-sidebar";
+import HeaderBar from "./header-bar";
 
 interface SidebarLayoutProps {
   children: React.ReactNode;
@@ -8,13 +10,16 @@ interface SidebarLayoutProps {
 
 const SidebarLayout: React.FC<SidebarLayoutProps> = ({ children }) => {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main>
-        <SidebarTrigger />
-        {children}
-      </main>
-    </SidebarProvider>
+    <>
+      <HeaderBar />
+      <SidebarProvider>
+        <AppSidebar />
+        <main>
+          {/* <SidebarTrigger /> */}
+          {children}
+        </main>
+      </SidebarProvider>
+    </>
   );
 };
 
