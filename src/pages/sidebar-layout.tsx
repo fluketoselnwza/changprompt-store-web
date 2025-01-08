@@ -20,8 +20,8 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({ children }) => {
         <HeaderBar />
         <AppSidebar className="mt-[56px]" />
         <SidebarInset className="mt-[56px]">
-          <header className="flex bg-[#F2F4F7] h-[80px] shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-[80px]">
-            <div className="flex items-center gap-2 px-4">
+          <header className="flex bg-[#F2F4F7] h-[90px] shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-[90px]">
+            <div className="flex items-center gap-2 px-8">
               <SidebarTrigger className="-ml-1" />
               {/* <Separator orientation="vertical" className="mr-2 h-4" /> */}
               <div className="bg-white h-[45px] flex items-center px-5 rounded-lg	gap-4">
