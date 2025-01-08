@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -10,22 +9,33 @@ import {
 
 const CustomTable = () => {
   return (
-    <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
-      <TableHeader>
+    <Table className="text-[12px]">
+      <TableHeader className="bg-gray-50">
         <TableRow>
-          <TableHead className="w-[100px]">Invoice</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
+          <TableHead className="w-[100px]">เลขที่ใบงาน</TableHead>
+          <TableHead>หมวดหมู่งาน</TableHead>
+          <TableHead>สินค้า</TableHead>
+          <TableHead>ชื่อลูกค้า</TableHead>
+          <TableHead>ช่าง</TableHead>
+          <TableHead>วันที่สร้าง</TableHead>
+          <TableHead>ผู้ออกใบงาน</TableHead>
+          <TableHead>สถานะงาน</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         <TableRow>
-          <TableCell className="font-medium">INV001</TableCell>
-          <TableCell>Paid</TableCell>
-          <TableCell>Credit Card</TableCell>
-          <TableCell className="text-right">$250.00</TableCell>
+          <TableCell>#INS-24020001-0001</TableCell>
+          <TableCell>ติดตั้ง</TableCell>
+          <TableCell>แอร์</TableCell>
+          <TableCell>Brooklyn Simmons</TableCell>
+          <TableCell>Annette Black</TableCell>
+          <TableCell>01/05/2024</TableCell>
+          <TableCell>#1000345678 : แอดมิน</TableCell>
+          <TableCell>
+            <div className="bg-[#FDF6B2] text-[#723B13] flex items-center justify-center">
+              รอมอบหมาย
+            </div>
+          </TableCell>
         </TableRow>
       </TableBody>
     </Table>
