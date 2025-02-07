@@ -94,7 +94,7 @@ const AllTasksPage = () => {
                 <Button className="w-full">ค้นหา</Button>
               </div>
             </div>
-            <div className="w-full">
+            <div className="w-[79vw]">
               <CustomTable />
             </div>
           </div>

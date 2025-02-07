@@ -10,18 +10,20 @@ import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 
 const CustomTable = () => {
   return (
-    <Table className="text-[12px] w-[1440px]">
+    <Table className="text-[12px] w-[1400px]">
       <TableHeader className="bg-gray-50">
         <TableRow>
-          <TableHead className="w-[100px]">เลขที่ใบงาน</TableHead>
-          <TableHead>หมวดหมู่งาน</TableHead>
-          <TableHead>สินค้า</TableHead>
-          <TableHead>ชื่อลูกค้า</TableHead>
-          <TableHead>ช่าง</TableHead>
-          <TableHead>วันที่สร้าง</TableHead>
-          <TableHead>ผู้ออกใบงาน</TableHead>
-          <TableHead>สถานะงาน</TableHead>
-          <TableHead>#</TableHead>
+          <TableHead className="w-[140px]">เลขที่ใบงาน</TableHead>
+          <TableHead className="w-[140px]">หมวดหมู่งาน</TableHead>
+          <TableHead className="w-[140px]">สินค้า</TableHead>
+          <TableHead className="w-[140px]">ชื่อลูกค้า</TableHead>
+          <TableHead className="w-[140px]">ช่าง</TableHead>
+          <TableHead className="w-[140px]">วันที่สร้าง</TableHead>
+          <TableHead className="w-[140px]">ผู้ออกใบงาน</TableHead>
+          <TableHead className="w-[140px]">สถานะงาน</TableHead>
+          <TableHead className="w-[40px] text-center sticky right-0 bg-gray-50 z-10">
+            <span>#</span>
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -38,8 +40,14 @@ const CustomTable = () => {
               รอมอบหมาย
             </div>
           </TableCell>
-          <TableCell>
-            <img src={IconSubMenu} width={22} height={22} alt="icon sub menu" />
+          <TableCell className="sticky right-0 bg-gray-50 z-10">
+            <img
+              src={IconSubMenu}
+              width={22}
+              height={22}
+              alt="icon sub menu"
+              className="mx-auto"
+            />
           </TableCell>
         </TableRow>
       </TableBody>
