@@ -94,7 +94,9 @@ const AllTasksPage = () => {
                 <Button className="w-full">ค้นหา</Button>
               </div>
             </div>
-            <CustomTable />
+            <div className="w-full">
+              <CustomTable />
+            </div>
           </div>
         </div>
       </SidebarLayout>

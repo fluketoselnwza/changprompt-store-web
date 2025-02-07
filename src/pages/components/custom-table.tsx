@@ -6,10 +6,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 
 const CustomTable = () => {
   return (
-    <Table className="text-[12px]">
+    <Table className="text-[12px] w-[1440px]">
       <TableHeader className="bg-gray-50">
         <TableRow>
           <TableHead className="w-[100px]">เลขที่ใบงาน</TableHead>
@@ -20,6 +21,7 @@ const CustomTable = () => {
           <TableHead>วันที่สร้าง</TableHead>
           <TableHead>ผู้ออกใบงาน</TableHead>
           <TableHead>สถานะงาน</TableHead>
+          <TableHead>#</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -35,6 +37,9 @@ const CustomTable = () => {
             <div className="bg-[#FDF6B2] text-[#723B13] flex items-center justify-center">
               รอมอบหมาย
             </div>
+          </TableCell>
+          <TableCell>
+            <img src={IconSubMenu} width={22} height={22} alt="icon sub menu" />
           </TableCell>
         </TableRow>
       </TableBody>
