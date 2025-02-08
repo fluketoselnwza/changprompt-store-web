@@ -5,6 +5,8 @@ import IconLink from "@/assets/icons/icon-link.png";
 import IconPencil from "@/assets/icons/icon-pencil.png";
 import IconSearch from "@/assets/icons/icon-search.png";
 
+const MockData = [];
+
 const AllTasksPage = () => {
   return (
     <>
