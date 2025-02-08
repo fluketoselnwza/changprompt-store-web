@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Table,
   TableBody,
@@ -8,24 +9,25 @@ import {
 } from "@/components/ui/table";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 import CustomPagination from "./custom-pagination";
+import { IHeaderTable } from "../data/interface";
 
-const CustomTable = () => {
+interface ICustomTablePrpos {
+  headerData: IHeaderTable[];
+}
+
+const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
+  const { headerData } = props;
+
   return (
     <>
       <Table className="text-[12px] w-[1400px]">
         <TableHeader className="bg-gray-50">
           <TableRow>
-            <TableHead className="w-[140px]">เลขที่ใบงาน</TableHead>
-            <TableHead className="w-[140px]">หมวดหมู่งาน</TableHead>
-            <TableHead className="w-[140px]">สินค้า</TableHead>
-            <TableHead className="w-[140px]">ชื่อลูกค้า</TableHead>
-            <TableHead className="w-[140px]">ช่าง</TableHead>
-            <TableHead className="w-[140px]">วันที่สร้าง</TableHead>
-            <TableHead className="w-[140px]">ผู้ออกใบงาน</TableHead>
-            <TableHead className="w-[140px]">สถานะงาน</TableHead>
-            <TableHead className="w-[40px] text-center sticky right-0 bg-gray-50 z-10">
-              <span>#</span>
-            </TableHead>
+            {headerData?.map((item, index: number) => (
+              <TableHead key={index} className={item.class}>
+                {item.title}
+              </TableHead>
+            ))}
           </TableRow>
         </TableHeader>
         <TableBody>

@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import IconLink from "@/assets/icons/icon-link.png";
 import IconPencil from "@/assets/icons/icon-pencil.png";
 import IconSearch from "@/assets/icons/icon-search.png";
-
-const MockData = [];
+import { HeaderTableAllTask } from "../data/headerTable";
 
 const AllTasksPage = () => {
   return (
@@ -97,7 +96,7 @@ const AllTasksPage = () => {
               </div>
             </div>
             <div className="w-[79vw]">
-              <CustomTable />
+              <CustomTable headerData={HeaderTableAllTask} />
             </div>
           </div>
         </div>
