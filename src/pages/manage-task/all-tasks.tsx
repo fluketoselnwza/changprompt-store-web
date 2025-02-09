@@ -5,6 +5,69 @@ import IconLink from "@/assets/icons/icon-link.png";
 import IconPencil from "@/assets/icons/icon-pencil.png";
 import IconSearch from "@/assets/icons/icon-search.png";
 import { HeaderTableAllTask } from "../data/headerTable";
+import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
+import { TableCell } from "@/components/ui/table";
+
+const data = [
+  {
+    key: "",
+    data: "#INS-24020001-0001",
+  },
+  {
+    key: "",
+    data: "ติดตั้ง",
+  },
+  {
+    key: "",
+    data: "แอร์",
+  },
+  {
+    key: "",
+    data: "Brooklyn Simmons",
+  },
+  {
+    key: "",
+    data: "Annette Black",
+  },
+  {
+    key: "",
+    data: "01/05/2024",
+  },
+  {
+    key: "",
+    data: "#1000345678 : แอดมิน",
+  },
+  {
+    key: "",
+    data: "รอมอบหมาย",
+    renderCell: () => {
+      return (
+        <TableCell>
+          <div className="bg-[#FDF6B2] text-[#723B13] flex items-center justify-center">
+            รอมอบหมาย
+          </div>
+        </TableCell>
+      );
+    },
+  },
+  {
+    key: "",
+    data: "#",
+    renderCell: () => {
+      return (
+        <TableCell className="sticky right-0 bg-gray-50 z-10">
+          <img
+            src={IconSubMenu}
+            width={22}
+            height={22}
+            alt="icon sub menu"
+            className="mx-auto"
+          />
+        </TableCell>
+      );
+    },
+  },
+];
 
 const AllTasksPage = () => {
   return (
@@ -96,7 +159,11 @@ const AllTasksPage = () => {
               </div>
             </div>
             <div className="w-[79vw]">
-              <CustomTable headerData={HeaderTableAllTask} />
+              <CustomTable
+                width={1400}
+                bodyData={data}
+                headerData={HeaderTableAllTask}
+              />
             </div>
           </div>
         </div>

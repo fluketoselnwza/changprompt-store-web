@@ -7,20 +7,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 import CustomPagination from "./custom-pagination";
-import { IHeaderTable } from "../data/interface";
+import { IHeaderTable, IBodyTable } from "../data/interface";
+import { cn } from "@/lib/utils";
 
 interface ICustomTablePrpos {
   headerData: IHeaderTable[];
+  bodyData: IBodyTable[];
+  width?: number;
 }
 
 const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
-  const { headerData } = props;
+  const { headerData, width = 1440, bodyData } = props;
 
   return (
     <>
-      <Table className="text-[12px] w-[1400px]">
+      <Table className={cn("text-[12px]", `w-[${width}px]`)}>
         <TableHeader className="bg-gray-50">
           <TableRow>
             {headerData?.map((item, index: number) => (
@@ -32,27 +34,13 @@ const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell>#INS-24020001-0001</TableCell>
-            <TableCell>ติดตั้ง</TableCell>
-            <TableCell>แอร์</TableCell>
-            <TableCell>Brooklyn Simmons</TableCell>
-            <TableCell>Annette Black</TableCell>
-            <TableCell>01/05/2024</TableCell>
-            <TableCell>#1000345678 : แอดมิน</TableCell>
-            <TableCell>
-              <div className="bg-[#FDF6B2] text-[#723B13] flex items-center justify-center">
-                รอมอบหมาย
-              </div>
-            </TableCell>
-            <TableCell className="sticky right-0 bg-gray-50 z-10">
-              <img
-                src={IconSubMenu}
-                width={22}
-                height={22}
-                alt="icon sub menu"
-                className="mx-auto"
-              />
-            </TableCell>
+            {bodyData?.map((item, index) =>
+              item?.renderCell ? (
+                item.renderCell()
+              ) : (
+                <TableCell key={index}>{item?.data}</TableCell>
+              )
+            )}
           </TableRow>
         </TableBody>
       </Table>
