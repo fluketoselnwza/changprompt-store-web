@@ -13,7 +13,9 @@ import { cn } from "@/lib/utils";
 
 interface ICustomTablePrpos {
   headerData: IHeaderTable[];
-  bodyData: IBodyTable[];
+  bodyData: {
+    data: IBodyTable[];
+  }[];
   width?: number;
 }
 
@@ -33,15 +35,17 @@ const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            {bodyData?.map((item, index) =>
-              item?.renderCell ? (
-                item.renderCell()
-              ) : (
-                <TableCell key={index}>{item?.data}</TableCell>
-              )
-            )}
-          </TableRow>
+          {bodyData?.map((body, index) => (
+            <TableRow key={index}>
+              {body?.data?.map((item, _index) =>
+                item?.renderCell ? (
+                  item.renderCell()
+                ) : (
+                  <TableCell key={_index}>{item?.data}</TableCell>
+                )
+              )}
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
       <CustomPagination className="mt-3" />
