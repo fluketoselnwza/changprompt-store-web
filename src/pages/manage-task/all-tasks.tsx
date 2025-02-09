@@ -1,5 +1,10 @@
 import SidebarLayout from "../sidebar-layout";
-import { CustomInputIcon, CustomTable, CustomSelect } from "../components";
+import {
+  CustomInputIcon,
+  CustomTable,
+  CustomSelect,
+  ModalInput,
+} from "../components";
 import { Button } from "@/components/ui/button";
 import IconLink from "@/assets/icons/icon-link.png";
 import IconPencil from "@/assets/icons/icon-pencil.png";
@@ -7,6 +12,7 @@ import IconSearch from "@/assets/icons/icon-search.png";
 import { HeaderTableAllTask } from "../data/headerTable";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 import { TableCell } from "@/components/ui/table";
+import { useState } from "react";
 
 const bodyData = [
   {
@@ -198,6 +204,8 @@ const bodyData = [
 ];
 
 const AllTasksPage = () => {
+  const [isOpenLink, setIsOpenLink] = useState<boolean>(false);
+
   return (
     <>
       <SidebarLayout>
@@ -205,7 +213,7 @@ const AllTasksPage = () => {
           <div className="flex justify-between items-end">
             <p className="font-bold text-[16px]">ใบงานทั้งหมด</p>
             <div className="flex items-center gap-4">
-              <Button variant={"outline"}>
+              <Button variant={"outline"} onClick={() => setIsOpenLink(true)}>
                 <img src={IconLink} width={20} height={20} alt="icon link" />
                 <span>สร้างลิงค์ใบงาน</span>
               </Button>
@@ -296,6 +304,7 @@ const AllTasksPage = () => {
           </div>
         </div>
       </SidebarLayout>
+      <ModalInput isOpen={isOpenLink} setIsOpen={setIsOpenLink} />
     </>
   );
 };

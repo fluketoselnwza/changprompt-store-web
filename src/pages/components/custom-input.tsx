@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { UseFormRegisterReturn } from "react-hook-form";
 
@@ -11,6 +11,7 @@ interface CustomerInputProps {
   type?: string;
   register?: UseFormRegisterReturn; // react-hook-form's register return
   disabled?: boolean;
+  defaultValue?: string;
 }
 
 const CustomInput: React.FC<CustomerInputProps> = ({
@@ -20,9 +21,30 @@ const CustomInput: React.FC<CustomerInputProps> = ({
   register,
   required,
   placeholder,
+  defaultValue = "",
   type = "text",
   ...props
 }) => {
+  const [value, setValue] = useState<string>(defaultValue);
+
+  useEffect(() => {
+    // Sync with defaultValue when it changes
+    if (defaultValue) {
+      setValue(defaultValue);
+    }
+  }, [defaultValue]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    setValue(inputValue);
+
+    if (register?.onChange) {
+      register.onChange({
+        target: { name, value: inputValue },
+      });
+    }
+  };
+
   return (
     <div>
       {label && (
@@ -35,6 +57,8 @@ const CustomInput: React.FC<CustomerInputProps> = ({
         type={type}
         {...props}
         {...register}
+        value={value}
+        onChange={handleChange}
         placeholder={placeholder}
         className={error ? "border-red-600" : ""}
       />
