@@ -51,7 +51,7 @@ const bodyData = [
         renderCell: () => {
           return (
             <TableCell>
-              <div className="bg-[#FDF6B2] text-[#723B13] flex justify-center w-[120px] rounded-md">
+              <div className="bg-[#FDF6B2] text-[#723B13] flex justify-center w-[80px] rounded-md">
                 รอมอบหมาย
               </div>
             </TableCell>
@@ -113,7 +113,7 @@ const bodyData = [
         renderCell: () => {
           return (
             <TableCell>
-              <div className="bg-[#FDE8E8] text-[#9B1C1C] flex justify-center w-[120px] rounded-md">
+              <div className="bg-[#FDE8E8] text-[#9B1C1C] flex justify-center w-[80px] rounded-md">
                 รอให้บริการ
               </div>
             </TableCell>
@@ -175,7 +175,7 @@ const bodyData = [
         renderCell: () => {
           return (
             <TableCell>
-              <div className="bg-[#D9FFDA] text-[#2C7213] flex justify-center w-[120px] rounded-md">
+              <div className="bg-[#D9FFDA] text-[#2C7213] flex justify-center w-[80px] rounded-md">
                 งานสำเร็จ
               </div>
             </TableCell>
@@ -296,7 +296,7 @@ const AllTasksPage = () => {
             </div>
             <div className="w-[79vw]">
               <CustomTable
-                width={1400}
+                width={1200}
                 bodyData={bodyData}
                 headerData={HeaderTableAllTask}
               />
