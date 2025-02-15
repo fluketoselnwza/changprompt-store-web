@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
 import IconHome from "@/assets/icons/icon-home.png";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { CustomInput, DatePicker } from "../components";
+import { CustomInput, CustomSelect, DatePicker } from "../components";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const breadcrumbs = [
   {
@@ -108,7 +109,119 @@ const NewTaskPage = () => {
                     label="เบอร์โทรศัพท์ (สำรอง)"
                     placeholder="เบอร์โทรศัพท์ (สำรอง)"
                   />
-                  <DatePicker name="appointment_date" label="วันที่นัดหมาย" />
+                  <DatePicker
+                    name="appointment_date"
+                    label="วันที่นัดหมาย"
+                    required
+                  />
+                  <CustomSelect
+                    name="appointment_time"
+                    label="เวลานัดหมาย"
+                    required
+                    options={[
+                      {
+                        label: "เช้า 08:00 - 12:00",
+                        value: "เช้า 08:00 - 12:00",
+                      },
+                      {
+                        label: "บ่าย 13:00 - 17:00",
+                        value: "บ่าย 13:00 - 17:00",
+                      },
+                    ]}
+                  />
+                </div>
+                <div className="mt-6 grid grid-cols-3 gap-4">
+                  <CustomInput
+                    name="address"
+                    label="ที่อยู่ บ้านเลขที่ หมู่บ้าน ซอย ถนน"
+                    placeholder="กรอกข้อมูล"
+                    required
+                  />
+                  <CustomInput
+                    name="zipcode"
+                    label="รหัสไปรษณีย์"
+                    placeholder="กรอกข้อมูล"
+                    required
+                  />
+                  <CustomSelect
+                    name="sub_district"
+                    label="ตำบล"
+                    required
+                    options={[]}
+                  />
+                  <CustomInput
+                    name="district"
+                    label="อำเภอ"
+                    placeholder="กรอกข้อมูล"
+                    required
+                  />
+                  <CustomInput
+                    name="province"
+                    label="จังหวัด"
+                    placeholder="กรอกข้อมูล"
+                    required
+                  />
+                </div>
+                <div className="mt-6 grid grid-cols-3 gap-4">
+                  <div className="col-span-2">
+                    <CustomInput
+                      name="point_service"
+                      label="ระบุจุดที่ต้องการเข้าให้บริการ (ชั้น ห้อง อื่นๆ)"
+                      placeholder="ระบุรายละเอียดจุดให้บริการของลูกค้าให้ชัดเจนมากขึ้น เช่น บ้านชั้น 2"
+                      required
+                    />
+                  </div>
+                  <CustomInput
+                    name="distance"
+                    label="ระยะทาง"
+                    placeholder="กรอกข้อมูล"
+                    required
+                  />
+                </div>
+                <div className="flex items-end space-x-2 mt-6">
+                  <Checkbox
+                    id="is_google_map"
+                    className="border border-gray-300 w-[16px] h-[16px]"
+                  />
+                  <label htmlFor="is_google_map" className="leading-4">
+                    ปักหมุดสถานที่จริง (Google map)
+                  </label>
+                </div>
+                <div className="mt-6 grid grid-cols-3 gap-4">
+                  <CustomSelect
+                    name="job_type"
+                    label="ประเภทงาน"
+                    required
+                    options={[]}
+                  />
+                  <CustomSelect
+                    name="product"
+                    label="เลือกสินค้า"
+                    required
+                    options={[]}
+                  />
+                </div>
+                <div className="mt-6 grid grid-cols-3 gap-4">
+                  <CustomSelect
+                    name="type_technicial"
+                    label="เลือกช่าง"
+                    required
+                    options={[]}
+                  />
+                  <CustomSelect
+                    name="type_payment"
+                    label="ประเภทการเก็บเงิน"
+                    required
+                    options={[]}
+                  />
+                </div>
+                <div className="mt-6 grid grid-cols-3 gap-4">
+                  <CustomInput
+                    name="cost"
+                    label="ค่าแรง"
+                    placeholder="กรอกข้อมูล"
+                    required
+                  />
                 </div>
               </div>
             </div>

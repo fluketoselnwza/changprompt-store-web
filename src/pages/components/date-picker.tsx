@@ -50,10 +50,11 @@ const DatePicker: React.FC<DatePickerProps> = ({
   console.log("error : ", error);
 
   return (
-    <div className="flex flex-col gap-1 w-full">
+    <div className="flex flex-col gap-2 w-full">
       {label && (
         <label>
-          {label} {required && <span className="text-red-600 text-xs">*</span>}
+          {label}{" "}
+          {required && <span className="text-red-600 text-[14px]">*</span>}
         </label>
       )}
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
