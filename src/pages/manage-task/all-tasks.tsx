@@ -215,7 +215,7 @@ const AllTasksPage = () => {
             <div className="flex items-center gap-4">
               <Button variant={"outline"} onClick={() => setIsOpenLink(true)}>
                 <img src={IconLink} width={20} height={20} alt="icon link" />
-                <span>สร้างลิงค์ใบงาน</span>
+                <span className="text-[16px]">สร้างลิงค์ใบงาน</span>
               </Button>
               <Button variant={"outline"}>
                 <img
@@ -224,8 +224,7 @@ const AllTasksPage = () => {
                   height={20}
                   alt="icon pencil"
                 />
-
-                <span>สร้างใบงานใหม่</span>
+                <span className="text-[16px]">สร้างใบงานใหม่</span>
               </Button>
             </div>
           </div>
@@ -288,10 +287,10 @@ const AllTasksPage = () => {
                 ]}
               />
               <div className="flex gap-3">
-                <Button className="w-full" variant={"outline"}>
+                <Button className="w-full text-[16px]" variant={"outline"}>
                   ล้าง
                 </Button>
-                <Button className="w-full">ค้นหา</Button>
+                <Button className="w-full text-[16px]">ค้นหา</Button>
               </div>
             </div>
             <div className="w-[79vw]">

@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/table";
 import CustomPagination from "./custom-pagination";
 import { IHeaderTable, IBodyTable } from "../data/interface";
-import { cn } from "@/lib/utils";
 
 interface ICustomTablePrpos {
   headerData: IHeaderTable[];
@@ -24,8 +23,8 @@ const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
 
   return (
     <>
-      <Table className={cn("text-[12px]", `w-[${width}px]`)}>
-        <TableHeader className="bg-gray-50">
+      <Table className={`w-[${width}px]`}>
+        <TableHeader className="bg-gray-50 text-[12px]">
           <TableRow>
             {headerData?.map((item, index: number) => (
               <TableHead key={index} className={item.class}>
@@ -34,7 +33,7 @@ const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
             ))}
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="text-[14px]">
           {bodyData?.map((body, index) => (
             <TableRow key={index}>
               {body?.data?.map((item, _index) =>

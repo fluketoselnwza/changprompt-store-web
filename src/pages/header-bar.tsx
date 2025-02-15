@@ -19,7 +19,7 @@ const HeaderBar = () => {
           <CircleUser />
           <span>0000000 : ร้านค้า</span>
           <div className="border-l border-[#F5F5F5] pl-4">
-            <Button variant="outline" className="h-[38px]">
+            <Button variant="outline" className="h-[38px] text-[14px]">
               ออกจากระบบ
             </Button>
           </div>
