@@ -13,6 +13,7 @@ import { HeaderTableAllTask } from "../data/headerTable";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 import { TableCell } from "@/components/ui/table";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const bodyData = [
   {
@@ -204,6 +205,7 @@ const bodyData = [
 ];
 
 const AllTasksPage = () => {
+  const navigate = useNavigate();
   const [isOpenLink, setIsOpenLink] = useState<boolean>(false);
 
   return (
@@ -217,7 +219,10 @@ const AllTasksPage = () => {
                 <img src={IconLink} width={20} height={20} alt="icon link" />
                 <span className="text-[16px]">สร้างลิงค์ใบงาน</span>
               </Button>
-              <Button variant={"outline"}>
+              <Button
+                variant={"outline"}
+                onClick={() => navigate("/manage-task/new-task")}
+              >
                 <img
                   src={IconPencil}
                   width={20}
@@ -228,7 +233,7 @@ const AllTasksPage = () => {
               </Button>
             </div>
           </div>
-          <div className="bg-white p-4 mt-4">
+          <div className="bg-white p-4 mt-4 rounded-[8px]">
             <div className="grid grid-cols-6 gap-3 mb-5">
               <CustomInputIcon
                 iconLeft={IconSearch}
