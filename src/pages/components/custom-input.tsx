@@ -46,10 +46,11 @@ const CustomInput: React.FC<CustomerInputProps> = ({
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {label && (
         <label htmlFor={name}>
-          {label} {required && <span className="text-red-600 text-xs">*</span>}
+          {label}{" "}
+          {required && <span className="text-red-600 text-[14px]">*</span>}
         </label>
       )}
       <Input
