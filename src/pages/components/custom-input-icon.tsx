@@ -44,11 +44,12 @@ const CustomInput: React.FC<CustomerInputProps> = ({
           <div className="pl-3">
             <img
               src={iconLeft}
-              width={14}
-              height={14}
               alt="icon left"
               onClick={() => (leftOnclick ? leftOnclick() : null)}
-              className={leftOnclick ? "cursor-pointer" : ""}
+              className={cn(
+                "w-[16px] h-[16px] object-contain",
+                leftOnclick ? "cursor-pointer" : ""
+              )}
             />
           </div>
         )}
@@ -64,11 +65,12 @@ const CustomInput: React.FC<CustomerInputProps> = ({
           <div className="pr-3">
             <img
               src={iconRight}
-              width={14}
-              height={14}
               alt="icon right"
               onClick={() => (rightOnclick ? rightOnclick() : null)}
-              className={rightOnclick ? "cursor-pointer" : ""}
+              className={cn(
+                "w-[16px] h-[16px] object-contain",
+                rightOnclick ? "cursor-pointer" : ""
+              )}
             />
           </div>
         )}
