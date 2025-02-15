@@ -14,6 +14,7 @@ import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 import { TableCell } from "@/components/ui/table";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import IconHome from "@/assets/icons/icon-home.png";
 
 const bodyData = [
   {
@@ -204,13 +205,26 @@ const bodyData = [
   },
 ];
 
+const breadcrumbs = [
+  {
+    label: "จัดการงาน",
+    link: "",
+    icon: IconHome,
+  },
+  {
+    label: "ใบงานทั้งหมด",
+    link: "",
+    icon: "",
+  },
+];
+
 const AllTasksPage = () => {
   const navigate = useNavigate();
   const [isOpenLink, setIsOpenLink] = useState<boolean>(false);
 
   return (
     <>
-      <SidebarLayout>
+      <SidebarLayout breadcrumbs={breadcrumbs}>
         <div className="px-8 py-4 rounded-lg">
           <div className="flex justify-between items-end">
             <p className="font-bold text-[16px]">ใบงานทั้งหมด</p>
@@ -225,9 +239,8 @@ const AllTasksPage = () => {
               >
                 <img
                   src={IconPencil}
-                  width={20}
-                  height={20}
                   alt="icon pencil"
+                  className="w-[20px] h-[20px]"
                 />
                 <span className="text-[16px]">สร้างใบงานใหม่</span>
               </Button>

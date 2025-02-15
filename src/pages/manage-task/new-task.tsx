@@ -2,13 +2,32 @@ import React from "react";
 import SidebarLayout from "../sidebar-layout";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
+import IconHome from "@/assets/icons/icon-home.png";
+
+const breadcrumbs = [
+  {
+    label: "จัดการงาน",
+    link: "",
+    icon: IconHome,
+  },
+  {
+    label: "ใบงานทั้งหมด",
+    link: "",
+    icon: "",
+  },
+  {
+    label: "สร้างใบงานใหม่",
+    link: "",
+    icon: "",
+  },
+];
 
 const NewTaskPage = () => {
   const navigate = useNavigate();
 
   return (
     <>
-      <SidebarLayout>
+      <SidebarLayout breadcrumbs={breadcrumbs}>
         <div className="px-8 py-4 rounded-lg">
           <div className="flex justify-between items-end">
             <p className="font-bold text-[16px]">สร้างใบงานใหม่</p>
