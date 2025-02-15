@@ -26,7 +26,7 @@ const CustomPagination: React.FC<ICustomerProps> = (props) => {
       </div>
       <Pagination>
         <PaginationContent>
-          <PaginationItem>
+          <PaginationItem className="rounded-tl-[4px] rounded-bl-[4px]">
             <PaginationPrevious href="#" />
           </PaginationItem>
           <PaginationItem>
@@ -44,7 +44,7 @@ const CustomPagination: React.FC<ICustomerProps> = (props) => {
           <PaginationItem>
             <PaginationLink href="#">100</PaginationLink>
           </PaginationItem>
-          <PaginationItem>
+          <PaginationItem className="rounded-tr-[4px] rounded-br-[4px]">
             <PaginationNext href="#" />
           </PaginationItem>
         </PaginationContent>
