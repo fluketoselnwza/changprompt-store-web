@@ -33,13 +33,18 @@ const CustomInput: React.FC<CustomerInputProps> = ({
   ...props
 }) => {
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {label && (
         <label htmlFor={name}>
           {label} {required && <span className="text-red-600 text-xs">*</span>}
         </label>
       )}
-      <div className="border border-gray-300 w-full rounded h-[40px] flex items-center">
+      <div
+        className={cn(
+          "border border-gray-300 w-full rounded h-[40px] flex items-center",
+          error ? "border-red-600" : ""
+        )}
+      >
         {iconLeft && (
           <div className="pl-3">
             <img
@@ -59,7 +64,7 @@ const CustomInput: React.FC<CustomerInputProps> = ({
           {...props}
           {...register}
           placeholder={placeholder}
-          className={cn("border-none h-[36px]", error ? "border-red-600" : "")}
+          className={cn("border-none")}
         />
         {iconRight && (
           <div className="pr-3">
