@@ -1,7 +1,7 @@
 export const HeaderTableAllTask = [
   {
     title: "เลขที่ใบงาน",
-    class: "w-[160px]",
+    class: "w-[130px]",
   },
   {
     title: "หมวดหมู่งาน",
@@ -13,11 +13,11 @@ export const HeaderTableAllTask = [
   },
   {
     title: "ชื่อลูกค้า",
-    class: "w-[130px]",
+    class: "w-[100px]",
   },
   {
     title: "ช่าง",
-    class: "w-[130px]",
+    class: "w-[100px]",
   },
   {
     title: "วันที่สร้าง",
@@ -25,7 +25,7 @@ export const HeaderTableAllTask = [
   },
   {
     title: "ผู้ออกใบงาน",
-    class: "w-[140px]",
+    class: "w-[130px]",
   },
   {
     title: "สถานะงาน",

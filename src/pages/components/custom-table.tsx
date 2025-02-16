@@ -19,11 +19,11 @@ interface ICustomTablePrpos {
 }
 
 const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
-  const { headerData, width = 1440, bodyData } = props;
+  const { headerData, bodyData } = props;
 
   return (
     <>
-      <Table className={`w-[${width}px]`}>
+      <Table className={`w-[100vw]`}>
         <TableHeader className="bg-gray-50 text-[12px]">
           <TableRow>
             {headerData?.map((item, index: number) => (

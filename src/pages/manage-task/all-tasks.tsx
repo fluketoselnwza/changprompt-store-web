@@ -313,7 +313,7 @@ const AllTasksPage = () => {
             </div>
             <div className="w-[79vw]">
               <CustomTable
-                width={1200}
+                width={1000}
                 bodyData={bodyData}
                 headerData={HeaderTableAllTask}
               />
