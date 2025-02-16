@@ -172,6 +172,9 @@ const NewTaskPage = () => {
                         value: "บ่าย 13:00 - 17:00",
                       },
                     ]}
+                    register={register("appointment_time", {
+                      required: "กรุณาเลือกเวลานัดหมาย",
+                    })}
                   />
                 </div>
                 <div className="mt-6 grid grid-cols-3 gap-4">
