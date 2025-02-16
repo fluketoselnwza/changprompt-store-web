@@ -8,6 +8,7 @@ import {
   CustomSelect,
   DatePicker,
   CustomInputIcon,
+  CustomMap,
 } from "../components";
 import { Checkbox } from "@/components/ui/checkbox";
 import IconSearch from "@/assets/icons/icon-search.png";
@@ -261,6 +262,9 @@ const NewTaskPage = () => {
                   <label htmlFor="is_google_map" className="leading-4">
                     ปักหมุดสถานที่จริง (Google map)
                   </label>
+                </div>
+                <div className="mt-3">
+                  <CustomMap />
                 </div>
                 <div className="mt-6 grid grid-cols-3 gap-4">
                   <CustomSelect

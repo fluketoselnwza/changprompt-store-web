@@ -7,3 +7,4 @@ export { default as CustomTable } from "./custom-table";
 export { default as CustomSelect } from "./custom-select";
 export { default as CustomPagination } from "./custom-pagination";
 export { default as DatePicker } from "./date-picker";
+export { default as CustomMap } from "./custom-map";
