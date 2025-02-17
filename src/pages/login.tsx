@@ -49,21 +49,20 @@ const LoginPage: React.FC<IPageProps> = (props) => {
   };
 
   return (
-    <div className="grid grid-cols-2 h-screen p-4">
+    <div className="grid grid-cols-2 h-screen p-[16px]">
       <div className="bg-primary h-full rounded-[20px] flex flex-col items-center justify-center gap-20">
-        <div className="font-semibold text-white text-[40px] leading-[54px] text-center">
+        <div className="font-semibold text-white text-[40px] leading-[64px] text-center">
           <p>Welcome back!</p>
           <p>Please sign in to your</p>
           <p>Changprompt account</p>
-          <p className="border-b-2 w-1/2 mt-3"></p>
+          <p className="border-b-2 w-[60%] mt-[8px]"></p>
         </div>
         <div>
           <img
             src={WelcomeImage}
-            width={325}
-            height={230}
             style={{ objectFit: "contain" }}
             alt="welcome image"
+            className="w-[483px] h-[371px]"
           />
         </div>
       </div>
