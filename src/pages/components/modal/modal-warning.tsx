@@ -44,7 +44,11 @@ const ModalWarningComponent: React.FC<IModalWarningProps> = (props) => {
         <DialogHeader className="flex flex-col items-center gap-2">
           {image && <img src={image} className="w-11 h-11" alt="icon" />}
           <div>
-            <DialogTitle className="text-sm font-semibold">{title}</DialogTitle>
+            {title && (
+              <DialogTitle className="text-[16px] font-semibold">
+                {title}
+              </DialogTitle>
+            )}
 
             {description && (
               <div className="mt-1">
@@ -54,7 +58,7 @@ const ModalWarningComponent: React.FC<IModalWarningProps> = (props) => {
                   } else {
                     return (
                       <DialogDescription
-                        className="text-sm text-center"
+                        className="text-[14px] text-center"
                         key={index}
                       >
                         {str}
