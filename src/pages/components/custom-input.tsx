@@ -15,6 +15,7 @@ interface CustomerInputProps {
   defaultValue?: string;
   classLabel?: string;
   classInput?: string;
+  maxLength?: number;
 }
 
 const CustomInput: React.FC<CustomerInputProps> = ({
@@ -28,6 +29,7 @@ const CustomInput: React.FC<CustomerInputProps> = ({
   type = "text",
   classLabel,
   classInput,
+  maxLength = 999,
   ...props
 }) => {
   const [value, setValue] = useState<string>(defaultValue);
@@ -47,6 +49,13 @@ const CustomInput: React.FC<CustomerInputProps> = ({
       register.onChange({
         target: { name, value: inputValue },
       });
+    }
+  };
+
+  const handleOnInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const maxNum = maxLength;
+    if (e.target.value.length > maxNum) {
+      e.target.value = e.target.value.slice(0, maxNum);
     }
   };
 
@@ -71,6 +80,7 @@ const CustomInput: React.FC<CustomerInputProps> = ({
           classInput,
           error ? "border-red-600" : "border-gray-300"
         )}
+        onInput={handleOnInput}
       />
       {error && <span className="mt-1 text-red-600 text-xs">{error}</span>}
     </div>

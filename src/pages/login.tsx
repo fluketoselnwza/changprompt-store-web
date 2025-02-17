@@ -49,21 +49,23 @@ const LoginPage: React.FC<IPageProps> = (props) => {
   };
 
   return (
-    <div className="grid grid-cols-2 h-screen p-[16px]">
-      <div className="bg-primary h-full rounded-[20px] flex flex-col items-center justify-center gap-20">
-        <div className="font-semibold font-[poppins] text-white text-[40px] leading-[64px] text-center">
-          <p>Welcome back!</p>
-          <p>Please sign in to your</p>
-          <p>Changprompt account</p>
-          <p className="border-b-2 w-[60%] mt-[8px]"></p>
-        </div>
-        <div>
-          <img
-            src={WelcomeImage}
-            style={{ objectFit: "contain" }}
-            alt="welcome image"
-            className="w-[483px] h-[371px]"
-          />
+    <div className="grid grid-cols-2 h-screen">
+      <div className="py-[16px] pl-[16px]">
+        <div className="bg-primary h-full rounded-[20px] flex flex-col items-center justify-center gap-20">
+          <div className="font-semibold font-[poppins] text-white text-[40px] tablet:text-[32px] leading-[64px] tablet:leading-[51px] text-center">
+            <p>Welcome back!</p>
+            <p>Please sign in to your</p>
+            <p>Changprompt account</p>
+            <p className="border-b-2 w-[60%] mt-[8px]"></p>
+          </div>
+          <div>
+            <img
+              src={WelcomeImage}
+              style={{ objectFit: "contain" }}
+              alt="welcome image"
+              className="w-[483px] tablet:w-[422px] h-[371px] tablet:h-[324px]"
+            />
+          </div>
         </div>
       </div>
       <div className="flex flex-col justify-center items-center p-14 gap-12">
@@ -74,16 +76,16 @@ const LoginPage: React.FC<IPageProps> = (props) => {
             alt="logo changprompt"
             className="w-[31px] h-[31px]"
           />
-          <span className="font-semibold font-[poppins] text-[30px]">
+          <span className="font-semibold font-[poppins] text-[30px] tablet:text-[24px]">
             CHANGPROMPT
           </span>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <div className="bg-white w-full shadow-md rounded-[30px] flex flex-col items-center justify-center px-[66px] py-[52px] gap-5">
-            <p className="font-bold text-[28px]">
+          <div className="bg-white w-full shadow-md rounded-[30px] flex flex-col items-center justify-center px-[66px] py-[52px] gap-5 tablet:gap-2">
+            <p className="font-bold text-[28px] tablet:text-[20px]">
               เข้าสู่ระบบจัดการข้อมูลร้านค้า
             </p>
-            <p className="text-[#A0A0A0] text-[20px]">
+            <p className="text-[#A0A0A0] text-[20px] tablet:text-[18px]">
               Welcome back! Please enter your datails
             </p>
             <div className="w-full mt-5">
@@ -94,6 +96,8 @@ const LoginPage: React.FC<IPageProps> = (props) => {
                 register={register("phoneNumber")}
                 classLabel="font-semibold"
                 classInput="rounded-[8px]"
+                type="number"
+                maxLength={10}
               />
             </div>
             <div className="w-full mt-4">
@@ -110,16 +114,16 @@ const LoginPage: React.FC<IPageProps> = (props) => {
               />
             </div>
             {errorMsg && <p className="text-red-600 text-[14px]">{errorMsg}</p>}
-            <Button className="w-full rounded-[14px] mt-4 h-[46px] text-[16px]">
+            <Button className="w-full rounded-[14px] tablet:rounded-[8px] mt-4 h-[46px] text-[16px]">
               เข้าสู่ระบบ
             </Button>
             <Button
-              className="mt-4"
+              className="mt-4 tablet:mt-2"
               variant={"link"}
               type="button"
               onClick={() => onForgetPassword()}
             >
-              <p className="text-[16px]">ลืมรหัสผ่าน ?</p>
+              <p className="text-[16px] tablet:text-[14px]">ลืมรหัสผ่าน ?</p>
             </Button>
           </div>
         </form>
