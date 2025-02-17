@@ -51,7 +51,7 @@ const LoginPage: React.FC<IPageProps> = (props) => {
   return (
     <div className="grid grid-cols-2 h-screen p-[16px]">
       <div className="bg-primary h-full rounded-[20px] flex flex-col items-center justify-center gap-20">
-        <div className="font-semibold text-white text-[40px] leading-[64px] text-center">
+        <div className="font-semibold font-[poppins] text-white text-[40px] leading-[64px] text-center">
           <p>Welcome back!</p>
           <p>Please sign in to your</p>
           <p>Changprompt account</p>
@@ -67,31 +67,36 @@ const LoginPage: React.FC<IPageProps> = (props) => {
         </div>
       </div>
       <div className="flex flex-col justify-center items-center p-14 gap-12">
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-[16px] items-center">
           <img
             src={"/icon-changprompt.svg"}
-            width={32}
-            height={32}
             style={{ objectFit: "contain" }}
             alt="logo changprompt"
+            className="w-[31px] h-[31px]"
           />
-          <span className="font-semibold text-3xl">CHANGPROMPT</span>
+          <span className="font-semibold font-[poppins] text-[30px]">
+            CHANGPROMPT
+          </span>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <div className="bg-white w-full shadow-md rounded-[30px] flex flex-col items-center justify-center p-12 gap-5">
-            <p className="font-bold text-2xl">เข้าสู่ระบบจัดการข้อมูลร้านค้า</p>
-            <p className="text-[#A0A0A0]">
+          <div className="bg-white w-full shadow-md rounded-[30px] flex flex-col items-center justify-center px-[66px] py-[52px] gap-5">
+            <p className="font-bold text-[28px]">
+              เข้าสู่ระบบจัดการข้อมูลร้านค้า
+            </p>
+            <p className="text-[#A0A0A0] text-[20px]">
               Welcome back! Please enter your datails
             </p>
-            <div className="w-full">
+            <div className="w-full mt-5">
               <CustomInput
                 name="phoneNumber"
                 label="เบอร์โทรศัพท์"
                 placeholder="กรอกเบอร์โทรศัพท์"
                 register={register("phoneNumber")}
+                classLabel="font-semibold"
+                classInput="rounded-[8px]"
               />
             </div>
-            <div className="w-full">
+            <div className="w-full mt-4">
               <CustomInputIcon
                 name="password"
                 label="รหัสผ่าน"
@@ -100,16 +105,21 @@ const LoginPage: React.FC<IPageProps> = (props) => {
                 register={register("password")}
                 iconRight={CloseEyeIcon}
                 rightOnclick={() => setClosePassword(!closePassword)}
+                classLabel="font-semibold"
+                classInput="rounded-[8px]"
               />
             </div>
-            {errorMsg && <p className="text-red-600">{errorMsg}</p>}
-            <Button className="w-full rounded-[14px]">เข้าสู่ระบบ</Button>
+            {errorMsg && <p className="text-red-600 text-[14px]">{errorMsg}</p>}
+            <Button className="w-full rounded-[14px] mt-4 h-[46px] text-[16px]">
+              เข้าสู่ระบบ
+            </Button>
             <Button
+              className="mt-4"
               variant={"link"}
               type="button"
               onClick={() => onForgetPassword()}
             >
-              <p>ลืมรหัสผ่าน ?</p>
+              <p className="text-[16px]">ลืมรหัสผ่าน ?</p>
             </Button>
           </div>
         </form>

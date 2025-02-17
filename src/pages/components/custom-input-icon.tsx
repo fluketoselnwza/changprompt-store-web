@@ -16,6 +16,8 @@ interface CustomerInputProps {
   leftOnclick?: () => void;
   iconRight?: string;
   rightOnclick?: () => void;
+  classLabel?: string;
+  classInput?: string;
 }
 
 const CustomInput: React.FC<CustomerInputProps> = ({
@@ -30,19 +32,22 @@ const CustomInput: React.FC<CustomerInputProps> = ({
   leftOnclick,
   iconRight,
   rightOnclick,
+  classLabel,
+  classInput,
   ...props
 }) => {
   return (
     <div className="flex flex-col gap-2">
       {label && (
-        <label htmlFor={name}>
+        <label className={cn("font-medium", classLabel)} htmlFor={name}>
           {label} {required && <span className="text-red-600 text-xs">*</span>}
         </label>
       )}
       <div
         className={cn(
-          "border border-gray-300 w-full rounded h-[40px] flex items-center",
-          error ? "border-red-600" : ""
+          "border  w-full rounded h-[40px] flex items-center",
+          classInput,
+          error ? "border-red-600" : "border-gray-300"
         )}
       >
         {iconLeft && (

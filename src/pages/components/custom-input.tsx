@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { UseFormRegisterReturn } from "react-hook-form";
+import { cn } from "@/lib/utils";
 
 interface CustomerInputProps {
   error?: string;
@@ -12,6 +13,8 @@ interface CustomerInputProps {
   register?: UseFormRegisterReturn; // react-hook-form's register return
   disabled?: boolean;
   defaultValue?: string;
+  classLabel?: string;
+  classInput?: string;
 }
 
 const CustomInput: React.FC<CustomerInputProps> = ({
@@ -23,6 +26,8 @@ const CustomInput: React.FC<CustomerInputProps> = ({
   placeholder,
   defaultValue = "",
   type = "text",
+  classLabel,
+  classInput,
   ...props
 }) => {
   const [value, setValue] = useState<string>(defaultValue);
@@ -48,7 +53,7 @@ const CustomInput: React.FC<CustomerInputProps> = ({
   return (
     <div className="flex flex-col gap-2">
       {label && (
-        <label htmlFor={name}>
+        <label className={cn("font-medium", classLabel)} htmlFor={name}>
           {label}{" "}
           {required && <span className="text-red-600 text-[14px]">*</span>}
         </label>
@@ -61,7 +66,11 @@ const CustomInput: React.FC<CustomerInputProps> = ({
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
-        className={error ? "border-red-600" : ""}
+        className={cn(
+          "",
+          classInput,
+          error ? "border-red-600" : "border-gray-300"
+        )}
       />
       {error && <span className="mt-1 text-red-600 text-xs">{error}</span>}
     </div>
