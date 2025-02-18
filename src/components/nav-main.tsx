@@ -46,7 +46,11 @@ export function NavMain({
                 <SidebarMenuButton tooltip={item.title}>
                   {/* {item.icon && <item.icon />} */}
                   {item.icon && (
-                    <img src={item.icon} width={20} height={20} alt="icon" />
+                    <img
+                      src={item.icon}
+                      className="w-[20px] h-[20px]"
+                      alt="icon"
+                    />
                   )}
                   <span>{item.title}</span>
                   <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />

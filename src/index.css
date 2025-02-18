@@ -56,6 +56,13 @@ body {
   background-color: #f7faff;
 }
 
+span,
+p {
+  line-height: 1.5;
+  font-weight: 400;
+  font-size: 14px;
+}
+
 
 @layer base {
   :root {
