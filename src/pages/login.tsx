@@ -14,10 +14,11 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import WrongPasswordIcon from "@/assets/icons/icon-wrong-password.png";
 import { useNavigate } from "react-router";
+import { loginService } from "@/services/auth";
 
 type Inputs = {
-  phoneNumber?: string;
-  password?: string;
+  phoneNumber: string;
+  password: string;
 };
 
 const LoginPage: React.FC<IPageProps> = (props) => {
@@ -28,13 +29,22 @@ const LoginPage: React.FC<IPageProps> = (props) => {
 
   const { register, handleSubmit } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     console.log("data --* ", data);
 
-    if (data.phoneNumber && data.password) {
+    try {
+      const body = {
+        mobile_number: data.phoneNumber,
+        password: data.password,
+      };
       setErrorMsg("");
-      navigate("/manage-task/all-tasks");
-    } else {
+      const result = await loginService(body);
+
+      if (result?.access_token) {
+        localStorage.setItem("access_token_changprompt", result.access_token);
+        navigate("/manage-task/all-tasks");
+      }
+    } catch {
       setErrorMsg("เบอร์โทรศัพท์หรือรหัสผ่านไม่ถูกต้อง");
     }
   };
