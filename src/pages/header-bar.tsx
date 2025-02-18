@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { CircleUser } from "lucide-react";
+import IconUser from "@/assets/icons/icon-user.png";
 
 const HeaderBar = () => {
   return (
@@ -8,18 +8,22 @@ const HeaderBar = () => {
         <div className="flex gap-2 items-center">
           <img
             src={"/icon-changprompt.svg"}
-            width={17}
-            height={17}
+            className="w-[17px] h-[17px]"
             style={{ objectFit: "contain" }}
             alt="logo changprompt"
           />
-          <span className="font-semibold text-[16px]">CHANGPROMPT</span>
+          <span className="font-semibold text-[16px] font-[poppins]">
+            CHANGPROMPT
+          </span>
         </div>
         <div className="flex items-center gap-4">
-          <CircleUser />
-          <span>0000000 : ร้านค้า</span>
+          <img src={IconUser} className="w-[24px] h-[24px]" alt="icon user" />
+          <span className="text-gray-700">0000000 : ร้านค้า</span>
           <div className="border-l border-[#F5F5F5] pl-4">
-            <Button variant="outline" className="h-[38px] text-[14px]">
+            <Button
+              variant="outline"
+              className="h-[38px] text-[14px] rounded-[8px]"
+            >
               ออกจากระบบ
             </Button>
           </div>
