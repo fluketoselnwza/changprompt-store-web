@@ -17,10 +17,11 @@ interface CustomerInputProps {
   iconRight?: string;
   rightOnclick?: () => void;
   classLabel?: string;
+  classBorderInput?: string;
   classInput?: string;
 }
 
-const CustomInput: React.FC<CustomerInputProps> = ({
+const CustomInputIcon: React.FC<CustomerInputProps> = ({
   error,
   label,
   name,
@@ -33,6 +34,7 @@ const CustomInput: React.FC<CustomerInputProps> = ({
   iconRight,
   rightOnclick,
   classLabel,
+  classBorderInput,
   classInput,
   ...props
 }) => {
@@ -46,7 +48,7 @@ const CustomInput: React.FC<CustomerInputProps> = ({
       <div
         className={cn(
           "border  w-full rounded h-[40px] flex items-center",
-          classInput,
+          classBorderInput,
           error ? "border-red-600" : "border-gray-300"
         )}
       >
@@ -69,7 +71,7 @@ const CustomInput: React.FC<CustomerInputProps> = ({
           {...props}
           {...register}
           placeholder={placeholder}
-          className={cn("border-none")}
+          className={cn("border-none", classInput)}
         />
         {iconRight && (
           <div className="pr-3">
@@ -90,4 +92,4 @@ const CustomInput: React.FC<CustomerInputProps> = ({
   );
 };
 
-export default CustomInput;
+export default CustomInputIcon;

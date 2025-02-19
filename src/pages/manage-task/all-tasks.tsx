@@ -225,7 +225,7 @@ const AllTasksPage = () => {
   return (
     <>
       <SidebarLayout breadcrumbs={breadcrumbs}>
-        <div className="px-8 py-4 rounded-lg">
+        <div className="rounded-[8px]">
           <div className="flex justify-between items-end">
             <p className="font-bold text-[16px]">ใบงานทั้งหมด</p>
             <div className="flex items-center gap-4">
@@ -246,17 +246,19 @@ const AllTasksPage = () => {
               </Button>
             </div>
           </div>
-          <div className="bg-white p-4 mt-4 rounded-[8px]">
+          <div className="bg-white p-[16px] mt-[16px] rounded-[8px]">
             <div className="grid grid-cols-6 gap-3 mb-5">
               <CustomInputIcon
                 iconLeft={IconSearch}
                 name="numberTask"
                 placeholder="ค้นหาเลขที่ใบงาน"
+                classInput="text-[14px]"
               />
               <CustomInputIcon
                 iconLeft={IconSearch}
                 name="nameCustomer"
                 placeholder="ชื่อลูกค้า"
+                classInput="text-[14px]"
               />
               <CustomSelect
                 name="product"
@@ -311,9 +313,8 @@ const AllTasksPage = () => {
                 <Button className="w-full text-[16px]">ค้นหา</Button>
               </div>
             </div>
-            <div className="w-[79vw]">
+            <div className="w-full">
               <CustomTable
-                width={1000}
                 bodyData={bodyData}
                 headerData={HeaderTableAllTask}
               />

@@ -120,7 +120,7 @@ const LoginPage: React.FC<IPageProps> = (props) => {
                 iconRight={CloseEyeIcon}
                 rightOnclick={() => setClosePassword(!closePassword)}
                 classLabel="font-semibold"
-                classInput="rounded-[8px]"
+                classBorderInput="rounded-[8px]"
               />
             </div>
             {errorMsg && <p className="text-red-600 text-[14px]">{errorMsg}</p>}

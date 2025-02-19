@@ -15,7 +15,6 @@ interface ICustomTablePrpos {
   bodyData: {
     data: IBodyTable[];
   }[];
-  width?: number;
 }
 
 const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
@@ -23,30 +22,32 @@ const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
 
   return (
     <>
-      <Table className={`w-[100vw]`}>
-        <TableHeader className="bg-gray-50 text-[12px]">
-          <TableRow>
-            {headerData?.map((item, index: number) => (
-              <TableHead key={index} className={item.class}>
-                {item.title}
-              </TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody className="text-[14px]">
-          {bodyData?.map((body, index) => (
-            <TableRow key={index}>
-              {body?.data?.map((item, _index) =>
-                item?.renderCell ? (
-                  item.renderCell()
-                ) : (
-                  <TableCell key={_index}>{item?.data}</TableCell>
-                )
-              )}
+      <div className="overflow-x-auto">
+        <Table className={`w-[1600px]`}>
+          <TableHeader className="bg-gray-50 text-[12px]">
+            <TableRow>
+              {headerData?.map((item, index: number) => (
+                <TableHead key={index} className={item.class}>
+                  {item.title}
+                </TableHead>
+              ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody className="text-[14px]">
+            {bodyData?.map((body, index) => (
+              <TableRow key={index}>
+                {body?.data?.map((item, _index) =>
+                  item?.renderCell ? (
+                    item.renderCell()
+                  ) : (
+                    <TableCell key={_index}>{item?.data}</TableCell>
+                  )
+                )}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
       <CustomPagination className="mt-3" />
     </>
   );

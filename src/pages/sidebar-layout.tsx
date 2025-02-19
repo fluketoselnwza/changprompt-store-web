@@ -32,7 +32,7 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({
           {breadcrumbs?.length ? (
             <CustomBreadcrumbs breadcrumbs={breadcrumbs} />
           ) : null}
-          <div className="bg-[#F2F4F7] h-full">{children}</div>
+          <div className="bg-[#F2F4F7] h-full px-8 py-4">{children}</div>
         </SidebarInset>
       </SidebarProvider>
     </>

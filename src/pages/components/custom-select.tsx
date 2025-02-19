@@ -18,6 +18,7 @@ interface CustomerSelectProps {
   register?: UseFormRegisterReturn; // react-hook-form's register return
   options: { value: string; label: string }[];
   value?: string;
+  setValue?: (value: string) => void;
   defaultValue?: string;
   disabled?: boolean;
 }
@@ -30,6 +31,9 @@ const CustomSelect: React.FC<CustomerSelectProps> = ({
   register,
   required,
   options,
+  defaultValue,
+  value,
+  setValue,
   ...props
 }) => {
   return (
@@ -42,11 +46,22 @@ const CustomSelect: React.FC<CustomerSelectProps> = ({
       )}
       <Select
         {...props}
+        defaultValue={defaultValue}
+        value={value}
         onValueChange={(value) => {
-          register?.onChange?.({ target: { name, value } }); // Simulate onChange event for RHF
+          if (value) {
+            setValue?.(value);
+            register?.onChange?.({ target: { name, value } });
+          }
         }}
       >
-        <SelectTrigger className={cn("w-full", error ? "border-red-600" : "")}>
+        <SelectTrigger
+          className={cn(
+            "w-full",
+            error ? "border-red-600" : "",
+            value ? "text-[#09090b]" : "text-gray-500"
+          )}
+        >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent className="bg-white">
