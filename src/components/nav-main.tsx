@@ -33,7 +33,7 @@ export function NavMain({
 }) {
   return (
     <SidebarGroup>
-      <SidebarMenu>
+      <SidebarMenu className="p-[8px]">
         {items.map((item) => (
           <Collapsible
             key={item.title}
@@ -43,7 +43,7 @@ export function NavMain({
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
+                <SidebarMenuButton tooltip={item.title} className="h-[30px]">
                   {/* {item.icon && <item.icon />} */}
                   {item.icon && (
                     <img
@@ -60,9 +60,15 @@ export function NavMain({
                 <SidebarMenuSub>
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
-                        <a href={subItem.url} className="flex items-center">
-                          <div className="w-[8px] h-[8px] rounded-full bg-[#6B7280]"></div>
+                      <SidebarMenuSubButton
+                        asChild
+                        className="group/item px-[12px]"
+                      >
+                        <a
+                          href={subItem.url}
+                          className="flex items-center gap-[14px]"
+                        >
+                          <div className="w-[8px] h-[8px] rounded-full bg-[#6B7280] group-hover/item:bg-white"></div>
                           <span>{subItem.title}</span>
                         </a>
                       </SidebarMenuSubButton>
