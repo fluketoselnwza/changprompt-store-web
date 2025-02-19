@@ -76,7 +76,7 @@ const CustomInput: React.FC<CustomerInputProps> = ({
         onChange={handleChange}
         placeholder={placeholder}
         className={cn(
-          "",
+          "border",
           classInput,
           error ? "border-red-600" : "border-gray-300"
         )}

@@ -253,16 +253,19 @@ const AllTasksPage = () => {
                 name="numberTask"
                 placeholder="ค้นหาเลขที่ใบงาน"
                 classInput="text-[14px]"
+                classBorderInput="rounded-[8px]"
               />
               <CustomInputIcon
                 iconLeft={IconSearch}
                 name="nameCustomer"
                 placeholder="ชื่อลูกค้า"
                 classInput="text-[14px]"
+                classBorderInput="rounded-[8px]"
               />
               <CustomSelect
                 name="product"
                 placeholder="เลืกสินค้า"
+                className="rounded-[8px]"
                 options={[
                   {
                     label: "แอร์",
@@ -281,6 +284,7 @@ const AllTasksPage = () => {
               <CustomSelect
                 name="category"
                 placeholder="หมวดหมู่งาน"
+                className="rounded-[8px]"
                 options={[
                   {
                     label: "ซ่อม",
@@ -295,6 +299,7 @@ const AllTasksPage = () => {
               <CustomSelect
                 name="status"
                 placeholder="สถานะงาน"
+                className="rounded-[8px]"
                 options={[
                   {
                     label: "สำเร็จ",
@@ -307,13 +312,18 @@ const AllTasksPage = () => {
                 ]}
               />
               <div className="flex gap-3">
-                <Button className="w-full text-[16px]" variant={"outline"}>
+                <Button
+                  className="w-full text-[16px] h-[42px] rounded-lg"
+                  variant={"outline"}
+                >
                   ล้าง
                 </Button>
-                <Button className="w-full text-[16px]">ค้นหา</Button>
+                <Button className="w-full text-[16px] h-[42px] rounded-lg">
+                  ค้นหา
+                </Button>
               </div>
             </div>
-            <div className="w-full">
+            <div className="">
               <CustomTable
                 bodyData={bodyData}
                 headerData={HeaderTableAllTask}

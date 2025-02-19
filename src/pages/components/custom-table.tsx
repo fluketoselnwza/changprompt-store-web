@@ -23,7 +23,7 @@ const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
   return (
     <>
       <div className="overflow-x-auto">
-        <Table className={`w-[1600px]`}>
+        <Table>
           <TableHeader className="bg-gray-50 text-[12px]">
             <TableRow>
               {headerData?.map((item, index: number) => (

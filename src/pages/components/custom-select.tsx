@@ -21,6 +21,7 @@ interface CustomerSelectProps {
   setValue?: (value: string) => void;
   defaultValue?: string;
   disabled?: boolean;
+  className?: string;
 }
 
 const CustomSelect: React.FC<CustomerSelectProps> = ({
@@ -34,6 +35,7 @@ const CustomSelect: React.FC<CustomerSelectProps> = ({
   defaultValue,
   value,
   setValue,
+  className,
   ...props
 }) => {
   return (
@@ -58,6 +60,7 @@ const CustomSelect: React.FC<CustomerSelectProps> = ({
         <SelectTrigger
           className={cn(
             "w-full",
+            className,
             error ? "border-red-600" : "",
             value ? "text-[#09090b]" : "text-gray-500"
           )}
