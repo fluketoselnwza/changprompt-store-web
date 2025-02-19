@@ -35,7 +35,7 @@ const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
           </TableHeader>
           <TableBody className="text-[14px]">
             {bodyData?.map((body, index) => (
-              <TableRow key={index}>
+              <TableRow key={index} className="h-[54px]">
                 {body?.data?.map((item, _index) =>
                   item?.renderCell ? (
                     item.renderCell()
@@ -48,7 +48,7 @@ const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
           </TableBody>
         </Table>
       </div>
-      <CustomPagination className="mt-3" />
+      <CustomPagination className="mt-5" />
     </>
   );
 };
