@@ -8,3 +8,4 @@ export { default as CustomSelect } from "./custom-select";
 export { default as CustomPagination } from "./custom-pagination";
 export { default as DatePicker } from "./date-picker";
 export { default as CustomMap } from "./custom-map";
+export { default as CustomBreadcrumbs } from "./custom-breadcrumbs";
