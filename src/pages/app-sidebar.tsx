@@ -14,19 +14,23 @@ const data = {
       title: "จัดการงาน",
       url: "#",
       icon: IconManageTask,
+      id: "manage-task",
       isActive: true,
       items: [
         {
           title: "ใบงานทั้งหมด",
-          url: "#",
+          url: "/manage-task/all-tasks",
+          id: "all-tasks",
         },
         {
           title: "งานรอช่างกดรับ",
           url: "#",
+          id: "",
         },
         {
           title: "ประวัติใบงาน",
           url: "#",
+          id: "",
         },
       ],
     },

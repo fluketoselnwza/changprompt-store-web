@@ -235,7 +235,7 @@ const AllTasksPage = () => {
               </Button>
               <Button
                 variant={"outline"}
-                onClick={() => navigate("/manage-task/new-task")}
+                onClick={() => navigate("/manage-task/all-tasks/new-task")}
               >
                 <img
                   src={IconPencil}

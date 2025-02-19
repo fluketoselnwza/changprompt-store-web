@@ -12,7 +12,10 @@ function App() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<LoginPage />} />
             <Route path="/manage-task/all-tasks" element={<AllTasksPage />} />
-            <Route path="/manage-task/new-task" element={<NewTaskPage />} />
+            <Route
+              path="/manage-task/all-tasks/new-task"
+              element={<NewTaskPage />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

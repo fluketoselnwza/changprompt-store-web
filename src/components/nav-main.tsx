@@ -16,6 +16,8 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import { useLocation } from "react-router";
+import { cn } from "@/lib/utils";
 
 export function NavMain({
   items,
@@ -25,12 +27,21 @@ export function NavMain({
     url: string;
     icon?: string;
     isActive?: boolean;
+    id?: string;
     items?: {
       title: string;
       url: string;
+      id?: string;
     }[];
   }[];
 }) {
+  const location = useLocation();
+
+  const { pathname } = location;
+  console.log("pathname ==> ", pathname);
+  const mainMenu = pathname?.split("/")[1];
+  const subMenu = pathname?.split("/")[2];
+
   return (
     <SidebarGroup>
       <SidebarMenu className="p-[8px]">
@@ -43,7 +54,13 @@ export function NavMain({
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title} className="h-[30px]">
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  className={cn(
+                    "h-[30px]",
+                    item?.id === mainMenu ? "bg-sidebar-accent" : "bg-white"
+                  )}
+                >
                   {/* {item.icon && <item.icon />} */}
                   {item.icon && (
                     <img
@@ -59,16 +76,31 @@ export function NavMain({
               <CollapsibleContent>
                 <SidebarMenuSub>
                   {item.items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
+                    <SidebarMenuSubItem
+                      key={subItem.title}
+                      className="mt-[8px]"
+                    >
                       <SidebarMenuSubButton
                         asChild
-                        className="group/item px-[12px]"
+                        className={cn(
+                          "group/item px-[12px]",
+                          subItem?.id === subMenu
+                            ? "bg-primary text-white"
+                            : "bg-white text-[#374257]"
+                        )}
                       >
                         <a
                           href={subItem.url}
                           className="flex items-center gap-[14px]"
                         >
-                          <div className="w-[8px] h-[8px] rounded-full bg-[#6B7280] group-hover/item:bg-white"></div>
+                          <div
+                            className={cn(
+                              "w-[8px] h-[8px] rounded-full group-hover/item:bg-white",
+                              subItem?.id === subMenu
+                                ? "bg-white"
+                                : "bg-[#6B7280]"
+                            )}
+                          ></div>
                           <span>{subItem.title}</span>
                         </a>
                       </SidebarMenuSubButton>
