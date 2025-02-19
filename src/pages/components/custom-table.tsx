@@ -15,15 +15,16 @@ interface ICustomTablePrpos {
   bodyData: {
     data: IBodyTable[];
   }[];
+  width?: number;
 }
 
 const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
-  const { headerData, bodyData } = props;
+  const { headerData, bodyData, width = 1200 } = props;
 
   return (
     <>
-      <div className="overflow-x-auto">
-        <Table>
+      <div className="overflow-x-auto w-full">
+        <Table className={`w-[${width}px]`}>
           <TableHeader className="bg-gray-50 text-[12px]">
             <TableRow>
               {headerData?.map((item, index: number) => (
@@ -40,7 +41,9 @@ const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
                   item?.renderCell ? (
                     item.renderCell()
                   ) : (
-                    <TableCell key={_index}>{item?.data}</TableCell>
+                    <TableCell key={_index} className="whitespace-nowrap">
+                      {item?.data}
+                    </TableCell>
                   )
                 )}
               </TableRow>

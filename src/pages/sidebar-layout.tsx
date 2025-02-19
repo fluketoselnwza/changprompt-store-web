@@ -21,6 +21,8 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({
   children,
   breadcrumbs,
 }) => {
+  const { innerWidth: width } = window;
+
   return (
     <>
       {/* <SidebarTrigger className="-ml-1" /> */}
@@ -32,7 +34,9 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({
           {breadcrumbs?.length ? (
             <CustomBreadcrumbs breadcrumbs={breadcrumbs} />
           ) : null}
-          <div className="bg-[#F2F4F7] h-full px-8 py-4">{children}</div>
+          <div className={`bg-[#F2F4F7] h-full px-8 py-4 w-[${width - 240}px]`}>
+            {children}
+          </div>
         </SidebarInset>
       </SidebarProvider>
     </>

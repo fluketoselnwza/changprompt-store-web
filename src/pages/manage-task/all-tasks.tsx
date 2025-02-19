@@ -323,7 +323,7 @@ const AllTasksPage = () => {
                 </Button>
               </div>
             </div>
-            <div className="">
+            <div>
               <CustomTable
                 bodyData={bodyData}
                 headerData={HeaderTableAllTask}

@@ -3,7 +3,7 @@ import IconUser from "@/assets/icons/icon-user.png";
 
 const HeaderBar = () => {
   return (
-    <div className="h-[56px] bg-white w-full fixed border-b border-[#ECECEC]">
+    <div className="h-[56px] bg-white w-full fixed border-b border-[#ECECEC] z-50">
       <div className="h-full flex items-center px-5 justify-between">
         <div className="flex gap-2 items-center">
           <img
