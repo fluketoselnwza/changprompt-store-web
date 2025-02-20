@@ -9,24 +9,26 @@ import {
 } from "@/components/ui/table";
 import CustomPagination from "./custom-pagination";
 import { IHeaderTable, IBodyTable } from "../data/interface";
+import { cn } from "@/lib/utils";
 
 interface ICustomTablePrpos {
   headerData: IHeaderTable[];
   bodyData: {
     data: IBodyTable[];
   }[];
-  width?: number;
+  width?: string;
 }
 
 const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
-  const { headerData, bodyData, width = 1200 } = props;
+  // 1240
+  const { headerData, bodyData, width = "w-[1110px]" } = props;
 
   return (
     <>
-      <div className="overflow-x-auto w-full">
-        <Table className={`w-[${width}px]`}>
+      <div className={cn("overflow-x-auto", width)}>
+        <Table className={"w-[1350px]"}>
           <TableHeader className="bg-gray-50 text-[12px]">
-            <TableRow>
+            <TableRow className="h-[51px]">
               {headerData?.map((item, index: number) => (
                 <TableHead key={index} className={item.class}>
                   {item.title}
