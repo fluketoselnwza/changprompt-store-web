@@ -3,6 +3,10 @@ import IconUser from "@/assets/icons/icon-user.png";
 import IconSidebar from "@/assets/icons/icon-sidebar.png";
 
 const HeaderBar = () => {
+  const onSidebar = () => {
+    console.log("onSidebar");
+  };
+
   return (
     <div className="h-[56px] bg-white w-full fixed border-b border-[#ECECEC] z-50">
       <div className="h-full flex items-center px-[16px] justify-between">
@@ -22,6 +26,7 @@ const HeaderBar = () => {
             src={IconSidebar}
             className="w-[18px] h-[18px] cursor-pointer"
             alt="icon-sidebar"
+            onClick={onSidebar}
           />
         </div>
         <div className="flex items-center gap-4">
