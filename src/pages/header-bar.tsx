@@ -1,10 +1,31 @@
 import { Button } from "@/components/ui/button";
 import IconUser from "@/assets/icons/icon-user.png";
 import IconSidebar from "@/assets/icons/icon-sidebar.png";
+import IconMenuber from "@/assets/icons/icon-menu-bar.png";
+import { connect } from "react-redux";
+import { openSidebarAction, hideSidebarAction } from "@/redux/sidebar/action";
+import { Dispatch } from "redux";
 
-const HeaderBar = () => {
-  const onSidebar = () => {
+interface IHeaderState {
+  isSidebar: boolean;
+}
+
+interface IHeaderBarPeops {
+  openSidebar: () => void;
+  hideSidebar: () => void;
+  isSidebar: boolean;
+}
+
+const HeaderBarComponent = (props: IHeaderBarPeops) => {
+  const { openSidebar, hideSidebar, isSidebar } = props;
+
+  const onSidebar = (status: boolean) => {
     console.log("onSidebar");
+    if (status) {
+      openSidebar();
+    } else {
+      hideSidebar();
+    }
   };
 
   return (
@@ -22,12 +43,21 @@ const HeaderBar = () => {
               CHANGPROMPT
             </span>
           </div>
-          <img
-            src={IconSidebar}
-            className="w-[18px] h-[18px] cursor-pointer"
-            alt="icon-sidebar"
-            onClick={onSidebar}
-          />
+          {isSidebar ? (
+            <img
+              src={IconMenuber}
+              className="w-[36px] h-[36px] cursor-pointer"
+              alt="icon-sidebar"
+              onClick={() => onSidebar(false)}
+            />
+          ) : (
+            <img
+              src={IconSidebar}
+              className="w-[18px] h-[18px] cursor-pointer"
+              alt="icon-sidebar"
+              onClick={() => onSidebar(true)}
+            />
+          )}
         </div>
         <div className="flex items-center gap-4">
           <img src={IconUser} className="w-[24px] h-[24px]" alt="icon user" />
@@ -45,5 +75,19 @@ const HeaderBar = () => {
     </div>
   );
 };
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  openSidebar: () => openSidebarAction(dispatch),
+  hideSidebar: () => hideSidebarAction(dispatch),
+});
+
+const mapStateToProps = (state: { onSidebar: IHeaderState }) => ({
+  isSidebar: state?.onSidebar.isSidebar,
+});
+
+const HeaderBar = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HeaderBarComponent);
 
 export default HeaderBar;

@@ -11,7 +11,7 @@ const initState: IIsSidebarState = {
 
 type ILadingAction = IOpenSidebarAction | IHideSidebarAction;
 
-export default function onLoading(state = initState, action: ILadingAction) {
+export default function onSidebar(state = initState, action: ILadingAction) {
   switch (action.type) {
     case OPEN_SIDEBAR:
       return {
