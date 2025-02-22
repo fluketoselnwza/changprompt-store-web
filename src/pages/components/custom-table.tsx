@@ -10,22 +10,29 @@ import {
 import CustomPagination from "./custom-pagination";
 import { IHeaderTable, IBodyTable } from "../data/interface";
 import { cn } from "@/lib/utils";
+import { connect } from "react-redux";
+import { ISidebarState } from "../interface";
 
 interface ICustomTablePrpos {
   headerData: IHeaderTable[];
   bodyData: {
     data: IBodyTable[];
   }[];
-  width?: string;
+  isSidebar?: boolean;
 }
 
-const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
+const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
   // 1240
-  const { headerData, bodyData, width = "w-[1110px]" } = props;
+  const { headerData, bodyData, isSidebar } = props;
 
   return (
     <>
-      <div className={cn("overflow-x-auto", width)}>
+      <div
+        className={cn(
+          "overflow-x-auto",
+          isSidebar ? "w-[1350px]" : "w-[1110px]"
+        )}
+      >
         <Table className={"w-[1350px]"}>
           <TableHeader className="bg-gray-50 text-[12px]">
             <TableRow className="h-[51px]">
@@ -57,5 +64,16 @@ const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
     </>
   );
 };
+
+const mapDispatchToProps = () => ({});
+
+const mapStateToProps = (state: { onSidebar: ISidebarState }) => ({
+  isSidebar: state?.onSidebar.isSidebar,
+});
+
+const CustomTable = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CustomTableComponent);
 
 export default CustomTable;
