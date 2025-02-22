@@ -40,22 +40,22 @@ export const HeaderTableAllTask = [
 export const HeaderTableReview = [
   {
     title: "เลขที่ใบงาน",
-    class: "w-[60px]",
+    class: "w-[100px]",
   },
   {
     title: "ความคิดเห็น",
-    class: "w-[80px]",
+    class: "w-[160px]",
   },
   {
     title: "เรตติ้ง",
-    class: "w-[64px]",
+    class: "w-[80px]",
   },
   {
     title: "ชื่อลูกค้า",
-    class: "w-[60px]",
+    class: "w-[80px]",
   },
   {
     title: "ชื่อช่างผู้ให้บริการ",
-    class: "w-[107px]",
+    class: "w-[80px]",
   },
 ];
