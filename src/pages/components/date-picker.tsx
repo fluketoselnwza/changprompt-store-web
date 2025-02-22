@@ -26,6 +26,7 @@ interface DatePickerProps {
   register?: UseFormRegisterReturn; // react-hook-form's register return
   defaultValue?: Date | string;
   disabledPicker?: boolean;
+  className?: string;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
@@ -40,6 +41,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   name,
   register,
   defaultValue,
+  className,
   ...props
 }) => {
   const [date, setDate] = React.useState<Date | undefined>(
@@ -58,14 +60,14 @@ const DatePicker: React.FC<DatePickerProps> = ({
         </label>
       )}
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-        <PopoverTrigger asChild className="w-full">
+        <PopoverTrigger asChild className={cn("w-full", className)}>
           <Button
             disabled={disabledPicker}
             variant={"input"}
             className={cn(
               "w-full justify-between text-left text-[14px] font-normal",
               !date && "text-gray-500",
-              error && "border-red-600"
+              error ? "border-red-600" : "border-gray-300"
             )}
           >
             {date ? (

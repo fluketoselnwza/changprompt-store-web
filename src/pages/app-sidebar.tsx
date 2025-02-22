@@ -82,22 +82,12 @@ const data = {
       title: "จัดการรีวิว",
       url: "#",
       icon: IconManageReview,
+      id: "manage-review",
       items: [
         {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
+          title: "ความคิดเห็นและรีวิว",
+          url: "/manage-review/comment-and-review",
+          id: "comment-and-review",
         },
       ],
     },

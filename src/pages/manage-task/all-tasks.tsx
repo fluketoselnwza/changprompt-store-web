@@ -225,7 +225,7 @@ const AllTasksPage = () => {
   return (
     <>
       <SidebarLayout breadcrumbs={breadcrumbs}>
-        <div className="rounded-[8px]">
+        <div>
           <div className="flex justify-between items-end">
             <p className="font-bold text-[16px]">ใบงานทั้งหมด</p>
             <div className="flex items-center gap-4">
