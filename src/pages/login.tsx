@@ -62,10 +62,16 @@ const LoginPage: React.FC<IPageProps> = (props) => {
     <div className="grid grid-cols-2 h-screen">
       <div className="py-[16px] pl-[16px]">
         <div className="bg-primary h-full rounded-[20px] flex flex-col items-center justify-center gap-20">
-          <div className="font-semibold font-[poppins] text-white text-[40px] tablet:text-[32px] leading-[64px] tablet:leading-[51px] text-center">
-            <p>Welcome back!</p>
-            <p>Please sign in to your</p>
-            <p>Changprompt account</p>
+          <div className="font-[poppins] text-white">
+            <p className="text-[40px] tablet:text-[32px] leading-[64px] tablet:leading-[51px] text-center font-semibold">
+              Welcome back!
+            </p>
+            <p className="text-[40px] tablet:text-[32px] leading-[64px] tablet:leading-[51px] text-center font-semibold">
+              Please sign in to your
+            </p>
+            <p className="text-[40px] tablet:text-[32px] leading-[64px] tablet:leading-[51px] text-center font-semibold">
+              Changprompt account
+            </p>
             <p className="border-b-2 w-[60%] mt-[8px]"></p>
           </div>
           <div>
