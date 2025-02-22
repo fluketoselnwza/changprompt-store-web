@@ -19,11 +19,19 @@ interface ICustomTablePrpos {
     data: IBodyTable[];
   }[];
   isSidebar?: boolean;
+  widthMin?: string;
+  widthMax?: string;
 }
 
 const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
   // 1240
-  const { headerData, bodyData, isSidebar } = props;
+  const {
+    headerData,
+    bodyData,
+    isSidebar,
+    widthMax = "w-[1350px]",
+    widthMin = "w-[1110px]",
+  } = props;
 
   return (
     <>
@@ -33,7 +41,7 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
           isSidebar ? "w-[1350px]" : "w-[1110px]"
         )}
       >
-        <Table className={"w-[1350px]"}>
+        <Table className={isSidebar ? widthMax : widthMin}>
           <TableHeader className="bg-gray-50 text-[12px]">
             <TableRow className="h-[51px]">
               {headerData?.map((item, index: number) => (

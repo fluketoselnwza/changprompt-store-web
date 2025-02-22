@@ -36,3 +36,26 @@ export const HeaderTableAllTask = [
     class: "w-[54px] text-center sticky right-0 bg-gray-50 z-10",
   },
 ];
+
+export const HeaderTableReview = [
+  {
+    title: "เลขที่ใบงาน",
+    class: "w-[60px]",
+  },
+  {
+    title: "ความคิดเห็น",
+    class: "w-[80px]",
+  },
+  {
+    title: "เรตติ้ง",
+    class: "w-[64px]",
+  },
+  {
+    title: "ชื่อลูกค้า",
+    class: "w-[60px]",
+  },
+  {
+    title: "ชื่อช่างผู้ให้บริการ",
+    class: "w-[107px]",
+  },
+];

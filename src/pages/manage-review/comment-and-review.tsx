@@ -1,9 +1,9 @@
-import React from "react";
 import SidebarLayout from "../sidebar-layout";
 import IconHome from "@/assets/icons/icon-home.png";
-import { CustomInputIcon, DatePicker } from "../components";
+import { CustomInputIcon, DatePicker, CustomTable } from "../components";
 import IconSearch from "@/assets/icons/icon-search.png";
 import { Button } from "@/components/ui/button";
+import { HeaderTableReview } from "../data/headerTable";
 
 const breadcrumbs = [
   {
@@ -64,6 +64,14 @@ const CommentAndReviewPage = () => {
                   ค้นหา
                 </Button>
               </div>
+            </div>
+            <div>
+              <CustomTable
+                bodyData={[]}
+                headerData={HeaderTableReview}
+                widthMin={"w-[1110px]"}
+                widthMax={"w-[1350px]"}
+              />
             </div>
           </div>
         </div>
