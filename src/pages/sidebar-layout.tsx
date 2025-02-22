@@ -1,5 +1,6 @@
 import React from "react";
-import { AppSidebar } from "./app-sidebar";
+// import { AppSidebar } from "./app-sidebar";
+import AppSidebar from "./app-sidebar";
 import HeaderBar from "./header-bar";
 import {
   SidebarInset,

@@ -5,18 +5,9 @@ import IconMenuber from "@/assets/icons/icon-menu-bar.png";
 import { connect } from "react-redux";
 import { openSidebarAction, hideSidebarAction } from "@/redux/sidebar/action";
 import { Dispatch } from "redux";
+import { ISidebarProps, ISidebarState } from "./interface";
 
-interface IHeaderState {
-  isSidebar: boolean;
-}
-
-interface IHeaderBarPeops {
-  openSidebar: () => void;
-  hideSidebar: () => void;
-  isSidebar: boolean;
-}
-
-const HeaderBarComponent = (props: IHeaderBarPeops) => {
+const HeaderBarComponent = (props: ISidebarProps) => {
   const { openSidebar, hideSidebar, isSidebar } = props;
 
   const onSidebar = (status: boolean) => {
@@ -81,7 +72,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   hideSidebar: () => hideSidebarAction(dispatch),
 });
 
-const mapStateToProps = (state: { onSidebar: IHeaderState }) => ({
+const mapStateToProps = (state: { onSidebar: ISidebarState }) => ({
   isSidebar: state?.onSidebar.isSidebar,
 });
 

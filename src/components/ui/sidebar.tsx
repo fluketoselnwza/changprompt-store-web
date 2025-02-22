@@ -162,6 +162,7 @@ const Sidebar = React.forwardRef<
     side?: "left" | "right";
     variant?: "sidebar" | "floating" | "inset";
     collapsible?: "offcanvas" | "icon" | "none";
+    isSidebar?: boolean;
   }
 >(
   (
@@ -171,6 +172,7 @@ const Sidebar = React.forwardRef<
       collapsible = "offcanvas",
       className,
       children,
+      isSidebar = false,
       ...props
     },
     ref
@@ -215,7 +217,10 @@ const Sidebar = React.forwardRef<
     return (
       <div
         ref={ref}
-        className="group peer md:block text-sidebar-foreground" //hidden
+        className={cn(
+          "group peer md:block text-sidebar-foreground",
+          isSidebar ? "hidden" : ""
+        )} //hidden
         data-state={state}
         data-collapsible={state === "collapsed" ? collapsible : ""}
         data-variant={variant}
