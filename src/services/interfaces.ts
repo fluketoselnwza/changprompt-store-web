@@ -7,4 +7,5 @@ export interface ILoginResponse {
   access_token: string;
   refresh_token: string;
   session_id: string;
+  role_code: string;
 }

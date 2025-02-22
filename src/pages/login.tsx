@@ -42,6 +42,7 @@ const LoginPage: React.FC<IPageProps> = (props) => {
 
       if (result?.access_token) {
         localStorage.setItem("access_token_changprompt", result.access_token);
+        localStorage.setItem("role_code_changprompt", result.role_code);
         navigate("/manage-task/all-tasks");
       }
     } catch {
