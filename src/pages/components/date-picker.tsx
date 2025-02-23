@@ -46,8 +46,17 @@ const DatePicker: React.FC<DatePickerProps> = ({
   placeholder = "วัน เดือน ปี",
   ...props
 }) => {
+  const buttonRef = React.useRef<HTMLButtonElement | null>(null);
   const [date, setDate] = React.useState<Date | undefined>();
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
+  const [calendarWidth, setCalendarWidth] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    if (isPopoverOpen) {
+      const widthButton = buttonRef?.current?.offsetWidth || 0;
+      setCalendarWidth(widthButton);
+    }
+  }, [isPopoverOpen]);
 
   React.useEffect(() => {
     const value = defaultValue ? new Date(defaultValue) : undefined;
@@ -58,7 +67,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   }, [defaultValue]);
 
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-2 relative">
       {label && (
         <label>
           {label}{" "}
@@ -68,6 +77,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
         <PopoverTrigger asChild className={cn("w-full", className)}>
           <Button
+            ref={buttonRef}
             disabled={disabledPicker}
             variant={"input"}
             className={cn(
@@ -84,7 +94,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
             <CalendarIcon />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0" align="start">
+        <PopoverContent className={`w-[${calendarWidth}px] p-0`} align="start">
           <Calendar
             mode="single"
             className="bg-white w-full"
