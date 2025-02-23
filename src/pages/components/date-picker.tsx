@@ -27,6 +27,7 @@ interface DatePickerProps {
   defaultValue?: Date | undefined;
   disabledPicker?: boolean;
   className?: string;
+  placeholder?: string;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
@@ -42,6 +43,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   register,
   defaultValue,
   className,
+  placeholder = "วัน เดือน ปี",
   ...props
 }) => {
   const [date, setDate] = React.useState<Date | undefined>();
@@ -77,7 +79,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
             {date ? (
               dayjs(date).locale("th").format("DD MMMM BBBB")
             ) : (
-              <span>วว/ดด/ปปปป</span>
+              <span>{placeholder}</span>
             )}
             <CalendarIcon />
           </Button>

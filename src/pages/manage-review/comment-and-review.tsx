@@ -166,6 +166,7 @@ const CommentAndReviewPage = () => {
                   className="h-[42px] rounded-[8px]"
                   register={register("servicerDate")}
                   defaultValue={servicerDate}
+                  placeholder="วันที่ให้บริการ"
                 />
                 <div className="flex gap-3">
                   <Button
