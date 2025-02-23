@@ -1,9 +1,13 @@
 import SidebarLayout from "../sidebar-layout";
 import IconHome from "@/assets/icons/icon-home.png";
-import { CustomInputIcon, DatePicker, CustomTable } from "../components";
+import {
+  CustomInputIcon,
+  DatePicker,
+  CustomTable,
+  Rating,
+} from "../components";
 import IconSearch from "@/assets/icons/icon-search.png";
 import { Button } from "@/components/ui/button";
-// import { HeaderTableReview } from "../data/headerTable";
 import { useEffect, useState } from "react";
 import { getPartnerRatingService } from "@/services/rating";
 import { IRatingsData } from "@/services/interfaces";
@@ -39,11 +43,10 @@ const HeaderTableReview = [
     title: "เรตติ้ง",
     class: "w-[80px]",
     id: "rating_point",
-    renderCell: ({ row }) => {
-      console.log("row ====>", row);
+    renderCell: ({ row }: { row: IRatingsData }) => {
       return (
-        <div className="bg-[#FDF6B2] text-[#723B13] flex justify-center w-[80px] rounded-md">
-          รอมอบหมาย
+        <div className="w-[80px]">
+          <Rating value={row.rating_point} width={27} />
         </div>
       );
     },

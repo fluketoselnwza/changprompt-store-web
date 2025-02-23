@@ -70,10 +70,7 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
                     headerCell.renderCell
                   ) {
                     return (
-                      <TableCell
-                        key={`${index}_${headerIndex}`}
-                        className="whitespace-nowrap"
-                      >
+                      <TableCell key={`${index}_${headerIndex}`}>
                         {headerCell.renderCell({ row: item, index: index })}
                       </TableCell>
                     );
