@@ -1,7 +1,7 @@
 import SidebarLayout from "../sidebar-layout";
 import {
   CustomInputIcon,
-  CustomTable,
+  // CustomTable,
   CustomSelect,
   ModalInput,
 } from "../components";
@@ -9,201 +9,201 @@ import { Button } from "@/components/ui/button";
 import IconLink from "@/assets/icons/icon-link.png";
 import IconPencil from "@/assets/icons/icon-pencil.png";
 import IconSearch from "@/assets/icons/icon-search.png";
-import { HeaderTableAllTask } from "../data/headerTable";
-import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
-import { TableCell } from "@/components/ui/table";
+// import { HeaderTableAllTask } from "../data/headerTable";
+// import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
+// import { TableCell } from "@/components/ui/table";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import IconHome from "@/assets/icons/icon-home.png";
 
-const bodyData = [
-  {
-    data: [
-      {
-        key: "",
-        data: "#INS-24020001-0001",
-      },
-      {
-        key: "",
-        data: "ติดตั้ง",
-      },
-      {
-        key: "",
-        data: "แอร์",
-      },
-      {
-        key: "",
-        data: "Brooklyn Simmons",
-      },
-      {
-        key: "",
-        data: "Annette Black",
-      },
-      {
-        key: "",
-        data: "01/05/2024",
-      },
-      {
-        key: "",
-        data: "#1000345678 : แอดมิน",
-      },
-      {
-        key: "",
-        data: "รอมอบหมาย",
-        renderCell: () => {
-          return (
-            <TableCell>
-              <div className="bg-[#FDF6B2] text-[#723B13] flex justify-center w-[80px] rounded-md">
-                รอมอบหมาย
-              </div>
-            </TableCell>
-          );
-        },
-      },
-      {
-        key: "",
-        data: "#",
-        renderCell: () => {
-          return (
-            <TableCell className="sticky right-0 bg-gray-50 z-10">
-              <img
-                src={IconSubMenu}
-                width={22}
-                height={22}
-                alt="icon sub menu"
-                className="mx-auto"
-              />
-            </TableCell>
-          );
-        },
-      },
-    ],
-  },
-  {
-    data: [
-      {
-        key: "",
-        data: "#INS-24020001-0001",
-      },
-      {
-        key: "",
-        data: "ติดตั้ง",
-      },
-      {
-        key: "",
-        data: "แอร์",
-      },
-      {
-        key: "",
-        data: "Brooklyn Simmons",
-      },
-      {
-        key: "",
-        data: "Annette Black",
-      },
-      {
-        key: "",
-        data: "01/05/2024",
-      },
-      {
-        key: "",
-        data: "#1000345678 : แอดมิน",
-      },
-      {
-        key: "",
-        data: "รอมอบหมาย",
-        renderCell: () => {
-          return (
-            <TableCell>
-              <div className="bg-[#FDE8E8] text-[#9B1C1C] flex justify-center w-[80px] rounded-md">
-                รอให้บริการ
-              </div>
-            </TableCell>
-          );
-        },
-      },
-      {
-        key: "",
-        data: "#",
-        renderCell: () => {
-          return (
-            <TableCell className="sticky right-0 bg-gray-50 z-10">
-              <img
-                src={IconSubMenu}
-                width={22}
-                height={22}
-                alt="icon sub menu"
-                className="mx-auto"
-              />
-            </TableCell>
-          );
-        },
-      },
-    ],
-  },
-  {
-    data: [
-      {
-        key: "",
-        data: "#INS-24020001-0001",
-      },
-      {
-        key: "",
-        data: "ติดตั้ง",
-      },
-      {
-        key: "",
-        data: "แอร์",
-      },
-      {
-        key: "",
-        data: "Brooklyn Simmons",
-      },
-      {
-        key: "",
-        data: "Annette Black",
-      },
-      {
-        key: "",
-        data: "01/05/2024",
-      },
-      {
-        key: "",
-        data: "#1000345678 : แอดมิน",
-      },
-      {
-        key: "",
-        data: "รอมอบหมาย",
-        renderCell: () => {
-          return (
-            <TableCell>
-              <div className="bg-[#D9FFDA] text-[#2C7213] flex justify-center w-[80px] rounded-md">
-                งานสำเร็จ
-              </div>
-            </TableCell>
-          );
-        },
-      },
-      {
-        key: "",
-        data: "#",
-        renderCell: () => {
-          return (
-            <TableCell className="sticky right-0 bg-gray-50 z-10">
-              <img
-                src={IconSubMenu}
-                width={22}
-                height={22}
-                alt="icon sub menu"
-                className="mx-auto"
-              />
-            </TableCell>
-          );
-        },
-      },
-    ],
-  },
-];
+// const bodyData = [
+//   {
+//     data: [
+//       {
+//         key: "",
+//         data: "#INS-24020001-0001",
+//       },
+//       {
+//         key: "",
+//         data: "ติดตั้ง",
+//       },
+//       {
+//         key: "",
+//         data: "แอร์",
+//       },
+//       {
+//         key: "",
+//         data: "Brooklyn Simmons",
+//       },
+//       {
+//         key: "",
+//         data: "Annette Black",
+//       },
+//       {
+//         key: "",
+//         data: "01/05/2024",
+//       },
+//       {
+//         key: "",
+//         data: "#1000345678 : แอดมิน",
+//       },
+//       {
+//         key: "",
+//         data: "รอมอบหมาย",
+//         renderCell: () => {
+//           return (
+//             <TableCell>
+//               <div className="bg-[#FDF6B2] text-[#723B13] flex justify-center w-[80px] rounded-md">
+//                 รอมอบหมาย
+//               </div>
+//             </TableCell>
+//           );
+//         },
+//       },
+//       {
+//         key: "",
+//         data: "#",
+//         renderCell: () => {
+//           return (
+//             <TableCell className="sticky right-0 bg-gray-50 z-10">
+//               <img
+//                 src={IconSubMenu}
+//                 width={22}
+//                 height={22}
+//                 alt="icon sub menu"
+//                 className="mx-auto"
+//               />
+//             </TableCell>
+//           );
+//         },
+//       },
+//     ],
+//   },
+//   {
+//     data: [
+//       {
+//         key: "",
+//         data: "#INS-24020001-0001",
+//       },
+//       {
+//         key: "",
+//         data: "ติดตั้ง",
+//       },
+//       {
+//         key: "",
+//         data: "แอร์",
+//       },
+//       {
+//         key: "",
+//         data: "Brooklyn Simmons",
+//       },
+//       {
+//         key: "",
+//         data: "Annette Black",
+//       },
+//       {
+//         key: "",
+//         data: "01/05/2024",
+//       },
+//       {
+//         key: "",
+//         data: "#1000345678 : แอดมิน",
+//       },
+//       {
+//         key: "",
+//         data: "รอมอบหมาย",
+//         renderCell: () => {
+//           return (
+//             <TableCell>
+//               <div className="bg-[#FDE8E8] text-[#9B1C1C] flex justify-center w-[80px] rounded-md">
+//                 รอให้บริการ
+//               </div>
+//             </TableCell>
+//           );
+//         },
+//       },
+//       {
+//         key: "",
+//         data: "#",
+//         renderCell: () => {
+//           return (
+//             <TableCell className="sticky right-0 bg-gray-50 z-10">
+//               <img
+//                 src={IconSubMenu}
+//                 width={22}
+//                 height={22}
+//                 alt="icon sub menu"
+//                 className="mx-auto"
+//               />
+//             </TableCell>
+//           );
+//         },
+//       },
+//     ],
+//   },
+//   {
+//     data: [
+//       {
+//         key: "",
+//         data: "#INS-24020001-0001",
+//       },
+//       {
+//         key: "",
+//         data: "ติดตั้ง",
+//       },
+//       {
+//         key: "",
+//         data: "แอร์",
+//       },
+//       {
+//         key: "",
+//         data: "Brooklyn Simmons",
+//       },
+//       {
+//         key: "",
+//         data: "Annette Black",
+//       },
+//       {
+//         key: "",
+//         data: "01/05/2024",
+//       },
+//       {
+//         key: "",
+//         data: "#1000345678 : แอดมิน",
+//       },
+//       {
+//         key: "",
+//         data: "รอมอบหมาย",
+//         renderCell: () => {
+//           return (
+//             <TableCell>
+//               <div className="bg-[#D9FFDA] text-[#2C7213] flex justify-center w-[80px] rounded-md">
+//                 งานสำเร็จ
+//               </div>
+//             </TableCell>
+//           );
+//         },
+//       },
+//       {
+//         key: "",
+//         data: "#",
+//         renderCell: () => {
+//           return (
+//             <TableCell className="sticky right-0 bg-gray-50 z-10">
+//               <img
+//                 src={IconSubMenu}
+//                 width={22}
+//                 height={22}
+//                 alt="icon sub menu"
+//                 className="mx-auto"
+//               />
+//             </TableCell>
+//           );
+//         },
+//       },
+//     ],
+//   },
+// ];
 
 const breadcrumbs = [
   {
@@ -225,7 +225,7 @@ const AllTasksPage = () => {
   return (
     <>
       <SidebarLayout breadcrumbs={breadcrumbs}>
-        <div className="rounded-[8px]">
+        <div>
           <div className="flex justify-between items-end">
             <p className="font-bold text-[16px]">ใบงานทั้งหมด</p>
             <div className="flex items-center gap-4">
@@ -324,10 +324,10 @@ const AllTasksPage = () => {
               </div>
             </div>
             <div>
-              <CustomTable
+              {/* <CustomTable
                 bodyData={bodyData}
                 headerData={HeaderTableAllTask}
-              />
+              /> */}
             </div>
           </div>
         </div>

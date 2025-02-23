@@ -2,11 +2,7 @@
 export interface IHeaderTable {
   title: string;
   class: string;
-}
-
-export interface IBodyTable {
-  key: string;
-  data: string;
+  id: string;
+  dataType: string;
   renderCell?: any;
-  className?: string;
 }

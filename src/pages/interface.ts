@@ -9,6 +9,16 @@ export interface IPageProps {
     fnBtnSecond?: () => void | null
   ) => void;
   closeModalWarning: () => void;
-  openLoading: () => void;
-  closeLoading: () => void;
+  openLoading?: () => void;
+  closeLoading?: () => void;
+}
+
+export interface ISidebarProps {
+  openSidebar: () => void;
+  hideSidebar: () => void;
+  isSidebar: boolean;
+}
+
+export interface ISidebarState {
+  isSidebar: boolean;
 }

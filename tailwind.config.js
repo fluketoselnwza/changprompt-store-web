@@ -29,6 +29,10 @@ export default {
 					DEFAULT: '#254EE5',
 					foreground: 'hsl(var(--primary-foreground))'
 				},
+				'primary-100': {
+					DEFAULT: '#E1EFFE',
+					foreground: 'hsl(var(--primary-foreground))'
+				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))'

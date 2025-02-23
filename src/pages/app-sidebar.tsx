@@ -6,6 +6,8 @@ import IconManageStore from "@/assets/icons/icon-manage-store.png";
 import IconManageTechnician from "@/assets/icons/icon-manage-technician.png";
 import IconManageReview from "@/assets/icons/icon-namage-review.png";
 import IconManageUser from "@/assets/icons/icon-manage-user.png";
+import { ISidebarState } from "./interface";
+import { connect } from "react-redux";
 
 // This is sample data.
 const data = {
@@ -80,22 +82,12 @@ const data = {
       title: "จัดการรีวิว",
       url: "#",
       icon: IconManageReview,
+      id: "manage-review",
       items: [
         {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
+          title: "ความคิดเห็นและรีวิว",
+          url: "/manage-review/comment-and-review",
+          id: "comment-and-review",
         },
       ],
     },
@@ -125,7 +117,7 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+function AppSidebarConncet({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarContent className="bg-white">
@@ -134,3 +126,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     </Sidebar>
   );
 }
+
+const mapDispatchToProps = () => ({});
+
+const mapStateToProps = (state: { onSidebar: ISidebarState }) => ({
+  isSidebar: state?.onSidebar.isSidebar,
+});
+
+const AppSidebar = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AppSidebarConncet);
+
+export default AppSidebar;

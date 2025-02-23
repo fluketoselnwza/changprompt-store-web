@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import {
   Table,
@@ -8,27 +9,44 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import CustomPagination from "./custom-pagination";
-import { IHeaderTable, IBodyTable } from "../data/interface";
+import { IHeaderTable } from "../data/interface";
 import { cn } from "@/lib/utils";
+import { connect } from "react-redux";
+import { ISidebarState } from "../interface";
 
 interface ICustomTablePrpos {
   headerData: IHeaderTable[];
-  bodyData: {
-    data: IBodyTable[];
-  }[];
-  width?: string;
+  bodyData: any[];
+  isSidebar?: boolean;
+  widthMin?: string;
+  widthMax?: string;
+  total?: number;
+  textNotFoundData?: string;
 }
 
-const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
+const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
   // 1240
-  const { headerData, bodyData, width = "w-[1110px]" } = props;
+  const {
+    headerData,
+    bodyData,
+    isSidebar,
+    widthMax = "w-[1350px]",
+    widthMin = "w-[1110px]",
+    total,
+    textNotFoundData,
+  } = props;
 
   return (
     <>
-      <div className={cn("overflow-x-auto", width)}>
-        <Table className={"w-[1350px]"}>
+      <div
+        className={cn(
+          "overflow-x-auto",
+          isSidebar ? "w-[1350px]" : "w-[1110px]"
+        )}
+      >
+        <Table className={isSidebar ? widthMax : widthMin}>
           <TableHeader className="bg-gray-50 text-[12px]">
-            <TableRow className="h-[51px]">
+            <TableRow className="h-[50px]">
               {headerData?.map((item, index: number) => (
                 <TableHead key={index} className={item.class}>
                   {item.title}
@@ -37,25 +55,61 @@ const CustomTable: React.FC<ICustomTablePrpos> = (props) => {
             </TableRow>
           </TableHeader>
           <TableBody className="text-[14px]">
-            {bodyData?.map((body, index) => (
+            {bodyData?.map((item, index) => (
               <TableRow key={index} className="h-[54px]">
-                {body?.data?.map((item, _index) =>
-                  item?.renderCell ? (
-                    item.renderCell()
-                  ) : (
-                    <TableCell key={_index} className="whitespace-nowrap">
-                      {item?.data}
-                    </TableCell>
-                  )
-                )}
+                {headerData.map((headerCell, headerIndex) => {
+                  if (headerCell.dataType === "DATA") {
+                    return (
+                      <TableCell
+                        key={`${index}_${headerIndex}`}
+                        className="whitespace-nowrap"
+                      >
+                        {item[headerCell.id]}
+                      </TableCell>
+                    );
+                  } else if (
+                    headerCell.dataType === "RENDER_CELL" &&
+                    headerCell.renderCell
+                  ) {
+                    return (
+                      <TableCell key={`${index}_${headerIndex}`}>
+                        {headerCell.renderCell({ row: item, index: index })}
+                      </TableCell>
+                    );
+                  } else {
+                    return (
+                      <TableCell
+                        key={`${index}_${headerIndex}`}
+                        className="whitespace-nowrap"
+                      >
+                        {item[headerCell.id]}
+                      </TableCell>
+                    );
+                  }
+                })}
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      <CustomPagination className="mt-5" />
+      {bodyData?.length ? (
+        <CustomPagination className="mt-5" total={total} />
+      ) : (
+        <div className="text-center py-6">{textNotFoundData}</div>
+      )}
     </>
   );
 };
+
+const mapDispatchToProps = () => ({});
+
+const mapStateToProps = (state: { onSidebar: ISidebarState }) => ({
+  isSidebar: state?.onSidebar.isSidebar,
+});
+
+const CustomTable = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CustomTableComponent);
 
 export default CustomTable;

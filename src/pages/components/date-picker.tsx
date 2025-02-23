@@ -24,8 +24,10 @@ interface DatePickerProps {
   name: string;
   required?: boolean;
   register?: UseFormRegisterReturn; // react-hook-form's register return
-  defaultValue?: Date | string;
+  defaultValue?: Date | undefined;
   disabledPicker?: boolean;
+  className?: string;
+  placeholder?: string;
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
@@ -40,17 +42,32 @@ const DatePicker: React.FC<DatePickerProps> = ({
   name,
   register,
   defaultValue,
+  className,
+  placeholder = "วัน เดือน ปี",
   ...props
 }) => {
-  const [date, setDate] = React.useState<Date | undefined>(
-    defaultValue ? new Date(defaultValue) : undefined
-  );
+  const buttonRef = React.useRef<HTMLButtonElement | null>(null);
+  const [date, setDate] = React.useState<Date | undefined>();
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
+  const [calendarWidth, setCalendarWidth] = React.useState<number>(0);
 
-  console.log("error : ", error);
+  React.useEffect(() => {
+    if (isPopoverOpen) {
+      const widthButton = buttonRef?.current?.offsetWidth || 0;
+      setCalendarWidth(widthButton);
+    }
+  }, [isPopoverOpen]);
+
+  React.useEffect(() => {
+    const value = defaultValue ? new Date(defaultValue) : undefined;
+    register?.onChange({
+      target: { name, value: value },
+    });
+    setDate(value);
+  }, [defaultValue]);
 
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-2 relative">
       {label && (
         <label>
           {label}{" "}
@@ -58,30 +75,30 @@ const DatePicker: React.FC<DatePickerProps> = ({
         </label>
       )}
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-        <PopoverTrigger asChild className="w-full">
+        <PopoverTrigger asChild className={cn("w-full", className)}>
           <Button
+            ref={buttonRef}
             disabled={disabledPicker}
             variant={"input"}
             className={cn(
               "w-full justify-between text-left text-[14px] font-normal",
               !date && "text-gray-500",
-              error && "border-red-600"
+              error ? "border-red-600" : "border-gray-300"
             )}
           >
             {date ? (
               dayjs(date).locale("th").format("DD MMMM BBBB")
             ) : (
-              <span>วว/ดด/ปปปป</span>
+              <span>{placeholder}</span>
             )}
             <CalendarIcon />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0" align="start">
+        <PopoverContent className={`w-[${calendarWidth}px] p-0`} align="start">
           <Calendar
             mode="single"
             className="bg-white w-full"
             selected={date}
-            // onSelect={setDate}
             {...props}
             onSelect={(date) => {
               setDate(date);

@@ -1,5 +1,6 @@
 import React from "react";
-import { AppSidebar } from "./app-sidebar";
+// import { AppSidebar } from "./app-sidebar";
+import AppSidebar from "./app-sidebar";
 import HeaderBar from "./header-bar";
 import {
   SidebarInset,
@@ -7,6 +8,9 @@ import {
   // SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { CustomBreadcrumbs } from "./components";
+import { connect } from "react-redux";
+import { ISidebarState } from "./interface";
+import { cn } from "@/lib/utils";
 
 interface SidebarLayoutProps {
   children: React.ReactNode;
@@ -15,13 +19,19 @@ interface SidebarLayoutProps {
     link: string;
     icon: string;
   }[];
+  isSidebar: boolean;
 }
 
-const SidebarLayout: React.FC<SidebarLayoutProps> = ({
+const SidebarLayoutComponent: React.FC<SidebarLayoutProps> = ({
   children,
   breadcrumbs,
+  isSidebar,
 }) => {
   const { innerWidth: width } = window;
+
+  console.log("isSidebar ==> ", isSidebar);
+
+  const widthScreen = isSidebar ? `w-[${width}px]` : `w-[${width - 240}px]`;
 
   return (
     <>
@@ -34,7 +44,7 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({
           {breadcrumbs?.length ? (
             <CustomBreadcrumbs breadcrumbs={breadcrumbs} />
           ) : null}
-          <div className={`bg-[#F2F4F7] h-full px-8 py-4 w-[${width - 240}px]`}>
+          <div className={cn(`bg-[#F2F4F7] h-full px-8 py-4`, widthScreen)}>
             {children}
           </div>
         </SidebarInset>
@@ -42,5 +52,16 @@ const SidebarLayout: React.FC<SidebarLayoutProps> = ({
     </>
   );
 };
+
+const mapDispatchToProps = () => ({});
+
+const mapStateToProps = (state: { onSidebar: ISidebarState }) => ({
+  isSidebar: state?.onSidebar.isSidebar,
+});
+
+const SidebarLayout = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SidebarLayoutComponent);
 
 export default SidebarLayout;
