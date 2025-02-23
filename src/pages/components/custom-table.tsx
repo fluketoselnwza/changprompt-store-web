@@ -21,6 +21,7 @@ interface ICustomTablePrpos {
   widthMin?: string;
   widthMax?: string;
   total?: number;
+  textNotFoundData?: string;
 }
 
 const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
@@ -32,6 +33,7 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
     widthMax = "w-[1350px]",
     widthMin = "w-[1110px]",
     total,
+    textNotFoundData,
   } = props;
 
   return (
@@ -90,7 +92,11 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
           </TableBody>
         </Table>
       </div>
-      <CustomPagination className="mt-5" total={total} />
+      {bodyData?.length ? (
+        <CustomPagination className="mt-5" total={total} />
+      ) : (
+        <div className="text-center py-6">{textNotFoundData}</div>
+      )}
     </>
   );
 };

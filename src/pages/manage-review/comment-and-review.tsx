@@ -189,6 +189,7 @@ const CommentAndReviewPage = () => {
                 total={totalRating}
                 widthMin={"w-[1110px]"}
                 widthMax={"w-[1350px]"}
+                textNotFoundData="ไม่พบรายการความคิดเห็นและรีวิว"
               />
             </div>
           </div>
