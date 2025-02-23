@@ -85,15 +85,6 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
                     );
                   }
                 })}
-                {/* {headerData?.map((item, _index) =>
-                  item?.renderCell ? (
-                    item.renderCell()
-                  ) : (
-                    <TableCell key={_index} className="whitespace-nowrap">
-                      {item?.data}
-                    </TableCell>
-                  )
-                )} */}
               </TableRow>
             ))}
           </TableBody>
