@@ -24,7 +24,7 @@ interface DatePickerProps {
   name: string;
   required?: boolean;
   register?: UseFormRegisterReturn; // react-hook-form's register return
-  defaultValue?: Date | string;
+  defaultValue?: Date | undefined;
   disabledPicker?: boolean;
   className?: string;
 }
@@ -44,12 +44,16 @@ const DatePicker: React.FC<DatePickerProps> = ({
   className,
   ...props
 }) => {
-  const [date, setDate] = React.useState<Date | undefined>(
-    defaultValue ? new Date(defaultValue) : undefined
-  );
+  const [date, setDate] = React.useState<Date | undefined>();
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
 
-  console.log("error : ", error);
+  React.useEffect(() => {
+    const value = defaultValue ? new Date(defaultValue) : undefined;
+    register?.onChange({
+      target: { name, value: value },
+    });
+    setDate(value);
+  }, [defaultValue]);
 
   return (
     <div className="flex flex-col gap-2 w-full">
@@ -83,7 +87,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
             mode="single"
             className="bg-white w-full"
             selected={date}
-            // onSelect={setDate}
             {...props}
             onSelect={(date) => {
               setDate(date);
