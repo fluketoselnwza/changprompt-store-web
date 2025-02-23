@@ -46,7 +46,7 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
       >
         <Table className={isSidebar ? widthMax : widthMin}>
           <TableHeader className="bg-gray-50 text-[12px]">
-            <TableRow className="h-[51px]">
+            <TableRow className="h-[50px]">
               {headerData?.map((item, index: number) => (
                 <TableHead key={index} className={item.class}>
                   {item.title}
