@@ -11,10 +11,11 @@ import { cn } from "@/lib/utils";
 
 interface ICustomerProps {
   className?: string;
+  total?: number;
 }
 
 const CustomPagination: React.FC<ICustomerProps> = (props) => {
-  const { className } = props;
+  const { className, total } = props;
 
   return (
     <div className={cn("flex justify-between items-center", className)}>
@@ -22,7 +23,7 @@ const CustomPagination: React.FC<ICustomerProps> = (props) => {
         <p>Showing</p>
         <p className="font-bold">1-10</p>
         <p>of</p>
-        <p className="font-bold">1000</p>
+        <p className="font-bold">{total}</p>
       </div>
       <Pagination>
         <PaginationContent>

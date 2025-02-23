@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import {
   Table,
@@ -8,19 +9,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import CustomPagination from "./custom-pagination";
-import { IHeaderTable, IBodyTable } from "../data/interface";
+import { IHeaderTable } from "../data/interface";
 import { cn } from "@/lib/utils";
 import { connect } from "react-redux";
 import { ISidebarState } from "../interface";
 
 interface ICustomTablePrpos {
   headerData: IHeaderTable[];
-  bodyData: {
-    data: IBodyTable[];
-  }[];
+  bodyData: any[];
   isSidebar?: boolean;
   widthMin?: string;
   widthMax?: string;
+  total?: number;
 }
 
 const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
@@ -31,6 +31,7 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
     isSidebar,
     widthMax = "w-[1350px]",
     widthMin = "w-[1110px]",
+    total,
   } = props;
 
   return (
@@ -52,9 +53,42 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
             </TableRow>
           </TableHeader>
           <TableBody className="text-[14px]">
-            {bodyData?.map((body, index) => (
+            {bodyData?.map((item, index) => (
               <TableRow key={index} className="h-[54px]">
-                {body?.data?.map((item, _index) =>
+                {headerData.map((headerCell, headerIndex) => {
+                  if (headerCell.dataType === "DATA") {
+                    return (
+                      <TableCell
+                        key={`${index}_${headerIndex}`}
+                        className="whitespace-nowrap"
+                      >
+                        {item[headerCell.id]}
+                      </TableCell>
+                    );
+                  } else if (
+                    headerCell.dataType === "RENDER_CELL" &&
+                    headerCell.renderCell
+                  ) {
+                    return (
+                      <TableCell
+                        key={`${index}_${headerIndex}`}
+                        className="whitespace-nowrap"
+                      >
+                        {headerCell.renderCell({ row: item, index: index })}
+                      </TableCell>
+                    );
+                  } else {
+                    return (
+                      <TableCell
+                        key={`${index}_${headerIndex}`}
+                        className="whitespace-nowrap"
+                      >
+                        {item[headerCell.id]}
+                      </TableCell>
+                    );
+                  }
+                })}
+                {/* {headerData?.map((item, _index) =>
                   item?.renderCell ? (
                     item.renderCell()
                   ) : (
@@ -62,13 +96,13 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
                       {item?.data}
                     </TableCell>
                   )
-                )}
+                )} */}
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
-      <CustomPagination className="mt-5" />
+      <CustomPagination className="mt-5" total={total} />
     </>
   );
 };
