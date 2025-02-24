@@ -2,6 +2,7 @@ import WelcomeImage from "@/assets/images/welcome.png";
 import { Button } from "@/components/ui/button";
 import { CustomInput, CustomInputIcon } from "./components";
 import CloseEyeIcon from "@/assets/icons/icon-close-eye.png";
+import OpenEyeIcon from "@/assets/icons/icon-open-eye.png";
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IPageProps } from "./interface";
@@ -41,8 +42,14 @@ const LoginPage: React.FC<IPageProps> = (props) => {
       const result = await loginService(body);
 
       if (result?.access_token) {
-        localStorage.setItem("access_token_changprompt", result.access_token);
-        localStorage.setItem("role_code_changprompt", result.role_code);
+        const userObject = {
+          partner_code: result?.partner_code,
+          partner_name: result?.partner_name,
+          role_code: result?.role_code,
+          access_token: result?.access_token,
+          refresh_token: result?.refresh_token,
+        };
+        localStorage.setItem("user_changprompt", JSON.stringify(userObject));
         navigate("/manage-task/all-tasks");
       }
     } catch {
@@ -124,7 +131,7 @@ const LoginPage: React.FC<IPageProps> = (props) => {
                 type={closePassword ? "password" : "text"}
                 placeholder="รหัสผ่าน"
                 register={register("password")}
-                iconRight={CloseEyeIcon}
+                iconRight={closePassword ? CloseEyeIcon : OpenEyeIcon}
                 rightOnclick={() => setClosePassword(!closePassword)}
                 classLabel="font-semibold"
                 classBorderInput="rounded-[8px]"

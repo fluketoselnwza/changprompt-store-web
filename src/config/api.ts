@@ -13,11 +13,14 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const token = localStorage.getItem("access_token_changprompt");
+    const userObject = localStorage.getItem("user_changprompt") || "";
 
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+    const user = userObject ? JSON.parse(userObject) : "";
+
+    if (user?.access_token) {
+      config.headers["Authorization"] = `Bearer ${user?.access_token}`;
     }
+
     return config;
   },
   (error) => {

@@ -86,9 +86,9 @@ const CommentAndReviewPage = () => {
       getValues();
 
     const params = {
-      job_code: nameCustomer || "",
-      customer_name: nameTechnician || "",
-      tech_name: numberTask || "",
+      job_code: numberTask || "",
+      customer_name: nameCustomer || "",
+      tech_name: nameTechnician || "",
       job_started_date: servicerDate
         ? dayjs(servicerDate).format("YYYY-MM-DD")
         : "",
@@ -188,8 +188,8 @@ const CommentAndReviewPage = () => {
                 bodyData={ratingData}
                 headerData={HeaderTableReview}
                 total={totalRating}
-                widthMin={"w-[1110px]"}
-                widthMax={"w-[1350px]"}
+                // widthMin={"full:w-[1510px] desktop:w-[1110px]"}
+                // widthMax={"full:w-[1810px] desktop:w-[1350px]"}
                 textNotFoundData="ไม่พบรายการความคิดเห็นและรีวิว"
               />
             </div>
