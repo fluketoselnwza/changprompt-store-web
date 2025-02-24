@@ -6,9 +6,11 @@ import { connect } from "react-redux";
 import { openSidebarAction, hideSidebarAction } from "@/redux/sidebar/action";
 import { Dispatch } from "redux";
 import { ISidebarProps, ISidebarState } from "./interface";
+import { useNavigate } from "react-router";
 
 const HeaderBarComponent = (props: ISidebarProps) => {
   const { openSidebar, hideSidebar, isSidebar } = props;
+  const navigate = useNavigate();
 
   const onSidebar = (status: boolean) => {
     console.log("onSidebar");
@@ -17,6 +19,11 @@ const HeaderBarComponent = (props: ISidebarProps) => {
     } else {
       hideSidebar();
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("user_changprompt");
+    navigate("/");
   };
 
   return (
@@ -59,6 +66,7 @@ const HeaderBarComponent = (props: ISidebarProps) => {
             <Button
               variant="outline"
               className="h-[38px] text-[14px] rounded-[8px]"
+              onClick={handleLogout}
             >
               ออกจากระบบ
             </Button>
