@@ -7,10 +7,22 @@ import { openSidebarAction, hideSidebarAction } from "@/redux/sidebar/action";
 import { Dispatch } from "redux";
 import { ISidebarProps, ISidebarState } from "./interface";
 import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 
 const HeaderBarComponent = (props: ISidebarProps) => {
   const { openSidebar, hideSidebar, isSidebar } = props;
   const navigate = useNavigate();
+  const [partnerName, setPartnerName] = useState<string>("");
+  const [partnerCode, setPartnerCode] = useState<string>("");
+
+  useEffect(() => {
+    const userObject = localStorage.getItem("user_changprompt") || "";
+
+    const user = userObject ? JSON.parse(userObject) : "";
+
+    setPartnerName(user?.partner_name);
+    setPartnerCode(user?.partner_code);
+  }, []);
 
   const onSidebar = (status: boolean) => {
     console.log("onSidebar");
@@ -29,7 +41,7 @@ const HeaderBarComponent = (props: ISidebarProps) => {
   return (
     <div className="h-[56px] bg-white w-full max-w-[1920px] fixed border-b border-[#ECECEC] z-50">
       <div className="h-full flex items-center px-[16px] justify-between">
-        <div className="flex items-center justify-between w-[224px] pl-[4px] pr-[20px]">
+        <div className="flex items-center justify-between full:w-[304px] desktop:w-[224px] pl-[4px] pr-[20px]">
           {isSidebar ? (
             <img
               src={IconMenuber}
@@ -61,7 +73,9 @@ const HeaderBarComponent = (props: ISidebarProps) => {
         </div>
         <div className="flex items-center gap-4">
           <img src={IconUser} className="w-[24px] h-[24px]" alt="icon user" />
-          <span className="text-gray-700">0000000 : ร้านค้า</span>
+          <span className="text-gray-700">
+            {partnerCode} : {partnerName}
+          </span>
           <div className="border-l border-[#F5F5F5] pl-4">
             <Button
               variant="outline"
