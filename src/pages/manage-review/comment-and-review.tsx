@@ -188,8 +188,8 @@ const CommentAndReviewPage = () => {
                 bodyData={ratingData}
                 headerData={HeaderTableReview}
                 total={totalRating}
-                widthMin={"full:w-[1510px] desktop:w-[1110px]"}
-                widthMax={"full:w-[1810px] desktop:w-[1350px]"}
+                // widthMin={"full:w-[1510px] desktop:w-[1110px]"}
+                // widthMax={"full:w-[1810px] desktop:w-[1350px]"}
                 textNotFoundData="ไม่พบรายการความคิดเห็นและรีวิว"
               />
             </div>
