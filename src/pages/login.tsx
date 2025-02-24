@@ -2,6 +2,7 @@ import WelcomeImage from "@/assets/images/welcome.png";
 import { Button } from "@/components/ui/button";
 import { CustomInput, CustomInputIcon } from "./components";
 import CloseEyeIcon from "@/assets/icons/icon-close-eye.png";
+import OpenEyeIcon from "@/assets/icons/icon-open-eye.png";
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { IPageProps } from "./interface";
@@ -124,7 +125,7 @@ const LoginPage: React.FC<IPageProps> = (props) => {
                 type={closePassword ? "password" : "text"}
                 placeholder="รหัสผ่าน"
                 register={register("password")}
-                iconRight={CloseEyeIcon}
+                iconRight={closePassword ? CloseEyeIcon : OpenEyeIcon}
                 rightOnclick={() => setClosePassword(!closePassword)}
                 classLabel="font-semibold"
                 classBorderInput="rounded-[8px]"
