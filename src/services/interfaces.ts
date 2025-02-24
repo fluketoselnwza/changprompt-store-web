@@ -8,6 +8,8 @@ export interface ILoginResponse {
   refresh_token: string;
   session_id: string;
   role_code: string;
+  partner_code: string;
+  partner_name: string;
 }
 
 export interface IRatingsData {
