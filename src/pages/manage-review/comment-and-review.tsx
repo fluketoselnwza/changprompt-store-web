@@ -86,9 +86,9 @@ const CommentAndReviewPage = () => {
       getValues();
 
     const params = {
-      job_code: nameCustomer || "",
-      customer_name: nameTechnician || "",
-      tech_name: numberTask || "",
+      job_code: numberTask || "",
+      customer_name: nameCustomer || "",
+      tech_name: nameTechnician || "",
       job_started_date: servicerDate
         ? dayjs(servicerDate).format("YYYY-MM-DD")
         : "",
