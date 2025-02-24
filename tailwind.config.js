@@ -6,6 +6,8 @@ export default {
 	],
 	theme: {
 		screens: {
+			full: { max: "1920px" },
+			desktop: { max: "1440px" },
 			tablet: { max: "1200px" },
 		},
 		extend: {

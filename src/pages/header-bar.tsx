@@ -27,7 +27,7 @@ const HeaderBarComponent = (props: ISidebarProps) => {
   };
 
   return (
-    <div className="h-[56px] bg-white w-full fixed border-b border-[#ECECEC] z-50">
+    <div className="h-[56px] bg-white w-full max-w-[1920px] fixed border-b border-[#ECECEC] z-50">
       <div className="h-full flex items-center px-[16px] justify-between">
         <div className="flex items-center justify-between w-[224px] pl-[4px] pr-[20px]">
           {isSidebar ? (
