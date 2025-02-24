@@ -30,8 +30,8 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
     headerData,
     bodyData,
     isSidebar,
-    widthMax = "w-[1350px]",
-    widthMin = "w-[1110px]",
+    widthMax = "full:w-[1810px] desktop:w-[1350px]",
+    widthMin = "full:w-[1510px] desktop:w-[1110px]",
     total,
     textNotFoundData,
   } = props;
@@ -42,8 +42,8 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
         className={cn(
           "overflow-x-auto",
           isSidebar
-            ? "full:w-[1810px] w-[1350px]"
-            : "full:w-[1510px] w-[1110px]"
+            ? "full:w-[1810px] desktop:w-[1350px]"
+            : "full:w-[1510px] desktop:w-[1110px]"
         )}
       >
         <Table className={isSidebar ? widthMax : widthMin}>
