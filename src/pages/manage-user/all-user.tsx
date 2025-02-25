@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SidebarLayout from "../sidebar-layout";
 import IconHome from "@/assets/icons/icon-home.png";
 import IconAddUser from "@/assets/icons/icon-add-user.png";
@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { CustomInputIcon, CustomSelect, CustomTable } from "../components";
 import { useForm, SubmitHandler } from "react-hook-form";
 import IconSearch from "@/assets/icons/icon-search.png";
+import { ROLE_CODE } from "../data/role-code";
 
 const breadcrumbs = [
   {
@@ -22,19 +23,26 @@ const breadcrumbs = [
 
 type Inputs = {
   role_code: string;
-  nameCustomer: string;
-  nameTechnician: string;
-  servicerDate: Date | undefined;
+  emp_code: string;
+  emp_name: string;
+  nickname: string;
 };
 
 const ManageAllUserPage: React.FC = () => {
   const { register, handleSubmit, setValue, getValues } = useForm<Inputs>();
+  const [roleCode, setRoleCode] = useState<string>("");
 
   const handleSearch: SubmitHandler<Inputs> = (data) => {
     console.log("dataaaaaa > ", data);
   };
 
-  const handleClear = () => {};
+  const handleClear = () => {
+    setValue("emp_code", "");
+    setValue("emp_name", "");
+    setValue("role_code", "");
+    setValue("nickname", "");
+    setRoleCode("");
+  };
 
   return (
     <>
@@ -56,29 +64,32 @@ const ManageAllUserPage: React.FC = () => {
               <div className="grid grid-cols-5 gap-3 mb-5">
                 <CustomInputIcon
                   iconLeft={IconSearch}
-                  name="numberTask"
-                  placeholder="เลขที่ใบงาน"
+                  name="emp_code"
+                  placeholder="รหัสพนักงาน"
                   classInput="text-[14px]"
-                  register={register("numberTask")}
+                  register={register("emp_code")}
                 />
                 <CustomInputIcon
                   iconLeft={IconSearch}
-                  name="nameCustomer"
-                  placeholder="ชื่อลูกค้า"
+                  name="emp_name"
+                  placeholder="ชื่อ นามสกุล"
                   classInput="text-[14px]"
-                  register={register("nameCustomer")}
+                  register={register("emp_name")}
                 />
                 <CustomInputIcon
                   iconLeft={IconSearch}
-                  name="nameTechnician"
-                  placeholder="ชื่อช่าง"
+                  name="nickname"
+                  placeholder="ชื่อเล่น"
                   classInput="text-[14px]"
-                  register={register("nameTechnician")}
+                  register={register("nickname")}
                 />
                 <CustomSelect
                   name="role_code"
-                  options={[]}
+                  placeholder="ตำแหน่ง"
+                  options={ROLE_CODE}
                   register={register("role_code")}
+                  value={roleCode}
+                  setValue={setRoleCode}
                 />
 
                 <div className="flex gap-3">
