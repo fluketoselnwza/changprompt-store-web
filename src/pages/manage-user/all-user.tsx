@@ -102,6 +102,8 @@ const ManageAllUserPage: React.FC = () => {
   const getAllUserData = async () => {
     const { role_code, emp_code, emp_name, nickname } = getValues();
 
+    console.log("role_code ===> ", role_code);
+
     const params = {
       role_code: role_code || "",
       emp_code: emp_code || "",
@@ -126,6 +128,7 @@ const ManageAllUserPage: React.FC = () => {
 
   const handleSearch: SubmitHandler<Inputs> = (data) => {
     console.log("dataaaaaa > ", data);
+    getAllUserData();
   };
 
   const handleClear = () => {
@@ -134,6 +137,7 @@ const ManageAllUserPage: React.FC = () => {
     setValue("role_code", "");
     setValue("nickname", "");
     setRoleCode("");
+    getAllUserData();
   };
 
   useEffect(() => {
