@@ -47,7 +47,7 @@ const CustomInputIcon: React.FC<CustomerInputProps> = ({
       )}
       <div
         className={cn(
-          "border  w-full rounded h-[42px] flex items-center",
+          "border  w-full h-[42px] rounded-[8px] flex items-center",
           classBorderInput,
           error ? "border-red-600" : "border-gray-300"
         )}

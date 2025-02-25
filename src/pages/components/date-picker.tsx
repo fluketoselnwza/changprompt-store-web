@@ -75,7 +75,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         </label>
       )}
       <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-        <PopoverTrigger asChild className={cn("w-full", className)}>
+        <PopoverTrigger asChild className={cn("w-full h-[42px]", className)}>
           <Button
             ref={buttonRef}
             disabled={disabledPicker}

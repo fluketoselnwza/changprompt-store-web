@@ -6,6 +6,8 @@ import {
   AllTasksPage,
   NewTaskPage,
   CommentAndReviewPage,
+  AllUserPage,
+  ResetPasswordPage,
 } from "./pages";
 import MainLayout from "./main-layout";
 
@@ -25,6 +27,15 @@ function App() {
             <Route
               path="/manage-review/comment-and-review"
               element={<CommentAndReviewPage />}
+            />
+            <Route
+              path="/manage-review/comment-and-review"
+              element={<CommentAndReviewPage />}
+            />
+            <Route path="/manage-user/all-user" element={<AllUserPage />} />
+            <Route
+              path="/manage-user/reset-password"
+              element={<ResetPasswordPage />}
             />
           </Route>
         </Routes>

@@ -78,6 +78,15 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
                         {headerCell.renderCell({ row: item, index: index })}
                       </TableCell>
                     );
+                  } else if (headerCell.dataType === "SUB_MENU") {
+                    return (
+                      <TableCell
+                        key={`${index}_${headerIndex}`}
+                        className="sticky right-0 z-10"
+                      >
+                        {headerCell.renderCell({ row: item, index: index })}
+                      </TableCell>
+                    );
                   } else {
                     return (
                       <TableCell

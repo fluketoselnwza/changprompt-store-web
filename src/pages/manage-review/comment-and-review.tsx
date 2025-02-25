@@ -142,7 +142,6 @@ const CommentAndReviewPage = () => {
                   name="numberTask"
                   placeholder="เลขที่ใบงาน"
                   classInput="text-[14px]"
-                  classBorderInput="rounded-[8px]"
                   register={register("numberTask")}
                 />
                 <CustomInputIcon
@@ -150,7 +149,6 @@ const CommentAndReviewPage = () => {
                   name="nameCustomer"
                   placeholder="ชื่อลูกค้า"
                   classInput="text-[14px]"
-                  classBorderInput="rounded-[8px]"
                   register={register("nameCustomer")}
                 />
                 <CustomInputIcon
@@ -158,28 +156,24 @@ const CommentAndReviewPage = () => {
                   name="nameTechnician"
                   placeholder="ชื่อช่าง"
                   classInput="text-[14px]"
-                  classBorderInput="rounded-[8px]"
                   register={register("nameTechnician")}
                 />
                 <DatePicker
                   name="servicerDate"
-                  className="h-[42px] rounded-[8px]"
                   register={register("servicerDate")}
                   defaultValue={servicerDate}
                   placeholder="วันที่ให้บริการ"
                 />
                 <div className="flex gap-3">
                   <Button
-                    className="w-full text-[16px] h-[42px] rounded-lg"
+                    className="w-full text-[16px]"
                     variant={"outline"}
                     type="button"
                     onClick={handleClear}
                   >
                     ล้าง
                   </Button>
-                  <Button className="w-full text-[16px] h-[42px] rounded-lg">
-                    ค้นหา
-                  </Button>
+                  <Button className="w-full text-[16px]">ค้นหา</Button>
                 </div>
               </div>
             </form>
