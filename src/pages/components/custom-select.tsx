@@ -59,7 +59,7 @@ const CustomSelect: React.FC<CustomerSelectProps> = ({
       >
         <SelectTrigger
           className={cn(
-            "w-full",
+            "w-full rounded-[8px]",
             className,
             error ? "border-red-600" : "",
             value ? "text-[#09090b]" : "text-gray-500"
