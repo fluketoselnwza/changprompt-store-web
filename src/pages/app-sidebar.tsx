@@ -95,22 +95,17 @@ const data = {
       title: "จัดการผู้ใช้งาน",
       url: "#",
       icon: IconManageUser,
+      id: "manage-user",
       items: [
         {
-          title: "General",
-          url: "#",
+          title: "ข้อมูลผู้ใช้งานทั้งหมด",
+          url: "/manage-user/all-user",
+          id: "all-user",
         },
         {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
+          title: "จัดการรหัสผ่าน",
+          url: "/manage-user/reset-password",
+          id: "reset-password",
         },
       ],
     },
