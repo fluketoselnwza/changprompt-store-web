@@ -29,7 +29,7 @@ const Rating: React.FC<IRatingProps> = ({
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 className={cn(
-                  "cursor-pointer text-[#FFC107]",
+                  "text-[#FFC107]",
                   `w-[${width}px] h-[${height}px]`
                 )}
               >
@@ -47,7 +47,7 @@ const Rating: React.FC<IRatingProps> = ({
                 strokeWidth="1"
                 stroke="currentColor"
                 className={cn(
-                  "cursor-pointer text-[#D1D5DB]",
+                  "text-[#D1D5DB]",
                   `w-[${width}px] h-[${height}px]`
                 )}
               >
