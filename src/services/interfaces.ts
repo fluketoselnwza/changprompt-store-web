@@ -25,11 +25,38 @@ export interface IPartnerRatingParams {
   customer_name: string;
   tech_name: string;
   job_started_date: string;
-  skip: number;
+  skip?: number;
   take?: number;
 }
 
 export interface IPartnerRatingResponse {
   total_count: number;
   ratings: IRatingsData[];
+}
+
+export interface IPartnerUserParams {
+  emp_code: string;
+  emp_name: string;
+  nickname: string;
+  role_code: string;
+  skip?: number;
+  take?: number;
+}
+
+export interface IUserData {
+  id: string;
+  emp_code: string;
+  full_name: string;
+  nick_name: string;
+  nation_id: string;
+  mobile_phone: string;
+  email: string;
+  full_address: string;
+  hire_date: string;
+  role_code: string;
+}
+
+export interface IPartnerUserResponse {
+  total_count: number;
+  users: IUserData[];
 }

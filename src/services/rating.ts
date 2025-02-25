@@ -10,7 +10,7 @@ export const getPartnerRatingService = async (params: IPartnerRatingParams) => {
     customer_name,
     tech_name,
     job_started_date,
-    skip,
+    skip = 1,
     take = 10,
   } = params;
 
