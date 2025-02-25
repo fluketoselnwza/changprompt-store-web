@@ -105,7 +105,7 @@ function Calendar({
               <SelectTrigger
                 className={cn(
                   buttonVariants({ variant: "ghost" }),
-                  " h-7  font-medium  border "
+                  "h-7 font-medium"
                 )}
               >
                 <SelectValue placeholder={caption}>{caption}</SelectValue>
