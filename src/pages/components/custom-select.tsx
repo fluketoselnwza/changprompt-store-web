@@ -22,6 +22,7 @@ interface CustomerSelectProps {
   defaultValue?: string;
   disabled?: boolean;
   className?: string;
+  classLabel?: string;
 }
 
 const CustomSelect: React.FC<CustomerSelectProps> = ({
@@ -36,12 +37,16 @@ const CustomSelect: React.FC<CustomerSelectProps> = ({
   value,
   setValue,
   className,
+  classLabel,
   ...props
 }) => {
   return (
     <div className="flex flex-col gap-2">
       {label && (
-        <label htmlFor={name}>
+        <label
+          className={cn("font-medium text-[14px] text-gray-900", classLabel)}
+          htmlFor={name}
+        >
           {label}{" "}
           {required && <span className="text-red-600 text-[14px]">*</span>}
         </label>

@@ -10,6 +10,7 @@ import { ROLE_CODE } from "../data/role-code";
 import { getPartnerUserService } from "@/services/user";
 import { IUserData } from "@/services/interfaces";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
+import ModalAddUser from "./components/modal-add-user";
 
 const breadcrumbs = [
   {
@@ -194,14 +195,14 @@ const ManageAllUserPage: React.FC = () => {
 
                 <div className="flex gap-3">
                   <Button
-                    className="w-full text-[16px]"
+                    className="w-full"
                     variant={"outline"}
                     type="button"
                     onClick={handleClear}
                   >
                     ล้าง
                   </Button>
-                  <Button className="w-full text-[16px]">ค้นหา</Button>
+                  <Button className="w-full">ค้นหา</Button>
                 </div>
               </div>
             </form>
@@ -218,6 +219,7 @@ const ManageAllUserPage: React.FC = () => {
           </div>
         </div>
       </SidebarLayout>
+      <ModalAddUser />
     </>
   );
 };

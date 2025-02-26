@@ -62,7 +62,10 @@ const CustomInput: React.FC<CustomerInputProps> = ({
   return (
     <div className="flex flex-col gap-2">
       {label && (
-        <label className={cn("font-medium", classLabel)} htmlFor={name}>
+        <label
+          className={cn("font-medium text-[14px] text-gray-900", classLabel)}
+          htmlFor={name}
+        >
           {label}{" "}
           {required && <span className="text-red-600 text-[14px]">*</span>}
         </label>
@@ -78,7 +81,8 @@ const CustomInput: React.FC<CustomerInputProps> = ({
         className={cn(
           "border",
           classInput,
-          error ? "border-red-600" : "border-gray-300"
+          error ? "border-red-600" : "border-gray-300",
+          value ? "text-[#09090b]" : "text-gray-500"
         )}
         onInput={handleOnInput}
       />
