@@ -22,11 +22,13 @@ type Inputs = {
   email: string;
   password: string;
   address: string;
+  addresses: string;
 };
 
 const ModalAddUser: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [roleCode, setRoleCode] = useState<string>("");
+  const [addresses, setAddresses] = useState<string>("");
 
   const {
     register,
@@ -132,6 +134,29 @@ const ModalAddUser: React.FC = () => {
                   placeholder="บ้านเลขที่ ซอย ถนน..."
                   required
                   error={errors.address?.message}
+                />
+              </div>
+              <div className="mt-3">
+                <CustomSelect
+                  name="addresses"
+                  placeholder="เลือก..."
+                  label="ตำบล/อำเภอ/จังหวัด (รอสรุป)"
+                  options={[
+                    {
+                      value: "1",
+                      label: "1",
+                    },
+                    {
+                      value: "2",
+                      label: "2",
+                    },
+                    {
+                      value: "3",
+                      label: "3",
+                    },
+                  ]}
+                  value={addresses}
+                  setValue={setAddresses}
                 />
               </div>
               <div className="flex items-center justify-center mt-[22px] gap-4">
