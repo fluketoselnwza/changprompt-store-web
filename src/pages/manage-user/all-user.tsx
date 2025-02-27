@@ -99,6 +99,7 @@ const ManageAllUserPage: React.FC = () => {
   const [roleCode, setRoleCode] = useState<string>("");
   const [userData, setUserData] = useState<IUserData[]>([]);
   const [totalUser, setTotalUser] = useState<number>(0);
+  const [isAddUser, setIsAddUser] = useState<boolean>(false);
 
   const getAllUserData = async () => {
     const { role_code, emp_code, emp_name, nickname } = getValues();
@@ -151,7 +152,11 @@ const ManageAllUserPage: React.FC = () => {
         <div>
           <div className="flex justify-between items-end">
             <p className="font-bold text-[16px]">ข้อมูลผู้ใช้งานทั้งหมด</p>
-            <Button variant={"outline"} className="h-[48px]">
+            <Button
+              variant={"outline"}
+              className="h-[48px]"
+              onClick={() => setIsAddUser(true)}
+            >
               <img
                 src={IconAddUser}
                 className="w-[20px] h-[20px]"
@@ -219,7 +224,7 @@ const ManageAllUserPage: React.FC = () => {
           </div>
         </div>
       </SidebarLayout>
-      <ModalAddUser />
+      <ModalAddUser isOpen={isAddUser} setIsOpen={setIsAddUser} />
     </>
   );
 };

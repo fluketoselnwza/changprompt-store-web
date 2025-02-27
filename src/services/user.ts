@@ -2,6 +2,8 @@ import { axiosInstance } from "@/config/api";
 import {
   IPartnerUserParams,
   IPartnerUserResponse,
+  IPartnerEmployeeCodeResponse,
+  ICreatePartnerUserParam,
 } from "@/services/interfaces";
 
 export const getPartnerUserService = async (params: IPartnerUserParams) => {
@@ -23,4 +25,26 @@ export const getPartnerUserService = async (params: IPartnerUserParams) => {
   const response = await axiosInstance.get(urlPath, config);
 
   return response.data as IPartnerUserResponse;
+};
+
+export const getPartnerEmployeeCodeService = async () => {
+  const path = "/partners/users/lastest";
+
+  const config = {};
+
+  const response = await axiosInstance.get(path, config);
+
+  return response.data as IPartnerEmployeeCodeResponse;
+};
+
+export const createPartnerUserService = async (
+  params: ICreatePartnerUserParam
+) => {
+  const path = "/partners/users";
+
+  const config = {};
+
+  const response = await axiosInstance.post(path, params, config);
+
+  return response.data;
 };

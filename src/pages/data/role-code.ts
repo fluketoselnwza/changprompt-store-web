@@ -13,7 +13,7 @@ export const ROLE_CODE = [
   },
   {
     label: "พนักงานธุรการ",
-    value: "ADMIN",
+    value: "ADMIN2",
   },
   {
     label: "พนักงานขาย",
