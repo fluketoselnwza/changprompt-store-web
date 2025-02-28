@@ -3,7 +3,7 @@ import SidebarLayout from "../sidebar-layout";
 import IconHome from "@/assets/icons/icon-home.png";
 import IconAddUser from "@/assets/icons/icon-add-user.png";
 // import IconSuccess from "@/assets/icons/icon-succes.png";
-import IconWaringColor from "@/assets/icons/icon-warning-blue.png";
+
 import { Button } from "@/components/ui/button";
 import {
   CustomInputIcon,
@@ -24,13 +24,6 @@ import IconEditUser from "@/assets/icons/icon-edit-user.png";
 import IconDeleteUser from "@/assets/icons/icon-delete-user.png";
 import IconLock from "@/assets/icons/icon-lock.png";
 import { useToast } from "@/hooks/use-toast";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
-import {
-  openModalWarning,
-  closeModalWarning,
-} from "@/redux/modal-warning/action";
-import { IPageProps } from "../interface";
 
 const breadcrumbs = [
   {
@@ -52,8 +45,7 @@ type Inputs = {
   nickname: string;
 };
 
-const ManageAllUserPage: React.FC<IPageProps> = (props) => {
-  const { openModalWarning, closeModalWarning } = props;
+const ManageAllUserPage: React.FC = () => {
   const { toast } = useToast();
   const { register, handleSubmit, setValue, getValues } = useForm<Inputs>();
   const [roleCode, setRoleCode] = useState<string>("");
@@ -191,33 +183,16 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
     getAllUserData();
   }, []);
 
-  const handleSuccess = async () => {
-    toast({
-      title: "สำเร็จแล้ว",
-      description: "เพิ่มข้อมูลผู้ใช้ใหม่เรียบร้อยแล้ว",
-      variant: "success",
-      className: "w-[300px] mx-auto",
-    });
-  };
-
   const onIsAddUser = (value: boolean, status?: string) => {
     setIsAddUser(value);
     if (status === STATE_CODE.success) {
-      openModalWarning(
-        IconWaringColor,
-        "ยืนยันเพิ่มผู้ใช้ใหม่ใช่หรือไม่",
-        "",
-        "ยกเลิก",
-        () => {
-          closeModalWarning();
-        },
-        "ยืนยัน",
-        () => {
-          closeModalWarning();
-          handleSuccess();
-          getAllUserData();
-        }
-      );
+      getAllUserData();
+      toast({
+        title: "สำเร็จแล้ว",
+        description: "เพิ่มข้อมูลผู้ใช้ใหม่เรียบร้อยแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+      });
     }
   };
 
@@ -304,33 +279,4 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  openModalWarning: (
-    image: string | null,
-    title: string,
-    description: string,
-    labelBtnFirst?: string,
-    fnBtnFirst?: () => void | null,
-    labelBtnSecond?: string,
-    fnBtnSecond?: () => void | null
-  ) =>
-    openModalWarning(dispatch, {
-      image,
-      title,
-      description,
-      labelBtnFirst,
-      fnBtnFirst,
-      labelBtnSecond,
-      fnBtnSecond,
-    }),
-  closeModalWarning: () => closeModalWarning(dispatch),
-});
-
-const mapStateToProps = () => ({});
-
-const ManageAllUserPageWithConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ManageAllUserPage);
-
-export default ManageAllUserPageWithConnect;
+export default ManageAllUserPage;

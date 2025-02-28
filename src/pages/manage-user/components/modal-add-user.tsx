@@ -14,6 +14,14 @@ import {
   getPartnerEmployeeCodeService,
   createPartnerUserService,
 } from "@/services/user";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { IPageProps } from "@/pages/interface";
+import IconWaringColor from "@/assets/icons/icon-warning-blue.png";
+import {
+  openModalWarning,
+  closeModalWarning,
+} from "@/redux/modal-warning/action";
 
 type Inputs = {
   emp_code: string;
@@ -29,12 +37,17 @@ type Inputs = {
   addresses: string;
 };
 
-interface IModalAddUserProps {
+interface IModalAddUserProps extends IPageProps {
   isOpen: boolean;
   setIsOpen: (value: boolean, status?: string) => void;
 }
 
-const ModalAddUser: React.FC<IModalAddUserProps> = ({ isOpen, setIsOpen }) => {
+const ModalAddUser: React.FC<IModalAddUserProps> = ({
+  isOpen,
+  setIsOpen,
+  openModalWarning,
+  closeModalWarning,
+}) => {
   const [roleCode, setRoleCode] = useState<string>("");
   const [addresses, setAddresses] = useState<string>("");
   const [empCode, setEmpCode] = useState<string>("");
@@ -46,6 +59,23 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({ isOpen, setIsOpen }) => {
     setValue,
     formState: { errors },
   } = useForm<Inputs>();
+
+  const handleConfirm = async (data: Inputs) => {
+    openModalWarning(
+      IconWaringColor,
+      "ยืนยันเพิ่มผู้ใช้ใหม่ใช่หรือไม่",
+      "",
+      "ยกเลิก",
+      () => {
+        closeModalWarning();
+      },
+      "ยืนยัน",
+      () => {
+        closeModalWarning();
+        onSubmit(data);
+      }
+    );
+  };
 
   const onSubmit = async (data: Inputs) => {
     console.log("data ==> ", data);
@@ -121,7 +151,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({ isOpen, setIsOpen }) => {
         </div>
         <DialogHeader className="flex flex-col items-center gap-4 text-left">
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(handleConfirm)}
             className="flex flex-col items-center w-full gap-3"
           >
             <DialogDescription className="w-full">
@@ -275,4 +305,33 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({ isOpen, setIsOpen }) => {
   );
 };
 
-export default ModalAddUser;
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  openModalWarning: (
+    image: string | null,
+    title: string,
+    description: string,
+    labelBtnFirst?: string,
+    fnBtnFirst?: () => void | null,
+    labelBtnSecond?: string,
+    fnBtnSecond?: () => void | null
+  ) =>
+    openModalWarning(dispatch, {
+      image,
+      title,
+      description,
+      labelBtnFirst,
+      fnBtnFirst,
+      labelBtnSecond,
+      fnBtnSecond,
+    }),
+  closeModalWarning: () => closeModalWarning(dispatch),
+});
+
+const mapStateToProps = () => ({});
+
+const ModalAddUserWithConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ModalAddUser);
+
+export default ModalAddUserWithConnect;
