@@ -8,18 +8,23 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 
 interface ICustomerProps {
   className?: string;
   total?: number;
   pageSize?: number;
+  currentPage: number;
+  setCurrentPage: (value: number) => void;
 }
 
 const CustomPagination: React.FC<ICustomerProps> = (props) => {
-  const { className, total = 0, pageSize = 10 } = props;
-
-  const [currentPage, setCurrentPage] = useState(1);
+  const {
+    className,
+    total = 0,
+    pageSize = 10,
+    currentPage = 1,
+    setCurrentPage,
+  } = props;
 
   const totalPages = Math.ceil(total / pageSize);
 

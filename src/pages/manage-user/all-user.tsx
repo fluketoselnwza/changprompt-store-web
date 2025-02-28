@@ -52,6 +52,7 @@ const ManageAllUserPage: React.FC = () => {
   const [userData, setUserData] = useState<IUserData[]>([]);
   const [totalUser, setTotalUser] = useState<number>(0);
   const [isAddUser, setIsAddUser] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const itemPopOverData = [
     {
@@ -148,7 +149,7 @@ const ManageAllUserPage: React.FC = () => {
       emp_code: emp_code || "",
       emp_name: emp_name || "",
       nickname: nickname || "",
-      skip: 1,
+      skip: currentPage,
     };
 
     const result = await getPartnerUserService(params);
@@ -181,7 +182,7 @@ const ManageAllUserPage: React.FC = () => {
 
   useEffect(() => {
     getAllUserData();
-  }, []);
+  }, [currentPage]);
 
   const onIsAddUser = (value: boolean, status?: string) => {
     setIsAddUser(value);
@@ -266,6 +267,8 @@ const ManageAllUserPage: React.FC = () => {
                 bodyData={userData}
                 headerData={HeaderTable}
                 total={totalUser}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
                 // widthMin={"full:w-[1510px] desktop:w-[1110px]"}
                 // widthMax={"full:w-[1810px] desktop:w-[1350px]"}
                 textNotFoundData="ไม่พบรายการข้อมูลผู้ใช้งาน"
