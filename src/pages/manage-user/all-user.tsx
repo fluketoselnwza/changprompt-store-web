@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import SidebarLayout from "../sidebar-layout";
 import IconHome from "@/assets/icons/icon-home.png";
 import IconAddUser from "@/assets/icons/icon-add-user.png";
+// import IconSuccess from "@/assets/icons/icon-succes.png";
 import { Button } from "@/components/ui/button";
 import {
   CustomInputIcon,
@@ -21,6 +22,7 @@ import IconSearchDetailUser from "@/assets/icons/icon-search-detail-user.png";
 import IconEditUser from "@/assets/icons/icon-edit-user.png";
 import IconDeleteUser from "@/assets/icons/icon-delete-user.png";
 import IconLock from "@/assets/icons/icon-lock.png";
+import { useToast } from "@/hooks/use-toast";
 
 const breadcrumbs = [
   {
@@ -43,6 +45,7 @@ type Inputs = {
 };
 
 const ManageAllUserPage: React.FC = () => {
+  const { toast } = useToast();
   const { register, handleSubmit, setValue, getValues } = useForm<Inputs>();
   const [roleCode, setRoleCode] = useState<string>("");
   const [userData, setUserData] = useState<IUserData[]>([]);
@@ -181,7 +184,14 @@ const ManageAllUserPage: React.FC = () => {
 
   const onIsAddUser = (value: boolean, status?: string) => {
     setIsAddUser(value);
+    console.log("status ==> ", status);
     if (status === STATE_CODE.success) {
+      toast({
+        title: "สำเร็จแล้ว",
+        description: "เพิ่มข้อมูลผู้ใช้ใหม่เรียบร้อยแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+      });
       getAllUserData();
     }
   };

@@ -10,7 +10,6 @@ const TOAST_REMOVE_DELAY = 1000000;
 
 type ToasterToast = ToastProps & {
   id: string;
-  icon?: string;
   title?: React.ReactNode;
   description?: React.ReactNode;
   action?: ToastActionElement;
@@ -74,7 +73,6 @@ const addToRemoveQueue = (toastId: string) => {
 };
 
 export const reducer = (state: State, action: Action): State => {
-  console.log("action ==> ", action);
   switch (action.type) {
     case "ADD_TOAST":
       return {
