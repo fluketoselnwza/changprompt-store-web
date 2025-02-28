@@ -3,7 +3,12 @@ import SidebarLayout from "../sidebar-layout";
 import IconHome from "@/assets/icons/icon-home.png";
 import IconAddUser from "@/assets/icons/icon-add-user.png";
 import { Button } from "@/components/ui/button";
-import { CustomInputIcon, CustomSelect, CustomTable } from "../components";
+import {
+  CustomInputIcon,
+  CustomSelect,
+  CustomTable,
+  CustomPopover,
+} from "../components";
 import { useForm, SubmitHandler } from "react-hook-form";
 import IconSearch from "@/assets/icons/icon-search.png";
 import { ROLE_CODE } from "../data/role-code";
@@ -11,6 +16,10 @@ import { getPartnerUserService } from "@/services/user";
 import { IUserData } from "@/services/interfaces";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 import ModalAddUser from "./components/modal-add-user";
+import IconSearchDetailUser from "@/assets/icons/icon-search-detail-user.png";
+import IconEditUser from "@/assets/icons/icon-edit-user.png";
+import IconDeleteUser from "@/assets/icons/icon-delete-user.png";
+import IconLock from "@/assets/icons/icon-lock.png";
 
 const breadcrumbs = [
   {
@@ -22,68 +31,6 @@ const breadcrumbs = [
     label: "ข้อมูลผู้ใช้งานทั้งหมด",
     link: "",
     icon: "",
-  },
-];
-
-const HeaderTable = [
-  {
-    dataType: "DATA",
-    title: "รหัสพนักงาน",
-    class: "w-[100px]",
-    id: "emp_code",
-  },
-  {
-    dataType: "DATA",
-    title: "ชื่อ - นามสกุล",
-    class: "w-[100px]",
-    id: "full_name",
-  },
-  {
-    dataType: "DATA",
-    title: "ชื่อเล่น",
-    class: "w-[80px]",
-    id: "nick_name",
-  },
-  {
-    dataType: "DATA",
-    title: "รหัสบัตรประจำตัวประชาชน",
-    class: "w-[100px]",
-    id: "nation_id",
-  },
-  {
-    dataType: "DATA",
-    title: "เบอร์โทรศัพท์",
-    class: "w-[100px]",
-    id: "mobile_phone",
-  },
-  {
-    dataType: "DATA",
-    title: "อีเมล",
-    class: "w-[100px]",
-    id: "email",
-  },
-  {
-    dataType: "DATA",
-    title: "ตำแหน่ง",
-    class: "w-[100px]",
-    id: "role_code",
-  },
-  {
-    dataType: "SUB_MENU",
-    title: "",
-    class: "w-[40px]",
-    id: "",
-    renderCell: () => {
-      return (
-        <div>
-          <img
-            src={IconSubMenu}
-            className="w-[20px] h-[20px] mx-auto"
-            alt="icon sub menu"
-          />
-        </div>
-      );
-    },
   },
 ];
 
@@ -100,6 +47,91 @@ const ManageAllUserPage: React.FC = () => {
   const [userData, setUserData] = useState<IUserData[]>([]);
   const [totalUser, setTotalUser] = useState<number>(0);
   const [isAddUser, setIsAddUser] = useState<boolean>(false);
+
+  const itemPopOverData = [
+    {
+      label: "ดูรายละเอียดผู้ใช้งาน",
+      onClick: () => console.log("ดูรายละเอียดผู้ใช้งาน"),
+      icon: IconSearchDetailUser,
+    },
+    {
+      label: "แก้ไขผู้ใช้งาน",
+      onClick: () => console.log("แก้ไขผู้ใช้งาน"),
+      icon: IconEditUser,
+    },
+    {
+      label: "ลบข้อมูลผู้ใช้งาน",
+      onClick: () => console.log("ลบข้อมูลผู้ใช้งาน"),
+      icon: IconDeleteUser,
+    },
+    {
+      label: "รีเซ็ตรหัสผ่าน",
+      onClick: () => console.log("รีเซ็ตรหัสผ่าน"),
+      icon: IconLock,
+    },
+  ];
+
+  const HeaderTable = [
+    {
+      dataType: "DATA",
+      title: "รหัสพนักงาน",
+      class: "w-[100px]",
+      id: "emp_code",
+    },
+    {
+      dataType: "DATA",
+      title: "ชื่อ - นามสกุล",
+      class: "w-[100px]",
+      id: "full_name",
+    },
+    {
+      dataType: "DATA",
+      title: "ชื่อเล่น",
+      class: "w-[80px]",
+      id: "nick_name",
+    },
+    {
+      dataType: "DATA",
+      title: "รหัสบัตรประจำตัวประชาชน",
+      class: "w-[100px]",
+      id: "nation_id",
+    },
+    {
+      dataType: "DATA",
+      title: "เบอร์โทรศัพท์",
+      class: "w-[100px]",
+      id: "mobile_phone",
+    },
+    {
+      dataType: "DATA",
+      title: "อีเมล",
+      class: "w-[100px]",
+      id: "email",
+    },
+    {
+      dataType: "DATA",
+      title: "ตำแหน่ง",
+      class: "w-[100px]",
+      id: "role_code",
+    },
+    {
+      dataType: "SUB_MENU",
+      title: "",
+      class: "w-[40px]",
+      id: "",
+      renderCell: () => {
+        return (
+          <div className="flex items-center justify-center">
+            <CustomPopover
+              icon={IconSubMenu}
+              classPopOver="w-[224px]"
+              itemPopOver={itemPopOverData}
+            />
+          </div>
+        );
+      },
+    },
+  ];
 
   const getAllUserData = async () => {
     const { role_code, emp_code, emp_name, nickname } = getValues();

@@ -82,7 +82,7 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
                     return (
                       <TableCell
                         key={`${index}_${headerIndex}`}
-                        className="sticky right-0 z-10"
+                        className="sticky z-10"
                       >
                         {headerCell.renderCell({ row: item, index: index })}
                       </TableCell>
