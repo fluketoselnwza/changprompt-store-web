@@ -12,6 +12,7 @@ import {
 import { useForm, SubmitHandler } from "react-hook-form";
 import IconSearch from "@/assets/icons/icon-search.png";
 import { ROLE_CODE } from "../data/role-code";
+import { STATE_CODE } from "../data/status-code";
 import { getPartnerUserService } from "@/services/user";
 import { IUserData } from "@/services/interfaces";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
@@ -178,6 +179,13 @@ const ManageAllUserPage: React.FC = () => {
     getAllUserData();
   }, []);
 
+  const onIsAddUser = (value: boolean, status?: string) => {
+    setIsAddUser(value);
+    if (status === STATE_CODE.success) {
+      getAllUserData();
+    }
+  };
+
   return (
     <>
       <SidebarLayout breadcrumbs={breadcrumbs}>
@@ -256,7 +264,7 @@ const ManageAllUserPage: React.FC = () => {
           </div>
         </div>
       </SidebarLayout>
-      <ModalAddUser isOpen={isAddUser} setIsOpen={setIsAddUser} />
+      <ModalAddUser isOpen={isAddUser} setIsOpen={onIsAddUser} />
     </>
   );
 };

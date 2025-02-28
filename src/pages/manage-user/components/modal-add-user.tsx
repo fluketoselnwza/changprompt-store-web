@@ -31,7 +31,7 @@ type Inputs = {
 
 interface IModalAddUserProps {
   isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
+  setIsOpen: (value: boolean, status?: string) => void;
 }
 
 const ModalAddUser: React.FC<IModalAddUserProps> = ({ isOpen, setIsOpen }) => {
@@ -69,8 +69,10 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({ isOpen, setIsOpen }) => {
       };
 
       await createPartnerUserService(params);
+      setIsOpen(false, "success");
     } catch (error) {
       console.log("error ====> ", error);
+      setIsOpen(false, "fail");
     }
   };
 
