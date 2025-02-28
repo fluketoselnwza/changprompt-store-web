@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { closeModalWarning } from "@/redux/modal-warning/action";
 import { Dispatch } from "redux";
 import { IModalState } from "@/redux/modal-warning/interface";
+import { cn } from "@/lib/utils";
 
 interface IModalWarningProps extends IModalState {
   closeModalWarning: () => void;
@@ -32,11 +33,11 @@ const ModalWarningComponent: React.FC<IModalWarningProps> = (props) => {
 
   return (
     <Dialog open={isShow}>
-      <DialogContent className="w-[90%] bg-white rounded-lg">
+      <DialogContent className="w-[340px] bg-white rounded-lg">
         <div className="flex justify-end">
           <img
             src={CloseIcon}
-            className="w-3 h-3 cursor-pointer"
+            className="w-[12px] h-[12px] cursor-pointer"
             alt="icon close"
             onClick={() => closeModalWarning()}
           />
@@ -47,7 +48,12 @@ const ModalWarningComponent: React.FC<IModalWarningProps> = (props) => {
           )}
           <div>
             {title && (
-              <DialogTitle className="text-[16px] font-semibold">
+              <DialogTitle
+                className={cn(
+                  "text-[14px] font-semibold",
+                  description ? "" : "my-3"
+                )}
+              >
                 {title}
               </DialogTitle>
             )}
@@ -76,7 +82,7 @@ const ModalWarningComponent: React.FC<IModalWarningProps> = (props) => {
             <div className="flex justify-center w-full gap-4">
               {fnBtnFirst && (
                 <Button
-                  className="w-[30%]"
+                  className="w-[56px] h-[37px] text-[14px]"
                   variant={"outline"}
                   onClick={() => fnBtnFirst()}
                 >
@@ -84,7 +90,10 @@ const ModalWarningComponent: React.FC<IModalWarningProps> = (props) => {
                 </Button>
               )}
               {fnBtnSecond && (
-                <Button className="w-[30%]" onClick={() => fnBtnSecond()}>
+                <Button
+                  className="w-[56px] h-[37px] text-[14px]"
+                  onClick={() => fnBtnSecond()}
+                >
                   {labelBtnSecond}
                 </Button>
               )}
@@ -92,7 +101,10 @@ const ModalWarningComponent: React.FC<IModalWarningProps> = (props) => {
           ) : (
             <div className="flex justify-center w-full">
               {fnBtnFirst && (
-                <Button className="w-[60%]" onClick={() => fnBtnFirst()}>
+                <Button
+                  className="w-[50%]  h-[37px] text-[14px]"
+                  onClick={() => fnBtnFirst()}
+                >
                   {labelBtnFirst}
                 </Button>
               )}
