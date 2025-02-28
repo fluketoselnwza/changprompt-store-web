@@ -42,6 +42,8 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({ isOpen, setIsOpen }) => {
   const {
     register,
     handleSubmit,
+    reset,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -81,12 +83,29 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({ isOpen, setIsOpen }) => {
       const result = await getPartnerEmployeeCodeService();
       console.log("result emp_code ==> ", result);
       if (result?.emp_code) {
+        setValue("emp_code", result.emp_code);
         setEmpCode(result.emp_code);
       }
     };
 
-    getEmployeeCode();
-  }, []);
+    if (isOpen) {
+      getEmployeeCode();
+      setAddresses("");
+      setRoleCode("");
+      reset({
+        role_code: "",
+        first_name: "",
+        last_name: "",
+        nick_name: "",
+        nation_id: "",
+        mobile_number: "",
+        email: "",
+        password: "",
+        address: "",
+        addresses: "",
+      });
+    }
+  }, [isOpen]);
 
   return (
     <Dialog open={isOpen}>

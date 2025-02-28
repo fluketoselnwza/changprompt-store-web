@@ -213,22 +213,12 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
         },
         "ยืนยัน",
         () => {
+          closeModalWarning();
           handleSuccess();
           getAllUserData();
         }
       );
     }
-    // setIsAddUser(value);
-    // console.log("status ==> ", status);
-    // if (status === STATE_CODE.success) {
-    //   toast({
-    //     title: "สำเร็จแล้ว",
-    //     description: "เพิ่มข้อมูลผู้ใช้ใหม่เรียบร้อยแล้ว",
-    //     variant: "success",
-    //     className: "w-[300px] mx-auto",
-    //   });
-    //   getAllUserData();
-    // }
   };
 
   return (
