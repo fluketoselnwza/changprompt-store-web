@@ -18,6 +18,7 @@ import { STATE_CODE, STATE_STATUS_MANAGE_USER } from "../data/status-code";
 import {
   getPartnerUserService,
   deletePartnerUserService,
+  resetPasswordUserService,
 } from "@/services/user";
 import { IUserData } from "@/services/interfaces";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
@@ -103,7 +104,11 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
     },
     {
       label: "รีเซ็ตรหัสผ่าน",
-      onClick: () => console.log("รีเซ็ตรหัสผ่าน"),
+      onClick: (value?: string) => {
+        if (value) {
+          confirmResetPasswordUser(value);
+        }
+      },
       icon: IconLock,
     },
   ];
@@ -200,6 +205,38 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
       () => {
         closeModalWarning();
         handleDeleteUser(id);
+      }
+    );
+  };
+
+  const handleResetPasswordUser = async (id: string) => {
+    try {
+      await resetPasswordUserService(id);
+      toast({
+        title: "สำเร็จแล้ว",
+        description: "รีเซ็ตรหัสผ่านผู้ใช้เรียบร้อยแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+      });
+      getAllUserData();
+    } catch (error) {
+      console.log("error : ", error);
+    }
+  };
+
+  const confirmResetPasswordUser = (id: string) => {
+    openModalWarning(
+      IconWaringColor,
+      "ยืนยันการรีเซ็ตรหัสผ่านใช่หรือไม่",
+      "",
+      "ยกเลิก",
+      () => {
+        closeModalWarning();
+      },
+      "ยืนยัน",
+      () => {
+        closeModalWarning();
+        handleResetPasswordUser(id);
       }
     );
   };

@@ -61,11 +61,21 @@ export const getPartnerUserDetailService = async (userId: string) => {
 };
 
 export const deletePartnerUserService = async (userId: string) => {
-  const path = `partners/users/${userId}`;
+  const path = `/partners/users/${userId}`;
 
   const config = {};
 
-  const response = await axiosInstance.post(path, {}, config);
+  const response = await axiosInstance.delete(path, config);
+
+  return response.data;
+};
+
+export const resetPasswordUserService = async (userId: string) => {
+  const path = `/partners/users/reset-password/${userId}`;
+
+  const config = {};
+
+  const response = await axiosInstance.put(path, {}, config);
 
   return response.data;
 };
