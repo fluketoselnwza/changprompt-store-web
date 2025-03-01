@@ -12,3 +12,18 @@ export const ROLE_CODE = [
     value: "SALE",
   },
 ];
+
+export const ROLE_NAME = [
+  {
+    label: "เจ้าของร้าน",
+    value: "เจ้าของร้าน",
+  },
+  {
+    label: "พนักงานธุรการ",
+    value: "พนักงานธุรการ",
+  },
+  {
+    label: "พนักงานขาย",
+    value: "พนักงานขาย",
+  },
+];

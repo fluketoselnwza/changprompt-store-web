@@ -118,6 +118,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
 
     console.log("result ====> ", result);
     if (result) {
+      setRoleCode(result.role_code);
       setValue("emp_code", result.emp_code);
       setValue("role_code", result.role_code);
       setValue("first_name", result.first_name);
@@ -201,6 +202,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   options={ROLE_CODE}
                   value={roleCode}
                   setValue={setRoleCode}
+                  defaultValue={roleCode}
                   register={register("role_code", {
                     required: "กรุณาเลือกตำแหน่ง",
                   })}
