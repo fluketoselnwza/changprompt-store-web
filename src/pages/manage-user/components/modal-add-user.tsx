@@ -171,6 +171,8 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
     }
   }, [isOpen]);
 
+  const isDisabled = status === STATE_STATUS_MANAGE_USER.GET;
+
   return (
     <Dialog open={isOpen}>
       <DialogContent className="max-w-[600px] bg-white rounded-[8px] p-[28px]">
@@ -213,6 +215,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   })}
                   required
                   error={errors.role_code?.message}
+                  disabled={isDisabled}
                 />
                 <CustomInput
                   name="first_name"
@@ -223,6 +226,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   placeholder="ระบุ..."
                   required
                   error={errors.first_name?.message}
+                  disabled={isDisabled}
                 />
                 <CustomInput
                   name="last_name"
@@ -233,6 +237,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   placeholder="ระบุ..."
                   required
                   error={errors.last_name?.message}
+                  disabled={isDisabled}
                 />
                 <CustomInput
                   name="nick_name"
@@ -243,6 +248,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   placeholder="ระบุ..."
                   required
                   error={errors.nick_name?.message}
+                  disabled={isDisabled}
                 />
                 <CustomInput
                   name="nation_id"
@@ -255,6 +261,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   required
                   error={errors.nation_id?.message}
                   maxLength={13}
+                  disabled={isDisabled}
                 />
                 <CustomInput
                   name="mobile_number"
@@ -267,6 +274,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   placeholder="ระบุ..."
                   required
                   error={errors.mobile_number?.message}
+                  disabled={isDisabled}
                 />
                 <CustomInput
                   name="email"
@@ -277,6 +285,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   placeholder="ระบุ..."
                   required
                   error={errors.email?.message}
+                  disabled={isDisabled}
                 />
                 <CustomInput
                   name="password"
@@ -287,6 +296,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   placeholder="ระบุ..."
                   required
                   error={errors.password?.message}
+                  disabled={isDisabled}
                 />
                 <CustomInput
                   name="address"
@@ -297,6 +307,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   placeholder="บ้านเลขที่ ซอย ถนน..."
                   required
                   error={errors.address?.message}
+                  disabled={isDisabled}
                 />
               </div>
               <div className="mt-3">
@@ -320,6 +331,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   ]}
                   value={addresses}
                   setValue={setAddresses}
+                  disabled={isDisabled}
                 />
               </div>
               {status !== STATE_STATUS_MANAGE_USER.GET ? (
