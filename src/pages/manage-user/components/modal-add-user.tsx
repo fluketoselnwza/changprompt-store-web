@@ -49,14 +49,13 @@ interface IModalAddUserProps extends IPageProps {
 const ModalAddUser: React.FC<IModalAddUserProps> = ({
   isOpen,
   setIsOpen,
-  status = STATE_STATUS_MANAGE_USER.CREATE,
+  status,
   userId,
   openModalWarning,
   closeModalWarning,
 }) => {
   const [roleCode, setRoleCode] = useState<string>("");
   const [addresses, setAddresses] = useState<string>("");
-  const [empCode, setEmpCode] = useState<string>("");
 
   const {
     register,
@@ -118,16 +117,29 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
     const result = await getPartnerUserDetailService(id);
 
     console.log("result ====> ", result);
+    if (result) {
+      setValue("emp_code", result.emp_code);
+      setValue("role_code", result.role_code);
+      setValue("first_name", result.first_name);
+      setValue("last_name", result.last_name);
+      setValue("nick_name", result.nick_name);
+      setValue("nation_id", result.nation_id);
+      setValue("mobile_number", result.mobile_number);
+      setValue("email", result.email);
+      setValue("password", result.password);
+      setValue("address", result.address);
+      setValue("addresses", result.full_address);
+    }
   };
 
   useEffect(() => {
+    console.log("status ---> ", status);
     if (status === STATE_STATUS_MANAGE_USER.CREATE) {
       const getEmployeeCode = async () => {
         const result = await getPartnerEmployeeCodeService();
         console.log("result emp_code ==> ", result);
         if (result?.emp_code) {
           setValue("emp_code", result.emp_code);
-          setEmpCode(result.emp_code);
         }
       };
 
@@ -176,7 +188,6 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
               <div className="grid grid-cols-2 gap-4">
                 <CustomInput
                   name="emp_code"
-                  defaultValue={empCode}
                   label="รหัสพนักงาน"
                   disabled
                   register={register("emp_code", {

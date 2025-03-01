@@ -102,4 +102,5 @@ export interface IPartnerUserDetailResponse {
   district_code: string;
   province_code: string;
   post_code: string;
+  password: string;
 }

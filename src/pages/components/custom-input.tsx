@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Input } from "@/components/ui/input";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { cn } from "@/lib/utils";
@@ -12,7 +12,6 @@ interface CustomerInputProps {
   type?: string;
   register?: UseFormRegisterReturn; // react-hook-form's register return
   disabled?: boolean;
-  defaultValue?: string;
   classLabel?: string;
   classInput?: string;
   maxLength?: number;
@@ -25,33 +24,12 @@ const CustomInput: React.FC<CustomerInputProps> = ({
   register,
   required,
   placeholder,
-  defaultValue = "",
   type = "text",
   classLabel,
   classInput,
   maxLength = 999,
   ...props
 }) => {
-  const [value, setValue] = useState<string>(defaultValue);
-
-  useEffect(() => {
-    // Sync with defaultValue when it changes
-    if (defaultValue) {
-      setValue(defaultValue);
-    }
-  }, [defaultValue]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    setValue(inputValue);
-
-    if (register?.onChange) {
-      register.onChange({
-        target: { name, value: inputValue },
-      });
-    }
-  };
-
   const handleOnInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const maxNum = maxLength;
     if (e.target.value.length > maxNum) {
@@ -75,14 +53,11 @@ const CustomInput: React.FC<CustomerInputProps> = ({
         type={type}
         {...props}
         {...register}
-        value={value}
-        onChange={handleChange}
         placeholder={placeholder}
         className={cn(
           "border",
           classInput,
-          error ? "border-red-600" : "border-gray-300",
-          value ? "text-[#09090b]" : "text-gray-500"
+          error ? "border-red-600" : "border-gray-300"
         )}
         onInput={handleOnInput}
       />

@@ -215,7 +215,10 @@ const ManageAllUserPage: React.FC = () => {
             <Button
               variant={"outline"}
               className="h-[48px]"
-              onClick={() => setIsAddUser(true)}
+              onClick={() => {
+                setStatus(STATE_STATUS_MANAGE_USER.CREATE);
+                setIsAddUser(true);
+              }}
             >
               <img
                 src={IconAddUser}
