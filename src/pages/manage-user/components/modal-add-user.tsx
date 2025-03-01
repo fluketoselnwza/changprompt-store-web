@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import {
   getPartnerEmployeeCodeService,
   createPartnerUserService,
+  getPartnerUserDetailService,
 } from "@/services/user";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -22,6 +23,7 @@ import {
   openModalWarning,
   closeModalWarning,
 } from "@/redux/modal-warning/action";
+import { STATE_STATUS_MANAGE_USER } from "@/pages/data/status-code";
 
 type Inputs = {
   emp_code: string;
@@ -40,11 +42,15 @@ type Inputs = {
 interface IModalAddUserProps extends IPageProps {
   isOpen: boolean;
   setIsOpen: (value: boolean, status?: string) => void;
+  status?: string;
+  userId?: string;
 }
 
 const ModalAddUser: React.FC<IModalAddUserProps> = ({
   isOpen,
   setIsOpen,
+  status = STATE_STATUS_MANAGE_USER.CREATE,
+  userId,
   openModalWarning,
   closeModalWarning,
 }) => {
@@ -108,32 +114,44 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
     }
   };
 
-  useEffect(() => {
-    const getEmployeeCode = async () => {
-      const result = await getPartnerEmployeeCodeService();
-      console.log("result emp_code ==> ", result);
-      if (result?.emp_code) {
-        setValue("emp_code", result.emp_code);
-        setEmpCode(result.emp_code);
-      }
-    };
+  const getPartnerUserDetail = async (id: string) => {
+    const result = await getPartnerUserDetailService(id);
 
-    if (isOpen) {
-      getEmployeeCode();
-      setAddresses("");
-      setRoleCode("");
-      reset({
-        role_code: "",
-        first_name: "",
-        last_name: "",
-        nick_name: "",
-        nation_id: "",
-        mobile_number: "",
-        email: "",
-        password: "",
-        address: "",
-        addresses: "",
-      });
+    console.log("result ====> ", result);
+  };
+
+  useEffect(() => {
+    if (status === STATE_STATUS_MANAGE_USER.CREATE) {
+      const getEmployeeCode = async () => {
+        const result = await getPartnerEmployeeCodeService();
+        console.log("result emp_code ==> ", result);
+        if (result?.emp_code) {
+          setValue("emp_code", result.emp_code);
+          setEmpCode(result.emp_code);
+        }
+      };
+
+      if (isOpen) {
+        getEmployeeCode();
+        setAddresses("");
+        setRoleCode("");
+        reset({
+          role_code: "",
+          first_name: "",
+          last_name: "",
+          nick_name: "",
+          nation_id: "",
+          mobile_number: "",
+          email: "",
+          password: "",
+          address: "",
+          addresses: "",
+        });
+      }
+    } else {
+      if (userId) {
+        getPartnerUserDetail(userId);
+      }
     }
   }, [isOpen]);
 
@@ -286,17 +304,30 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   setValue={setAddresses}
                 />
               </div>
-              <div className="flex items-center justify-center mt-[22px] gap-4">
-                <Button
-                  className="w-[82px]"
-                  variant={"cancel"}
-                  type="button"
-                  onClick={() => setIsOpen(false)}
-                >
-                  ยกเลิก
-                </Button>
-                <Button className="w-[82px]">เพิ่ม</Button>
-              </div>
+              {status !== STATE_STATUS_MANAGE_USER.GET ? (
+                <div className="flex items-center justify-center mt-[22px] gap-4">
+                  <Button
+                    className="w-[82px]"
+                    variant={"cancel"}
+                    type="button"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    ยกเลิก
+                  </Button>
+                  <Button className="w-[82px]">เพิ่ม</Button>
+                </div>
+              ) : (
+                <div className="flex items-center justify-center mt-[22px] gap-4">
+                  <Button
+                    className="w-[97px]"
+                    variant={"cancel"}
+                    type="button"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    ยกเลิก
+                  </Button>
+                </div>
+              )}
             </DialogDescription>
           </form>
         </DialogHeader>

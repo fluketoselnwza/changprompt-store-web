@@ -85,3 +85,21 @@ export interface ICreatePartnerUserParam {
   password: string;
   addresses: IAddressesData;
 }
+
+export interface IPartnerUserDetailResponse {
+  id: string;
+  emp_code: string;
+  first_name: string;
+  last_name: string;
+  nick_name: string;
+  mobile_number: string;
+  role_code: string;
+  nation_id: string;
+  email: string;
+  address: string;
+  full_address: string;
+  subdistrict_code: string;
+  district_code: string;
+  province_code: string;
+  post_code: string;
+}

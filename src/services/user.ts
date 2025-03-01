@@ -4,6 +4,7 @@ import {
   IPartnerUserResponse,
   IPartnerEmployeeCodeResponse,
   ICreatePartnerUserParam,
+  IPartnerUserDetailResponse,
 } from "@/services/interfaces";
 
 export const getPartnerUserService = async (params: IPartnerUserParams) => {
@@ -47,4 +48,14 @@ export const createPartnerUserService = async (
   const response = await axiosInstance.post(path, params, config);
 
   return response.data;
+};
+
+export const getPartnerUserDetailService = async (userId: string) => {
+  const path = `/partners/users/${userId}`;
+
+  const config = {};
+
+  const response = await axiosInstance.get(path, config);
+
+  return response.data as IPartnerUserDetailResponse;
 };

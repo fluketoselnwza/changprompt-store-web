@@ -14,7 +14,7 @@ import {
 import { useForm, SubmitHandler } from "react-hook-form";
 import IconSearch from "@/assets/icons/icon-search.png";
 import { ROLE_CODE } from "../data/role-code";
-import { STATE_CODE } from "../data/status-code";
+import { STATE_CODE, STATE_STATUS_MANAGE_USER } from "../data/status-code";
 import { getPartnerUserService } from "@/services/user";
 import { IUserData } from "@/services/interfaces";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
@@ -53,11 +53,19 @@ const ManageAllUserPage: React.FC = () => {
   const [totalUser, setTotalUser] = useState<number>(0);
   const [isAddUser, setIsAddUser] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [userId, setUserId] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
 
   const itemPopOverData = [
     {
       label: "ดูรายละเอียดผู้ใช้งาน",
-      onClick: () => console.log("ดูรายละเอียดผู้ใช้งาน"),
+      onClick: (value?: string) => {
+        if (value) {
+          setUserId(value);
+          setStatus(STATE_STATUS_MANAGE_USER.GET);
+          setIsAddUser(true);
+        }
+      },
       icon: IconSearchDetailUser,
     },
     {
@@ -125,13 +133,14 @@ const ManageAllUserPage: React.FC = () => {
       title: "",
       class: "w-[40px]",
       id: "",
-      renderCell: () => {
+      renderCell: ({ row }: { row: IUserData }) => {
         return (
           <div className="flex items-center justify-center">
             <CustomPopover
               icon={IconSubMenu}
               classPopOver="w-[224px]"
               itemPopOver={itemPopOverData}
+              rowId={row.id}
             />
           </div>
         );
@@ -277,7 +286,12 @@ const ManageAllUserPage: React.FC = () => {
           </div>
         </div>
       </SidebarLayout>
-      <ModalAddUser isOpen={isAddUser} setIsOpen={onIsAddUser} />
+      <ModalAddUser
+        isOpen={isAddUser}
+        setIsOpen={onIsAddUser}
+        userId={userId}
+        status={status}
+      />
     </>
   );
 };

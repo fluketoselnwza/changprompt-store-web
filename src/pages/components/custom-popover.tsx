@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import {
   Popover,
@@ -12,14 +13,16 @@ interface ICustomPopoverProps {
   itemPopOver: {
     icon?: string;
     label: string;
-    onClick: (value?: string) => void;
+    onClick: (value?: string) => any;
   }[];
+  rowId: string;
 }
 
 const CustomPopover: React.FC<ICustomPopoverProps> = ({
   icon,
   classPopOver,
   itemPopOver,
+  rowId,
 }) => {
   return (
     <Popover>
@@ -39,7 +42,7 @@ const CustomPopover: React.FC<ICustomPopoverProps> = ({
           <div
             className="h-[45px] flex items-center cursor-pointer gap-x-3 px-4"
             key={index}
-            onClick={() => (item?.onClick ? item.onClick : "")}
+            onClick={() => item.onClick(rowId)}
           >
             {item?.icon && (
               <img src={item.icon} className="w-[18px] h-[18px]" alt="icon" />
