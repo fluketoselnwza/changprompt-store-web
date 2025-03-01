@@ -59,3 +59,13 @@ export const getPartnerUserDetailService = async (userId: string) => {
 
   return response.data as IPartnerUserDetailResponse;
 };
+
+export const deletePartnerUserService = async (userId: string) => {
+  const path = `partners/users/${userId}`;
+
+  const config = {};
+
+  const response = await axiosInstance.post(path, {}, config);
+
+  return response.data;
+};

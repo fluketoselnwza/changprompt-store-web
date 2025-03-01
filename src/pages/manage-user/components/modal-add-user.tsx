@@ -112,7 +112,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
       setIsOpen(false, "success");
     } catch (error) {
       console.log("error ====> ", error);
-      setIsOpen(false, "fail");
+      // setIsOpen(false, "fail");
     }
   };
 

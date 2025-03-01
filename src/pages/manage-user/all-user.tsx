@@ -15,7 +15,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import IconSearch from "@/assets/icons/icon-search.png";
 import { ROLE_CODE } from "../data/role-code";
 import { STATE_CODE, STATE_STATUS_MANAGE_USER } from "../data/status-code";
-import { getPartnerUserService } from "@/services/user";
+import {
+  getPartnerUserService,
+  deletePartnerUserService,
+} from "@/services/user";
 import { IUserData } from "@/services/interfaces";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 import ModalAddUser from "./components/modal-add-user";
@@ -24,6 +27,14 @@ import IconEditUser from "@/assets/icons/icon-edit-user.png";
 import IconDeleteUser from "@/assets/icons/icon-delete-user.png";
 import IconLock from "@/assets/icons/icon-lock.png";
 import { useToast } from "@/hooks/use-toast";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { IPageProps } from "@/pages/interface";
+import {
+  openModalWarning,
+  closeModalWarning,
+} from "@/redux/modal-warning/action";
+import IconWaringColor from "@/assets/icons/icon-warning-blue.png";
 
 const breadcrumbs = [
   {
@@ -45,7 +56,9 @@ type Inputs = {
   nickname: string;
 };
 
-const ManageAllUserPage: React.FC = () => {
+const ManageAllUserPage: React.FC<IPageProps> = (props) => {
+  const { openModalWarning, closeModalWarning } = props;
+
   const { toast } = useToast();
   const { register, handleSubmit, setValue, getValues } = useForm<Inputs>();
   const [roleCode, setRoleCode] = useState<string>("");
@@ -81,7 +94,11 @@ const ManageAllUserPage: React.FC = () => {
     },
     {
       label: "ลบข้อมูลผู้ใช้งาน",
-      onClick: () => console.log("ลบข้อมูลผู้ใช้งาน"),
+      onClick: (value?: string) => {
+        if (value) {
+          confirmDeleteUser(value);
+        }
+      },
       icon: IconDeleteUser,
     },
     {
@@ -153,6 +170,39 @@ const ManageAllUserPage: React.FC = () => {
       },
     },
   ];
+
+  const handleDeleteUser = async (id: string) => {
+    try {
+      await deletePartnerUserService(id);
+      toast({
+        title: "สำเร็จแล้ว",
+        description: "ลบข้อมูลผู้ใช้เรียบร้อยแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+      });
+      getAllUserData();
+    } catch (error) {
+      console.log("error : ", error);
+    }
+  };
+
+  const confirmDeleteUser = (id: string) => {
+    console.log("confirm user :", id);
+    openModalWarning(
+      IconWaringColor,
+      "ยืนยันการลบสมาชิกใช่หรือไม่",
+      "",
+      "ยกเลิก",
+      () => {
+        closeModalWarning();
+      },
+      "ยืนยัน",
+      () => {
+        closeModalWarning();
+        handleDeleteUser(id);
+      }
+    );
+  };
 
   const getAllUserData = async () => {
     const { role_code, emp_code, emp_name, nickname } = getValues();
@@ -305,4 +355,33 @@ const ManageAllUserPage: React.FC = () => {
   );
 };
 
-export default ManageAllUserPage;
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  openModalWarning: (
+    image: string | null,
+    title: string,
+    description: string,
+    labelBtnFirst?: string,
+    fnBtnFirst?: () => void | null,
+    labelBtnSecond?: string,
+    fnBtnSecond?: () => void | null
+  ) =>
+    openModalWarning(dispatch, {
+      image,
+      title,
+      description,
+      labelBtnFirst,
+      fnBtnFirst,
+      labelBtnSecond,
+      fnBtnSecond,
+    }),
+  closeModalWarning: () => closeModalWarning(dispatch),
+});
+
+const mapStateToProps = () => ({});
+
+const ManageAllUserPageWithConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ManageAllUserPage);
+
+export default ManageAllUserPageWithConnect;
