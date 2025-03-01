@@ -54,7 +54,7 @@ const ManageAllUserPage: React.FC = () => {
   const [isAddUser, setIsAddUser] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [userId, setUserId] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState<"GET" | "CREATE" | "UPDATE" | "">("");
 
   const itemPopOverData = [
     {
@@ -70,7 +70,13 @@ const ManageAllUserPage: React.FC = () => {
     },
     {
       label: "แก้ไขผู้ใช้งาน",
-      onClick: () => console.log("แก้ไขผู้ใช้งาน"),
+      onClick: (value?: string) => {
+        if (value) {
+          setUserId(value);
+          setStatus(STATE_STATUS_MANAGE_USER.UPDATE);
+          setIsAddUser(true);
+        }
+      },
       icon: IconEditUser,
     },
     {

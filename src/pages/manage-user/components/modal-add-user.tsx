@@ -23,7 +23,10 @@ import {
   openModalWarning,
   closeModalWarning,
 } from "@/redux/modal-warning/action";
-import { STATE_STATUS_MANAGE_USER } from "@/pages/data/status-code";
+import {
+  STATE_STATUS_MANAGE_USER,
+  STATUS_NAME_MANAGE_USER,
+} from "@/pages/data/status-code";
 
 type Inputs = {
   emp_code: string;
@@ -42,7 +45,7 @@ type Inputs = {
 interface IModalAddUserProps extends IPageProps {
   isOpen: boolean;
   setIsOpen: (value: boolean, status?: string) => void;
-  status?: string;
+  status?: "GET" | "CREATE" | "UPDATE" | "";
   userId?: string;
 }
 
@@ -172,7 +175,9 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
     <Dialog open={isOpen}>
       <DialogContent className="max-w-[600px] bg-white rounded-[8px] p-[28px]">
         <div className="flex justify-between">
-          <p className="text-[16px] font-semibold">เพิ่มข้อมูลผู้ใช้งาน</p>
+          <p className="text-[16px] font-semibold">
+            {status ? STATUS_NAME_MANAGE_USER[status].title : null}
+          </p>
           <img
             src={CloseIcon}
             className="w-3 h-3 cursor-pointer"
@@ -337,7 +342,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                     type="button"
                     onClick={() => setIsOpen(false)}
                   >
-                    ยกเลิก
+                    ย้อนกลับ
                   </Button>
                 </div>
               )}
