@@ -131,3 +131,9 @@ export interface IPartnerJobResponse {
   total_count: number;
   jobs: IJobData[];
 }
+
+export interface IChangePasswordUserParams {
+  old_password: string;
+  new_password: string;
+  confirmed_new_password: string;
+}

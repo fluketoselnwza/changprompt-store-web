@@ -5,6 +5,7 @@ import {
   IPartnerEmployeeCodeResponse,
   ICreatePartnerUserParam,
   IPartnerUserDetailResponse,
+  IChangePasswordUserParams,
 } from "@/services/interfaces";
 
 export const getPartnerUserService = async (params: IPartnerUserParams) => {
@@ -76,6 +77,18 @@ export const resetPasswordUserService = async (userId: string) => {
   const config = {};
 
   const response = await axiosInstance.put(path, {}, config);
+
+  return response.data;
+};
+
+export const changePasswordUserService = async (
+  params: IChangePasswordUserParams
+) => {
+  const path = `/partners/users/change-password`;
+
+  const config = {};
+
+  const response = await axiosInstance.put(path, params, config);
 
   return response.data;
 };
