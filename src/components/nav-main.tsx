@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useLocation } from "react-router";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router";
 
 export function NavMain({
   items,
@@ -36,6 +37,7 @@ export function NavMain({
   }[];
 }) {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { pathname } = location;
   console.log("pathname ==> ", pathname);
@@ -44,7 +46,8 @@ export function NavMain({
 
   return (
     <SidebarGroup>
-      <SidebarMenu className="p-[8px]">
+      {/* px-[8px] */}
+      <SidebarMenu>
         {items.map((item) => (
           <Collapsible
             key={item.title}
@@ -57,7 +60,7 @@ export function NavMain({
                 <SidebarMenuButton
                   tooltip={item.title}
                   className={cn(
-                    "h-[30px]",
+                    "h-[30px] mb-[16px]",
                     item?.id === mainMenu ? "bg-sidebar-accent" : "bg-white"
                   )}
                 >
@@ -78,7 +81,7 @@ export function NavMain({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem
                       key={subItem.title}
-                      className="mt-[8px]"
+                      className="mb-[16px]"
                     >
                       <SidebarMenuSubButton
                         asChild
@@ -89,9 +92,10 @@ export function NavMain({
                             : "bg-white text-[#374257]"
                         )}
                       >
-                        <a
-                          href={subItem.url}
-                          className="flex items-center gap-[14px]"
+                        <div
+                          // href={subItem.url}
+                          onClick={() => navigate(subItem.url)}
+                          className="flex items-center gap-[14px] cursor-pointer"
                         >
                           <div
                             className={cn(
@@ -102,7 +106,7 @@ export function NavMain({
                             )}
                           ></div>
                           <span>{subItem.title}</span>
-                        </a>
+                        </div>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}

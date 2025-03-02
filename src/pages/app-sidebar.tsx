@@ -27,12 +27,12 @@ const data = {
         {
           title: "งานรอช่างกดรับ",
           url: "#",
-          id: "",
+          id: "task-1",
         },
         {
           title: "ประวัติใบงาน",
           url: "#",
-          id: "",
+          id: "task-2",
         },
       ],
     },
@@ -42,15 +42,7 @@ const data = {
       icon: IconManageStore,
       items: [
         {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
+          title: "ข้อมูลร้านค้า",
           url: "#",
         },
       ],
@@ -61,19 +53,23 @@ const data = {
       icon: IconManageTechnician,
       items: [
         {
-          title: "Introduction",
+          title: "ช่างทั้งหมด",
           url: "#",
         },
         {
-          title: "Get Started",
+          title: "ขออนุมัติเข้าร่วมร้าน",
           url: "#",
         },
         {
-          title: "Tutorials",
+          title: "ตารางงานช่าง",
           url: "#",
         },
         {
-          title: "Changelog",
+          title: "ปิดใช้งานช่าง (Blacklist)",
+          url: "#",
+        },
+        {
+          title: "ประวัติการทำงานช่าง",
           url: "#",
         },
       ],
