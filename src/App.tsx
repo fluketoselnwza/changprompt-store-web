@@ -9,6 +9,7 @@ import {
   AllUserPage,
   ChangePasswordPage,
   WaitingTechTaskPage,
+  HistoryTaskPage,
 } from "./pages";
 import MainLayout from "./main-layout";
 
@@ -28,6 +29,10 @@ function App() {
             <Route
               path="/manage-task/waiting-tech-task"
               element={<WaitingTechTaskPage />}
+            />
+            <Route
+              path="/manage-task/history-task"
+              element={<HistoryTaskPage />}
             />
             <Route
               path="/manage-review/comment-and-review"

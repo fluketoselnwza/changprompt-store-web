@@ -31,8 +31,8 @@ const data = {
         },
         {
           title: "ประวัติใบงาน",
-          url: "#",
-          id: "task-2",
+          url: "/manage-task/history-task",
+          id: "history-task",
         },
       ],
     },
