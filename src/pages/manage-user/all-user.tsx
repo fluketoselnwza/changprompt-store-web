@@ -270,6 +270,7 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
 
   const handleSearch: SubmitHandler<Inputs> = (data) => {
     console.log("dataaaaaa > ", data);
+    setCurrentPage(1);
     getAllUserData();
   };
 
@@ -279,6 +280,7 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
     setValue("role_code", "");
     setValue("nickname", "");
     setRoleCode("");
+    setCurrentPage(1);
     getAllUserData();
   };
 

@@ -188,11 +188,13 @@ const AllTasksPage = () => {
     setProductName("");
     setJobType("");
     setJobStatus("");
+    setCurrentPage(1);
     getAllTaskData();
   };
 
   const handleSearch: SubmitHandler<Inputs> = (data) => {
     console.log("dataaaaaa > ", data);
+    setCurrentPage(1);
     getAllTaskData();
   };
 
