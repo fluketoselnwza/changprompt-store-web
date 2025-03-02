@@ -31,18 +31,57 @@ const ManageChangePasswordPage: React.FC = () => {
   const {
     register,
     handleSubmit,
-    setValue,
-    getValues,
+    setError,
     formState: { errors },
   } = useForm<Inputs>();
+
   const [closeOldPassword, setCloseOldPassword] = useState<boolean>(false);
   const [closeNewPassword, setCloseNewPassword] = useState<boolean>(false);
   const [closeConfirmNewPassword, setCloseConfirmNewPassword] =
     useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
 
+  const handleConfirmChangePassword = () => {
+    console.log("handleConfirmChangePassword");
+  };
+
   const onSubmit = async (data: Inputs) => {
     console.log("data ==> ", data);
+    const newPasswordError: string = validatePassword(data.new_password);
+    const confirmPasswordError: string = validatePassword(
+      data.confirm_new_password
+    );
+
+    if (newPasswordError) {
+      setError("new_password", {
+        type: "manual",
+        message: newPasswordError,
+      });
+    }
+
+    if (confirmPasswordError) {
+      setError("confirm_new_password", {
+        type: "manual",
+        message: confirmPasswordError,
+      });
+    }
+
+    if (data.new_password !== data.confirm_new_password) {
+      setError("confirm_new_password", {
+        type: "manual",
+        message: "รหัสผ่านไม่ตรงกัน",
+      });
+    }
+
+    if (
+      newPasswordError ||
+      confirmPasswordError ||
+      data.new_password !== data.confirm_new_password
+    ) {
+      return;
+    }
+
+    handleConfirmChangePassword();
   };
 
   return (
