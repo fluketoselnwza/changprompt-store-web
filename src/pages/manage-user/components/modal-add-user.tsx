@@ -71,7 +71,9 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
   const handleConfirm = async (data: Inputs) => {
     openModalWarning(
       IconWaringColor,
-      "ยืนยันเพิ่มผู้ใช้ใหม่ใช่หรือไม่",
+      status === STATE_STATUS_MANAGE_USER.CREATE
+        ? "ยืนยันเพิ่มผู้ใช้ใหม่ใช่หรือไม่"
+        : "ยืนยันแก้ไขผู้ใช้งานใช่หรือไม่",
       "",
       "ยกเลิก",
       () => {
@@ -130,7 +132,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
       setValue("nation_id", result.nation_id);
       setValue("mobile_number", result.mobile_number);
       setValue("email", result.email);
-      setValue("password", result.password);
+      setValue("password", "********");
       setValue("address", result.address);
       setValue("addresses", result.full_address);
     }
@@ -296,7 +298,9 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   placeholder="ระบุ..."
                   required
                   error={errors.password?.message}
-                  disabled={isDisabled}
+                  disabled={
+                    status !== STATE_STATUS_MANAGE_USER.CREATE ? true : false
+                  }
                 />
                 <CustomInput
                   name="address"
@@ -344,7 +348,11 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   >
                     ยกเลิก
                   </Button>
-                  <Button className="w-[82px]">เพิ่ม</Button>
+                  <Button className="w-[82px]">
+                    {status === STATE_STATUS_MANAGE_USER.CREATE
+                      ? "เพิ่ม"
+                      : "ตกลง"}
+                  </Button>
                 </div>
               ) : (
                 <div className="flex items-center justify-center mt-[22px] gap-4">
