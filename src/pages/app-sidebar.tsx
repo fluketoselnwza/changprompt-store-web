@@ -104,8 +104,8 @@ const data = {
         },
         {
           title: "จัดการรหัสผ่าน",
-          url: "/manage-user/reset-password",
-          id: "reset-password",
+          url: "/manage-user/change-password",
+          id: "change-password",
         },
       ],
     },

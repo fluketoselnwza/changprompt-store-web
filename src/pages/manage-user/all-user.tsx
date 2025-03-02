@@ -321,7 +321,7 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
               <span className="text-[16px]">เพิ่มผู้ใช้งาน</span>
             </Button>
           </div>
-          <div className="bg-white p-[16px] mt-[24px] rounded-[8px]">
+          <div className="bg-white p-[16px] mt-[16px] rounded-[8px]">
             <form onSubmit={handleSubmit(handleSearch)}>
               <div className="grid grid-cols-5 gap-3 mb-5">
                 <CustomInputIcon

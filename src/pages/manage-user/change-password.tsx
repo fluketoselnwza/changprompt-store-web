@@ -1,0 +1,125 @@
+import React, { useState } from "react";
+import SidebarLayout from "../sidebar-layout";
+import IconHome from "@/assets/icons/icon-home.png";
+import { useForm } from "react-hook-form";
+import { CustomInputIcon } from "../components";
+import CloseEyeIcon from "@/assets/icons/icon-close-eye.png";
+import OpenEyeIcon from "@/assets/icons/icon-open-eye.png";
+import { Button } from "@/components/ui/button";
+import { validatePassword } from "@/lib/validate";
+
+type Inputs = {
+  old_password: string;
+  new_password: string;
+  confirm_new_password: string;
+};
+
+const breadcrumbs = [
+  {
+    label: "จัดการข้อมูลส่วนตัว",
+    link: "",
+    icon: IconHome,
+  },
+  {
+    label: "จัดการรหัสผ่าน",
+    link: "",
+    icon: "",
+  },
+];
+
+const ManageChangePasswordPage: React.FC = () => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm<Inputs>();
+  const [closeOldPassword, setCloseOldPassword] = useState<boolean>(false);
+  const [closeNewPassword, setCloseNewPassword] = useState<boolean>(false);
+  const [closeConfirmNewPassword, setCloseConfirmNewPassword] =
+    useState<boolean>(false);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  const onSubmit = async (data: Inputs) => {
+    console.log("data ==> ", data);
+  };
+
+  return (
+    <>
+      <SidebarLayout breadcrumbs={breadcrumbs}>
+        <div>
+          <div className="flex justify-between items-end">
+            <p className="font-bold text-[16px]">จัดการรหัสผ่าน</p>
+          </div>
+          <div className="bg-white p-[33px] mt-[8px] rounded-[8px]">
+            <div>
+              <p className="font-bold text-[16px]">เปลี่ยนรหัสผ่าน</p>
+              <p>1. มีความยาวอย่างน้อย 8 ตัวอักษร</p>
+              <p>2. มีตัวอักษรอังกฤษอย่างน้อย 1 ตัว</p>
+              <p>3. มีตัวเลขอย่างน้อย 1 ตัว</p>
+              <p>4. มีอักขระพิเศษอย่างน้อย 1 ตัว !@#$%^&*()+=.,?</p>
+            </div>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col gap-[16px] w-[342px] mt-[16px]"
+            >
+              <CustomInputIcon
+                name="old_password"
+                label="รหัสผ่านเก่า"
+                type={closeOldPassword ? "password" : "text"}
+                placeholder="รหัสผ่าน"
+                register={register("old_password", {
+                  required: "กรุณาระบุรหัสผ่านเก่า",
+                })}
+                error={errors.old_password?.message}
+                iconRight={closeOldPassword ? CloseEyeIcon : OpenEyeIcon}
+                rightOnclick={() => setCloseOldPassword(!closeOldPassword)}
+                classLabel="font-semibold"
+                classBorderInput="rounded-[8px]"
+              />
+              <CustomInputIcon
+                name="new_password"
+                label="สร้างรหัสผ่านใหม่"
+                type={closeNewPassword ? "password" : "text"}
+                placeholder="รหัสผ่าน"
+                register={register("new_password", {
+                  required: "กรุณาระบุรหัสผ่านใหม่",
+                })}
+                error={errors.new_password?.message}
+                iconRight={closeNewPassword ? CloseEyeIcon : OpenEyeIcon}
+                rightOnclick={() => setCloseNewPassword(!closeNewPassword)}
+                classLabel="font-semibold"
+                classBorderInput="rounded-[8px]"
+              />
+              <CustomInputIcon
+                name="confirm_new_password"
+                label="ยืนยันรหัสผ่านใหม่"
+                type={closeConfirmNewPassword ? "password" : "text"}
+                placeholder="รหัสผ่าน"
+                register={register("confirm_new_password", {
+                  required: "กรุณาระบุยืนยันรหัสผ่านใหม่",
+                })}
+                error={errors.confirm_new_password?.message}
+                iconRight={closeConfirmNewPassword ? CloseEyeIcon : OpenEyeIcon}
+                rightOnclick={() =>
+                  setCloseConfirmNewPassword(!closeConfirmNewPassword)
+                }
+                classLabel="font-semibold"
+                classBorderInput="rounded-[8px]"
+              />
+              <div className="flex items-center justify-center mt-[22px] gap-4">
+                <Button className="w-[82px]" variant={"cancel"} type="button">
+                  ยกเลิก
+                </Button>
+                <Button className="w-[82px]">ยืนยัน</Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </SidebarLayout>
+    </>
+  );
+};
+
+export default ManageChangePasswordPage;

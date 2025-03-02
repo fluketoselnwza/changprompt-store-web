@@ -7,7 +7,7 @@ import {
   NewTaskPage,
   CommentAndReviewPage,
   AllUserPage,
-  ResetPasswordPage,
+  ChangePasswordPage,
 } from "./pages";
 import MainLayout from "./main-layout";
 
@@ -34,8 +34,8 @@ function App() {
             />
             <Route path="/manage-user/all-user" element={<AllUserPage />} />
             <Route
-              path="/manage-user/reset-password"
-              element={<ResetPasswordPage />}
+              path="/manage-user/change-password"
+              element={<ChangePasswordPage />}
             />
           </Route>
         </Routes>
