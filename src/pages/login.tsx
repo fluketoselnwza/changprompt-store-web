@@ -48,6 +48,7 @@ const LoginPage: React.FC<IPageProps> = (props) => {
           role_code: result?.role_code,
           access_token: result?.access_token,
           refresh_token: result?.refresh_token,
+          session_id: result?.session_id,
         };
         localStorage.setItem("user_changprompt", JSON.stringify(userObject));
         navigate("/manage-task/all-tasks");

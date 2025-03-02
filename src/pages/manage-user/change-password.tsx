@@ -16,6 +16,8 @@ import {
 } from "@/redux/modal-warning/action";
 import IconWaringColor from "@/assets/icons/icon-warning-blue.png";
 import { useToast } from "@/hooks/use-toast";
+import { changePasswordUserService } from "@/services/user";
+import { useNavigate } from "react-router";
 
 type Inputs = {
   old_password: string;
@@ -38,7 +40,8 @@ const breadcrumbs = [
 
 const ManageChangePasswordPage: React.FC<IPageProps> = (props) => {
   const { openModalWarning, closeModalWarning } = props;
-  const { toast } = useToast();
+  const { toast, dismiss } = useToast();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -52,7 +55,42 @@ const ManageChangePasswordPage: React.FC<IPageProps> = (props) => {
   const [closeConfirmNewPassword, setCloseConfirmNewPassword] =
     useState<boolean>(false);
 
-  const handleConfirmChangePassword = () => {
+  const handleLogout = () => {
+    localStorage.removeItem("user_changprompt");
+    navigate("/");
+  };
+
+  const handleChangePassword = async (data: Inputs) => {
+    try {
+      const params = {
+        old_password: data.old_password,
+        new_password: data.new_password,
+        confirmed_new_password: data.confirm_new_password,
+      };
+      await changePasswordUserService(params);
+      const { id } = toast({
+        title: "สำเร็จแล้ว",
+        description: "เปลี่ยนรหัสผ่านสำเร็จแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+        duration: 3000,
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      dismiss(id);
+      handleLogout();
+    } catch (error) {
+      console.log("error : ", error);
+      toast({
+        title: "ไม่สำเร็จ",
+        description: "เปลี่ยนรหัสผ่านไม่สำเร็จ",
+        variant: "fail",
+        className: "w-[300px] mx-auto",
+      });
+    }
+  };
+
+  const handleConfirmChangePassword = (data: Inputs) => {
     console.log("handleConfirmChangePassword");
     openModalWarning(
       IconWaringColor,
@@ -65,12 +103,7 @@ const ManageChangePasswordPage: React.FC<IPageProps> = (props) => {
       "ยืนยัน",
       () => {
         closeModalWarning();
-        toast({
-          title: "สำเร็จแล้ว",
-          description: "เปลี่ยนรหัสผ่านสำเร็จแล้ว",
-          variant: "success",
-          className: "w-[300px] mx-auto",
-        });
+        handleChangePassword(data);
       }
     );
   };
@@ -111,7 +144,7 @@ const ManageChangePasswordPage: React.FC<IPageProps> = (props) => {
       return;
     }
 
-    handleConfirmChangePassword();
+    handleConfirmChangePassword(data);
   };
 
   return (
@@ -177,7 +210,7 @@ const ManageChangePasswordPage: React.FC<IPageProps> = (props) => {
                 classLabel="font-semibold"
                 classBorderInput="rounded-[8px]"
               />
-              <div className="flex items-center justify-center mt-[22px] gap-4">
+              <div className="flex items-center mt-[8px] gap-4">
                 <Button className="w-[82px]" variant={"cancel"} type="button">
                   ยกเลิก
                 </Button>
