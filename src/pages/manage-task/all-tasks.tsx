@@ -19,6 +19,7 @@ import IconHome from "@/assets/icons/icon-home.png";
 import { getPartnerAllTaskService } from "@/services/task";
 import { IJobData } from "@/services/interfaces";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
+import { statusTaskColor } from "../data/status-code";
 
 const breadcrumbs = [
   {
@@ -101,7 +102,18 @@ const AllTasksPage = () => {
       class: "w-[100px]",
       id: "job_status",
       renderCell: ({ row }: { row: IJobData }) => {
-        return <div className="w-[80px]">{row.job_status}</div>;
+        const { color, bgColor } = statusTaskColor(row.job_status);
+        console.log("bgColor ::: ", bgColor);
+        return (
+          <div className="w-[110px]">
+            <div
+              className={`h-[22px] text-[12px] rounded-md flex justify-center items-center`}
+              style={{ color: color, backgroundColor: bgColor }}
+            >
+              {row.job_status}
+            </div>
+          </div>
+        );
       },
     },
     {
