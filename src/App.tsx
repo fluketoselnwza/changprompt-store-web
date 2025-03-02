@@ -8,6 +8,7 @@ import {
   CommentAndReviewPage,
   AllUserPage,
   ChangePasswordPage,
+  WaitingTechTaskPage,
 } from "./pages";
 import MainLayout from "./main-layout";
 
@@ -23,6 +24,10 @@ function App() {
             <Route
               path="/manage-task/all-tasks/new-task"
               element={<NewTaskPage />}
+            />
+            <Route
+              path="/manage-task/waiting-tech-task"
+              element={<WaitingTechTaskPage />}
             />
             <Route
               path="/manage-review/comment-and-review"

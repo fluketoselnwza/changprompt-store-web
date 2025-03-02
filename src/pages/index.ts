@@ -4,3 +4,4 @@ export { default as NewTaskPage } from "./manage-task/new-task";
 export { default as CommentAndReviewPage } from "./manage-review/comment-and-review";
 export { default as AllUserPage } from "./manage-user/all-user";
 export { default as ChangePasswordPage } from "./manage-user/change-password";
+export { default as WaitingTechTaskPage } from "./manage-task/waiting-tech-task";

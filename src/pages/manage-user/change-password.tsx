@@ -118,10 +118,10 @@ const ManageChangePasswordPage: React.FC<IPageProps> = (props) => {
     <>
       <SidebarLayout breadcrumbs={breadcrumbs}>
         <div>
-          <div className="flex justify-between items-end">
+          <div>
             <p className="font-bold text-[16px]">จัดการรหัสผ่าน</p>
           </div>
-          <div className="bg-white p-[33px] mt-[8px] rounded-[8px]">
+          <div className="bg-white p-[33px] mt-[16px] rounded-[8px]">
             <div>
               <p className="font-bold text-[16px]">เปลี่ยนรหัสผ่าน</p>
               <p>1. มีความยาวอย่างน้อย 8 ตัวอักษร</p>

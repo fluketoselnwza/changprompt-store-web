@@ -88,7 +88,7 @@ const NewTaskPage = () => {
               </div>
             </div>
 
-            <div className="bg-white p-4 mt-4 rounded-[8px]">
+            <div className="bg-white p-4 mt-[16px] rounded-[8px]">
               <div>
                 <p className="text-[16] font-bold">ข้อมูลใบงาน</p>
                 <div className="mt-6 grid grid-cols-3 gap-4">

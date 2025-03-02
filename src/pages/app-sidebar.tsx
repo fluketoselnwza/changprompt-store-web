@@ -26,8 +26,8 @@ const data = {
         },
         {
           title: "งานรอช่างกดรับ",
-          url: "#",
-          id: "task-1",
+          url: "/manage-task/waiting-tech-task",
+          id: "waiting-tech-task",
         },
         {
           title: "ประวัติใบงาน",

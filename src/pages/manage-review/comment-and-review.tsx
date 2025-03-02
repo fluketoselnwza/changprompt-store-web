@@ -135,7 +135,7 @@ const CommentAndReviewPage = () => {
           <div className="flex justify-between items-end">
             <p className="font-bold text-[16px]">ความคิดเห็นและรีวิว</p>
           </div>
-          <div className="bg-white p-[16px] mt-[8px] rounded-[8px]">
+          <div className="bg-white p-[16px] mt-[16px] rounded-[8px]">
             <form onSubmit={handleSubmit(handleSearch)}>
               <div className="grid grid-cols-5 gap-3 mb-5">
                 <CustomInputIcon
