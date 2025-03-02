@@ -40,6 +40,7 @@ const data = {
       title: "จัดการร้านค้า",
       url: "#",
       icon: IconManageStore,
+      isActive: false,
       items: [
         {
           title: "ข้อมูลร้านค้า",
@@ -51,6 +52,7 @@ const data = {
       title: "จัดการช่าง",
       url: "#",
       icon: IconManageTechnician,
+      isActive: false,
       items: [
         {
           title: "ช่างทั้งหมด",
@@ -79,6 +81,7 @@ const data = {
       url: "#",
       icon: IconManageReview,
       id: "manage-review",
+      isActive: false,
       items: [
         {
           title: "ความคิดเห็นและรีวิว",
@@ -92,6 +95,7 @@ const data = {
       url: "#",
       icon: IconManageUser,
       id: "manage-user",
+      isActive: false,
       items: [
         {
           title: "ข้อมูลผู้ใช้งานทั้งหมด",
