@@ -20,6 +20,12 @@ import { getPartnerAllTaskService } from "@/services/task";
 import { IJobData } from "@/services/interfaces";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 import { statusTaskColor } from "../data/status-code";
+import { useForm, SubmitHandler } from "react-hook-form";
+import {
+  PRODUCR_NAME_OPTION,
+  JOB_STATUS_OPTION,
+  JOB_TYPE_OPTION,
+} from "../data/option-data";
 
 const breadcrumbs = [
   {
@@ -34,12 +40,24 @@ const breadcrumbs = [
   },
 ];
 
+type Inputs = {
+  job_code: string;
+  customer_name: string;
+  product_name: string;
+  job_type: string;
+  job_status: string;
+};
+
 const AllTasksPage = () => {
+  const { register, handleSubmit, setValue, getValues } = useForm<Inputs>();
   const navigate = useNavigate();
   const [isOpenLink, setIsOpenLink] = useState<boolean>(false);
   const [jobsData, setJobsData] = useState<IJobData[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [jobType, setJobType] = useState<string>("");
+  const [jobStatus, setJobStatus] = useState<string>("");
+  const [productName, setProductName] = useState<string>("");
 
   const itemPopOverData = [
     {
@@ -137,12 +155,14 @@ const AllTasksPage = () => {
   ];
 
   const getAllTaskData = async () => {
+    const { job_code, customer_name, product_name, job_status, job_type } =
+      getValues();
     const params = {
-      job_code: "",
-      customer_name: "",
-      product_name: "",
-      job_type: "",
-      job_status: "",
+      job_code: job_code || "",
+      customer_name: customer_name || "",
+      product_name: product_name || "",
+      job_type: job_type || "",
+      job_status: job_status || "",
       skip: currentPage,
     };
 
@@ -157,6 +177,23 @@ const AllTasksPage = () => {
       setJobsData([]);
       setTotal(0);
     }
+  };
+
+  const handleClear = () => {
+    setValue("job_code", "");
+    setValue("customer_name", "");
+    setValue("product_name", "");
+    setValue("job_type", "");
+    setValue("job_status", "");
+    setProductName("");
+    setJobType("");
+    setJobStatus("");
+    getAllTaskData();
+  };
+
+  const handleSearch: SubmitHandler<Inputs> = (data) => {
+    console.log("dataaaaaa > ", data);
+    getAllTaskData();
   };
 
   useEffect(() => {
@@ -188,77 +225,61 @@ const AllTasksPage = () => {
             </div>
           </div>
           <div className="bg-white p-[16px] mt-[16px] rounded-[8px]">
-            <div className="grid grid-cols-6 gap-3 mb-5">
-              <CustomInputIcon
-                iconLeft={IconSearch}
-                name="numberTask"
-                placeholder="ค้นหาเลขที่ใบงาน"
-                classInput="text-[14px]"
-              />
-              <CustomInputIcon
-                iconLeft={IconSearch}
-                name="nameCustomer"
-                placeholder="ชื่อลูกค้า"
-                classInput="text-[14px]"
-              />
-              <CustomSelect
-                name="product"
-                placeholder="เลืกสินค้า"
-                options={[
-                  {
-                    label: "แอร์",
-                    value: "1",
-                  },
-                  {
-                    label: "พัดลม",
-                    value: "2",
-                  },
-                  {
-                    label: "ทีวี",
-                    value: "3",
-                  },
-                ]}
-              />
-              <CustomSelect
-                name="category"
-                placeholder="หมวดหมู่งาน"
-                options={[
-                  {
-                    label: "ซ่อม",
-                    value: "1",
-                  },
-                  {
-                    label: "ติดตั้ง",
-                    value: "2",
-                  },
-                ]}
-              />
-              <CustomSelect
-                name="status"
-                placeholder="สถานะงาน"
-                options={[
-                  {
-                    label: "สำเร็จ",
-                    value: "1",
-                  },
-                  {
-                    label: "รอให้บริการ",
-                    value: "2",
-                  },
-                ]}
-              />
-              <div className="flex gap-3">
-                <Button
-                  className="w-full text-[16px] h-[42px] rounded-lg"
-                  variant={"outline"}
-                >
-                  ล้าง
-                </Button>
-                <Button className="w-full text-[16px] h-[42px] rounded-lg">
-                  ค้นหา
-                </Button>
+            <form onSubmit={handleSubmit(handleSearch)}>
+              <div className="grid grid-cols-6 gap-3 mb-5">
+                <CustomInputIcon
+                  iconLeft={IconSearch}
+                  name="job_code"
+                  placeholder="ค้นหาเลขที่ใบงาน"
+                  classInput="text-[14px]"
+                  register={register("job_code")}
+                />
+                <CustomInputIcon
+                  iconLeft={IconSearch}
+                  name="customer_name"
+                  placeholder="ชื่อลูกค้า"
+                  classInput="text-[14px]"
+                  register={register("customer_name")}
+                />
+                <CustomSelect
+                  name="product_name"
+                  placeholder="เลืกสินค้า"
+                  options={PRODUCR_NAME_OPTION}
+                  register={register("product_name")}
+                  value={productName}
+                  setValue={setProductName}
+                />
+                <CustomSelect
+                  name="job_type"
+                  placeholder="หมวดหมู่งาน"
+                  options={JOB_TYPE_OPTION}
+                  register={register("job_type")}
+                  value={jobType}
+                  setValue={setJobType}
+                />
+                <CustomSelect
+                  name="job_status"
+                  placeholder="สถานะงาน"
+                  options={JOB_STATUS_OPTION}
+                  register={register("job_status")}
+                  value={jobStatus}
+                  setValue={setJobStatus}
+                />
+                <div className="flex gap-3">
+                  <Button
+                    className="w-full text-[16px] h-[42px] rounded-lg"
+                    variant={"outline"}
+                    type="button"
+                    onClick={handleClear}
+                  >
+                    ล้าง
+                  </Button>
+                  <Button className="w-full text-[16px] h-[42px] rounded-lg">
+                    ค้นหา
+                  </Button>
+                </div>
               </div>
-            </div>
+            </form>
             <div>
               <CustomTable
                 bodyData={jobsData}
