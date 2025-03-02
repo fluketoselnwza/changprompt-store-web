@@ -55,26 +55,32 @@ const data = {
       url: "#",
       icon: IconManageTechnician,
       isActive: false,
+      id: "manage-tech",
       items: [
         {
           title: "ช่างทั้งหมด",
-          url: "#",
+          url: "/manage-tech/all-technician",
+          id: "all-technician",
         },
         {
           title: "ขออนุมัติเข้าร่วมร้าน",
-          url: "#",
+          url: "/manage-tech/approval-technician",
+          id: "approval-technician",
         },
         {
           title: "ตารางงานช่าง",
-          url: "#",
+          url: "/manage-tech/schedule-technician",
+          id: "schedule-technician",
         },
         {
           title: "ปิดใช้งานช่าง (Blacklist)",
-          url: "#",
+          url: "/manage-tech/backlist-technician",
+          id: "backlist-technician",
         },
         {
           title: "ประวัติการทำงานช่าง",
-          url: "#",
+          url: "/manage-tech/history-technician",
+          id: "history-technician",
         },
       ],
     },

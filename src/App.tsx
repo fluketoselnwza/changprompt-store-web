@@ -11,6 +11,11 @@ import {
   WaitingTechTaskPage,
   HistoryTaskPage,
   GetStorePage,
+  AllTechnicianPage,
+  ApprovalTechnicianPage,
+  BlacklistTechnicianPage,
+  HistoryTechnicianPage,
+  ScheduleTechnicianPage,
 } from "./pages";
 import MainLayout from "./main-layout";
 
@@ -49,6 +54,26 @@ function App() {
               element={<ChangePasswordPage />}
             />
             <Route path="/manage-store/get-store" element={<GetStorePage />} />
+            <Route
+              path="/manage-tech/all-technician"
+              element={<AllTechnicianPage />}
+            />
+            <Route
+              path="/manage-tech/approval-technician"
+              element={<ApprovalTechnicianPage />}
+            />
+            <Route
+              path="/manage-tech/backlist-technician"
+              element={<BlacklistTechnicianPage />}
+            />
+            <Route
+              path="/manage-tech/history-technician"
+              element={<HistoryTechnicianPage />}
+            />
+            <Route
+              path="/manage-tech/schedule-technician"
+              element={<ScheduleTechnicianPage />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
