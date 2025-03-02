@@ -104,3 +104,30 @@ export interface IPartnerUserDetailResponse {
   post_code: string;
   password: string;
 }
+
+export interface IPartnerJobParams {
+  job_code: string;
+  customer_name: string;
+  product_name: string;
+  job_type: string;
+  job_status: string;
+  skip: number;
+  take?: number;
+}
+
+export interface IJobData {
+  id: string;
+  job_code: string;
+  job_type: string;
+  product_name: string;
+  customer_name: string;
+  technician_name: string;
+  create_by: string;
+  created_at: string;
+  job_status: string;
+}
+
+export interface IPartnerJobResponse {
+  total_count: number;
+  jobs: IJobData[];
+}

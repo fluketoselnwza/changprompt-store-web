@@ -1,9 +1,10 @@
 import SidebarLayout from "../sidebar-layout";
 import {
   CustomInputIcon,
-  // CustomTable,
+  CustomTable,
   CustomSelect,
   ModalInput,
+  CustomPopover,
 } from "../components";
 import { Button } from "@/components/ui/button";
 import IconLink from "@/assets/icons/icon-link.png";
@@ -12,9 +13,12 @@ import IconSearch from "@/assets/icons/icon-search.png";
 // import { HeaderTableAllTask } from "../data/headerTable";
 // import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 // import { TableCell } from "@/components/ui/table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import IconHome from "@/assets/icons/icon-home.png";
+import { getPartnerAllTaskService } from "@/services/task";
+import { IJobData } from "@/services/interfaces";
+import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 
 const breadcrumbs = [
   {
@@ -32,6 +36,120 @@ const breadcrumbs = [
 const AllTasksPage = () => {
   const navigate = useNavigate();
   const [isOpenLink, setIsOpenLink] = useState<boolean>(false);
+  const [jobsData, setJobsData] = useState<IJobData[]>([]);
+  const [total, setTotal] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const itemPopOverData = [
+    {
+      label: "ดูรายละเอียดผู้ใช้งาน",
+      onClick: (value?: string) => {
+        if (value) {
+          console.log("value : ", value);
+        }
+      },
+      icon: "",
+    },
+  ];
+
+  const HeaderTable = [
+    {
+      dataType: "DATA",
+      title: "เลขที่ใบงาน",
+      class: "w-[100px]",
+      id: "job_code",
+    },
+    {
+      dataType: "DATA",
+      title: "หมวดหมู่งาน",
+      class: "w-[100px]",
+      id: "job_type",
+    },
+    {
+      dataType: "DATA",
+      title: "สินค้า",
+      class: "w-[100px]",
+      id: "product_name",
+    },
+    {
+      dataType: "DATA",
+      title: "ชื่อลูกค้า",
+      class: "w-[100px]",
+      id: "customer_name",
+    },
+    {
+      dataType: "DATA",
+      title: "ช่าง",
+      class: "w-[100px]",
+      id: "technician_name",
+    },
+    {
+      dataType: "DATA",
+      title: "วันที่สร้าง",
+      class: "w-[100px]",
+      id: "created_at",
+    },
+    {
+      dataType: "DATA",
+      title: "ผู้ออกใบงาน",
+      class: "w-[100px]",
+      id: "create_by",
+    },
+    {
+      dataType: "RENDER_CELL",
+      title: "สถานะงาน",
+      class: "w-[100px]",
+      id: "job_status",
+      renderCell: ({ row }: { row: IJobData }) => {
+        return <div className="w-[80px]">{row.job_status}</div>;
+      },
+    },
+    {
+      dataType: "SUB_MENU",
+      title: "",
+      class: "w-[40px]",
+      id: "",
+      renderCell: ({ row }: { row: IJobData }) => {
+        return (
+          <div className="flex items-center justify-center">
+            <CustomPopover
+              icon={IconSubMenu}
+              classPopOver="w-[224px]"
+              itemPopOver={itemPopOverData}
+              rowId={row.id}
+            />
+          </div>
+        );
+      },
+    },
+  ];
+
+  const getAllTaskData = async () => {
+    const params = {
+      job_code: "",
+      customer_name: "",
+      product_name: "",
+      job_type: "",
+      job_status: "",
+      skip: currentPage,
+    };
+
+    const result = await getPartnerAllTaskService(params);
+
+    console.log("result : ", result);
+    const data = result?.jobs;
+    if (data?.length) {
+      setJobsData(data);
+      setTotal(result?.total_count);
+    } else {
+      setJobsData([]);
+      setTotal(0);
+    }
+  };
+
+  useEffect(() => {
+    getAllTaskData();
+  }, [currentPage]);
 
   return (
     <>
@@ -130,10 +248,16 @@ const AllTasksPage = () => {
               </div>
             </div>
             <div>
-              {/* <CustomTable
-                bodyData={bodyData}
-                headerData={HeaderTableAllTask}
-              /> */}
+              <CustomTable
+                bodyData={jobsData}
+                headerData={HeaderTable}
+                total={total}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                // widthMin={"full:w-[1510px] desktop:w-[1110px]"}
+                // widthMax={"full:w-[1810px] desktop:w-[1350px]"}
+                textNotFoundData="ไม่พบรายการใบงานทั้งหมด"
+              />
             </div>
           </div>
         </div>
