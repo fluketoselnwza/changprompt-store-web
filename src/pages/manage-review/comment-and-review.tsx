@@ -80,6 +80,7 @@ const CommentAndReviewPage = () => {
   const [ratingData, setRatingData] = useState<IRatingsData[]>([]);
   const [totalRating, setTotalRating] = useState<number>(0);
   const [servicerDate, setServicerDate] = useState<Date | undefined>();
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const getRatingData = async () => {
     const { nameCustomer, nameTechnician, numberTask, servicerDate } =
@@ -92,7 +93,7 @@ const CommentAndReviewPage = () => {
       job_started_date: servicerDate
         ? dayjs(servicerDate).format("YYYY-MM-DD")
         : "",
-      skip: 1,
+      skip: currentPage,
     };
     const result = await getPartnerRatingService(params);
 
@@ -111,7 +112,7 @@ const CommentAndReviewPage = () => {
 
   useEffect(() => {
     getRatingData();
-  }, []);
+  }, [currentPage]);
 
   const handleClear = () => {
     setValue("nameCustomer", "");
@@ -134,7 +135,7 @@ const CommentAndReviewPage = () => {
           <div className="flex justify-between items-end">
             <p className="font-bold text-[16px]">ความคิดเห็นและรีวิว</p>
           </div>
-          <div className="bg-white p-[16px] mt-[24px] rounded-[8px]">
+          <div className="bg-white p-[16px] mt-[8px] rounded-[8px]">
             <form onSubmit={handleSubmit(handleSearch)}>
               <div className="grid grid-cols-5 gap-3 mb-5">
                 <CustomInputIcon
@@ -182,6 +183,8 @@ const CommentAndReviewPage = () => {
                 bodyData={ratingData}
                 headerData={HeaderTableReview}
                 total={totalRating}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
                 // widthMin={"full:w-[1510px] desktop:w-[1110px]"}
                 // widthMax={"full:w-[1810px] desktop:w-[1350px]"}
                 textNotFoundData="ไม่พบรายการความคิดเห็นและรีวิว"

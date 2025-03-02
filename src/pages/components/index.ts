@@ -10,3 +10,4 @@ export { default as DatePicker } from "./date-picker";
 export { default as CustomMap } from "./custom-map";
 export { default as CustomBreadcrumbs } from "./custom-breadcrumbs";
 export { default as Rating } from "./rating";
+export { default as CustomPopover } from "./custom-popover";

@@ -27,12 +27,12 @@ const data = {
         {
           title: "งานรอช่างกดรับ",
           url: "#",
-          id: "",
+          id: "task-1",
         },
         {
           title: "ประวัติใบงาน",
           url: "#",
-          id: "",
+          id: "task-2",
         },
       ],
     },
@@ -40,17 +40,10 @@ const data = {
       title: "จัดการร้านค้า",
       url: "#",
       icon: IconManageStore,
+      isActive: false,
       items: [
         {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
+          title: "ข้อมูลร้านค้า",
           url: "#",
         },
       ],
@@ -59,21 +52,26 @@ const data = {
       title: "จัดการช่าง",
       url: "#",
       icon: IconManageTechnician,
+      isActive: false,
       items: [
         {
-          title: "Introduction",
+          title: "ช่างทั้งหมด",
           url: "#",
         },
         {
-          title: "Get Started",
+          title: "ขออนุมัติเข้าร่วมร้าน",
           url: "#",
         },
         {
-          title: "Tutorials",
+          title: "ตารางงานช่าง",
           url: "#",
         },
         {
-          title: "Changelog",
+          title: "ปิดใช้งานช่าง (Blacklist)",
+          url: "#",
+        },
+        {
+          title: "ประวัติการทำงานช่าง",
           url: "#",
         },
       ],
@@ -83,6 +81,7 @@ const data = {
       url: "#",
       icon: IconManageReview,
       id: "manage-review",
+      isActive: false,
       items: [
         {
           title: "ความคิดเห็นและรีวิว",
@@ -96,6 +95,7 @@ const data = {
       url: "#",
       icon: IconManageUser,
       id: "manage-user",
+      isActive: false,
       items: [
         {
           title: "ข้อมูลผู้ใช้งานทั้งหมด",
@@ -104,8 +104,8 @@ const data = {
         },
         {
           title: "จัดการรหัสผ่าน",
-          url: "/manage-user/reset-password",
-          id: "reset-password",
+          url: "/manage-user/change-password",
+          id: "change-password",
         },
       ],
     },

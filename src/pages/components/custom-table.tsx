@@ -22,6 +22,8 @@ interface ICustomTablePrpos {
   widthMax?: string;
   total?: number;
   textNotFoundData?: string;
+  currentPage: number;
+  setCurrentPage: (value: number) => void;
 }
 
 const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
@@ -34,6 +36,8 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
     widthMin = "full:w-[1510px] desktop:w-[1110px] tablet:w-[870px]",
     total,
     textNotFoundData,
+    currentPage = 1,
+    setCurrentPage,
   } = props;
 
   return (
@@ -82,7 +86,7 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
                     return (
                       <TableCell
                         key={`${index}_${headerIndex}`}
-                        className="sticky right-0 z-10"
+                        className="sticky z-10"
                       >
                         {headerCell.renderCell({ row: item, index: index })}
                       </TableCell>
@@ -104,7 +108,12 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
         </Table>
       </div>
       {bodyData?.length ? (
-        <CustomPagination className="mt-5" total={total} />
+        <CustomPagination
+          className="mt-5"
+          total={total}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       ) : (
         <div className="text-center py-6">{textNotFoundData}</div>
       )}

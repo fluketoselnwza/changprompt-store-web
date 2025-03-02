@@ -1,13 +1,5 @@
 export const ROLE_CODE = [
   {
-    label: "แอดมินระดับสูง",
-    value: "S-ADMIN",
-  },
-  {
-    label: "แอดมิน",
-    value: "ADMIN",
-  },
-  {
     label: "เจ้าของร้าน",
     value: "OWN",
   },
@@ -19,8 +11,19 @@ export const ROLE_CODE = [
     label: "พนักงานขาย",
     value: "SALE",
   },
+];
+
+export const ROLE_NAME = [
   {
-    label: "ช่าง",
-    value: "TECH",
+    label: "เจ้าของร้าน",
+    value: "เจ้าของร้าน",
+  },
+  {
+    label: "พนักงานธุรการ",
+    value: "พนักงานธุรการ",
+  },
+  {
+    label: "พนักงานขาย",
+    value: "พนักงานขาย",
   },
 ];

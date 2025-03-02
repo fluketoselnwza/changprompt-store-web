@@ -51,31 +51,35 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async function (error) {
-    // const originalRequest = error.config;
+    const originalRequest = error.config;
 
     console.log("error ==> ", error?.response?.status);
 
     if (
-      error?.response?.status === 555
-      // error.response?.data?.message === "token expired"
+      error?.response?.status === 401 &&
+      error.response?.data?.message === "Token expired"
     ) {
-      const resp = await refreshToken();
+      const result = await refreshToken();
 
-      console.log("resp 401 ==> ", resp);
-      // if (resp) {
-      //   console.log("resp ==> ", resp);
-      // localStorage.setItem(
-      //   `charm-${resp?.role_code?.toLowerCase()}`,
-      //   JSON.stringify(resp)
-      // );
-      // const access_token = resp?.token;
-      // const access_token = resp.response.accessToken;
-      // addTokenToLocalStorage(access_token);
-      // axiosInstance.defaults.headers.common[
-      //   "Authorization"
-      // ] = `Bearer ${access_token}`;
-      // }
-      // return axiosInstance(originalRequest);
+      console.log("result 401 ==> ", result);
+      if (result) {
+        const userObject = {
+          partner_code: result?.partner_code,
+          partner_name: result?.partner_name,
+          role_code: result?.role_code,
+          access_token: result?.access_token,
+          refresh_token: result?.refresh_token,
+        };
+
+        localStorage.setItem("user_changprompt", JSON.stringify(userObject));
+
+        if (result?.access_token) {
+          axiosInstance.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${result?.access_token}`;
+        }
+      }
+      return axiosInstance(originalRequest);
     }
   }
 );

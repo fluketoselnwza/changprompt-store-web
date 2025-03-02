@@ -60,3 +60,47 @@ export interface IPartnerUserResponse {
   total_count: number;
   users: IUserData[];
 }
+
+export interface IPartnerEmployeeCodeResponse {
+  emp_code: string;
+}
+
+export interface IAddressesData {
+  address: string;
+  sub_district_code: string;
+  district_code: string;
+  province_code: string;
+  zipcode: string;
+}
+
+export interface ICreatePartnerUserParam {
+  emp_code: string;
+  role_code: string;
+  first_name: string;
+  last_name: string;
+  nick_name: string;
+  nation_id: string;
+  mobile_number: string;
+  email: string;
+  password: string;
+  addresses: IAddressesData;
+}
+
+export interface IPartnerUserDetailResponse {
+  id: string;
+  emp_code: string;
+  first_name: string;
+  last_name: string;
+  nick_name: string;
+  mobile_number: string;
+  role_code: string;
+  nation_id: string;
+  email: string;
+  address: string;
+  full_address: string;
+  subdistrict_code: string;
+  district_code: string;
+  province_code: string;
+  post_code: string;
+  password: string;
+}

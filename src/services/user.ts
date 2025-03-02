@@ -2,6 +2,9 @@ import { axiosInstance } from "@/config/api";
 import {
   IPartnerUserParams,
   IPartnerUserResponse,
+  IPartnerEmployeeCodeResponse,
+  ICreatePartnerUserParam,
+  IPartnerUserDetailResponse,
 } from "@/services/interfaces";
 
 export const getPartnerUserService = async (params: IPartnerUserParams) => {
@@ -23,4 +26,56 @@ export const getPartnerUserService = async (params: IPartnerUserParams) => {
   const response = await axiosInstance.get(urlPath, config);
 
   return response.data as IPartnerUserResponse;
+};
+
+export const getPartnerEmployeeCodeService = async () => {
+  const path = "/partners/users/lastest";
+
+  const config = {};
+
+  const response = await axiosInstance.get(path, config);
+
+  return response.data as IPartnerEmployeeCodeResponse;
+};
+
+export const createPartnerUserService = async (
+  params: ICreatePartnerUserParam
+) => {
+  const path = "/partners/users";
+
+  const config = {};
+
+  const response = await axiosInstance.post(path, params, config);
+
+  return response.data;
+};
+
+export const getPartnerUserDetailService = async (userId: string) => {
+  const path = `/partners/users/${userId}`;
+
+  const config = {};
+
+  const response = await axiosInstance.get(path, config);
+
+  return response.data as IPartnerUserDetailResponse;
+};
+
+export const deletePartnerUserService = async (userId: string) => {
+  const path = `/partners/users/${userId}`;
+
+  const config = {};
+
+  const response = await axiosInstance.delete(path, config);
+
+  return response.data;
+};
+
+export const resetPasswordUserService = async (userId: string) => {
+  const path = `/partners/users/reset-password/${userId}`;
+
+  const config = {};
+
+  const response = await axiosInstance.put(path, {}, config);
+
+  return response.data;
 };
