@@ -57,7 +57,7 @@ const AllTasksPage = () => {
               </Button>
             </div>
           </div>
-          <div className="bg-white p-[16px] mt-[24px] rounded-[8px]">
+          <div className="bg-white p-[16px] mt-[16px] rounded-[8px]">
             <div className="grid grid-cols-6 gap-3 mb-5">
               <CustomInputIcon
                 iconLeft={IconSearch}
