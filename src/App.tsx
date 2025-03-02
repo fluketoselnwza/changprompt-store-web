@@ -10,6 +10,7 @@ import {
   ChangePasswordPage,
   WaitingTechTaskPage,
   HistoryTaskPage,
+  GetStorePage,
 } from "./pages";
 import MainLayout from "./main-layout";
 
@@ -47,6 +48,7 @@ function App() {
               path="/manage-user/change-password"
               element={<ChangePasswordPage />}
             />
+            <Route path="/manage-store/get-store" element={<GetStorePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

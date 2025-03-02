@@ -6,3 +6,4 @@ export { default as AllUserPage } from "./manage-user/all-user";
 export { default as ChangePasswordPage } from "./manage-user/change-password";
 export { default as WaitingTechTaskPage } from "./manage-task/waiting-tech-task";
 export { default as HistoryTaskPage } from "./manage-task/history-task";
+export { default as GetStorePage } from "./manage-store/get-store";

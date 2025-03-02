@@ -40,11 +40,13 @@ const data = {
       title: "จัดการร้านค้า",
       url: "#",
       icon: IconManageStore,
+      id: "manage-store",
       isActive: false,
       items: [
         {
           title: "ข้อมูลร้านค้า",
-          url: "#",
+          url: "/manage-store/get-store",
+          id: "get-store",
         },
       ],
     },
