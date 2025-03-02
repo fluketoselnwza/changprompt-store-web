@@ -7,6 +7,15 @@ import CloseEyeIcon from "@/assets/icons/icon-close-eye.png";
 import OpenEyeIcon from "@/assets/icons/icon-open-eye.png";
 import { Button } from "@/components/ui/button";
 import { validatePassword } from "@/lib/validate";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { IPageProps } from "@/pages/interface";
+import {
+  openModalWarning,
+  closeModalWarning,
+} from "@/redux/modal-warning/action";
+import IconWaringColor from "@/assets/icons/icon-warning-blue.png";
+import { useToast } from "@/hooks/use-toast";
 
 type Inputs = {
   old_password: string;
@@ -27,7 +36,10 @@ const breadcrumbs = [
   },
 ];
 
-const ManageChangePasswordPage: React.FC = () => {
+const ManageChangePasswordPage: React.FC<IPageProps> = (props) => {
+  const { openModalWarning, closeModalWarning } = props;
+  const { toast } = useToast();
+
   const {
     register,
     handleSubmit,
@@ -39,10 +51,28 @@ const ManageChangePasswordPage: React.FC = () => {
   const [closeNewPassword, setCloseNewPassword] = useState<boolean>(false);
   const [closeConfirmNewPassword, setCloseConfirmNewPassword] =
     useState<boolean>(false);
-  const [errorMsg, setErrorMsg] = useState<string>("");
 
   const handleConfirmChangePassword = () => {
     console.log("handleConfirmChangePassword");
+    openModalWarning(
+      IconWaringColor,
+      "ยันยืนการเปลี่ยนรหัสผ่านใช่หรือไม่",
+      "",
+      "ยกเลิก",
+      () => {
+        closeModalWarning();
+      },
+      "ยืนยัน",
+      () => {
+        closeModalWarning();
+        toast({
+          title: "สำเร็จแล้ว",
+          description: "เปลี่ยนรหัสผ่านสำเร็จแล้ว",
+          variant: "success",
+          className: "w-[300px] mx-auto",
+        });
+      }
+    );
   };
 
   const onSubmit = async (data: Inputs) => {
@@ -161,4 +191,33 @@ const ManageChangePasswordPage: React.FC = () => {
   );
 };
 
-export default ManageChangePasswordPage;
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  openModalWarning: (
+    image: string | null,
+    title: string,
+    description: string,
+    labelBtnFirst?: string,
+    fnBtnFirst?: () => void | null,
+    labelBtnSecond?: string,
+    fnBtnSecond?: () => void | null
+  ) =>
+    openModalWarning(dispatch, {
+      image,
+      title,
+      description,
+      labelBtnFirst,
+      fnBtnFirst,
+      labelBtnSecond,
+      fnBtnSecond,
+    }),
+  closeModalWarning: () => closeModalWarning(dispatch),
+});
+
+const mapStateToProps = () => ({});
+
+const ManageChangePasswordPageWithConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ManageChangePasswordPage);
+
+export default ManageChangePasswordPageWithConnect;
