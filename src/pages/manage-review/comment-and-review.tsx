@@ -120,11 +120,13 @@ const CommentAndReviewPage = () => {
     setValue("numberTask", "");
     setValue("servicerDate", undefined);
     setServicerDate(undefined);
+    setCurrentPage(1);
     getRatingData();
   };
 
   const handleSearch: SubmitHandler<Inputs> = (data) => {
     setServicerDate(data.servicerDate);
+    setCurrentPage(1);
     getRatingData();
   };
 
