@@ -14,6 +14,7 @@ import {
   getPartnerEmployeeCodeService,
   createPartnerUserService,
   getPartnerUserDetailService,
+  updatePartnerUserService,
 } from "@/services/user";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -92,7 +93,6 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
 
     try {
       const params = {
-        emp_code: data?.emp_code,
         role_code: data?.role_code,
         first_name: data?.first_name,
         last_name: data?.last_name,
@@ -100,17 +100,35 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
         nation_id: data?.nation_id,
         mobile_number: data?.mobile_number,
         email: data?.email,
-        password: data?.password,
-        addresses: {
-          address: data?.address,
-          sub_district_code: "22501",
-          district_code: "225010240",
-          province_code: "2",
-          zipcode: "10230",
-        },
       };
 
-      await createPartnerUserService(params);
+      if (status === STATE_STATUS_MANAGE_USER.CREATE) {
+        const paramsCreate = {
+          ...params,
+          emp_code: data?.emp_code,
+          password: data?.password,
+          addresses: {
+            address: data?.address,
+            sub_district_code: "22501",
+            district_code: "225010240",
+            province_code: "2",
+            zipcode: "10230",
+          },
+        };
+
+        await createPartnerUserService(paramsCreate);
+      } else {
+        const paramsUpdate = {
+          ...params,
+          address: "999999 tragic",
+          subdistrict_code: "22103",
+          district_code: "221010220",
+          province_code: "2",
+          post_code: "10230",
+        };
+
+        await updatePartnerUserService(paramsUpdate, userId ?? "");
+      }
       setIsOpen(false, "success");
     } catch (error) {
       console.log("error ====> ", error);

@@ -137,3 +137,18 @@ export interface IChangePasswordUserParams {
   new_password: string;
   confirmed_new_password: string;
 }
+
+export interface IUpdatePartnerUserParams {
+  role_code: string;
+  first_name: string;
+  last_name: string;
+  nick_name: string;
+  nation_id: string;
+  mobile_number: string;
+  email: string;
+  address: string;
+  subdistrict_code: string;
+  district_code: string;
+  province_code: string;
+  post_code: string;
+}
