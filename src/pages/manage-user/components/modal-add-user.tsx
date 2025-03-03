@@ -28,6 +28,7 @@ import {
   STATE_STATUS_MANAGE_USER,
   STATUS_NAME_MANAGE_USER,
 } from "@/pages/data/status-code";
+import { getAddressService } from "@/services/address";
 
 type Inputs = {
   emp_code: string;
@@ -190,6 +191,17 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
       }
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    const getAddress = async () => {
+      const search = "12120";
+      const result = await getAddressService(search);
+
+      console.log("result ==> ", result);
+    };
+
+    getAddress();
+  }, []);
 
   const isDisabled = status === STATE_STATUS_MANAGE_USER.GET;
 

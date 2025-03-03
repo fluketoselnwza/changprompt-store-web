@@ -152,3 +152,14 @@ export interface IUpdatePartnerUserParams {
   province_code: string;
   post_code: string;
 }
+
+export interface IAddressSearchResponse {
+  row_order: number;
+  subdistrict_thai: string;
+  district_thai: string;
+  province_thai: string;
+  post_code: string;
+  subdistrict_code: string;
+  district_code: string;
+  province_code: string;
+}
