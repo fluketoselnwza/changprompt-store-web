@@ -65,6 +65,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
 }) => {
   const [roleCode, setRoleCode] = useState<string>("");
   const [addresses, setAddresses] = useState<string>("");
+  const [searchAddress, setSearchAddress] = useState<string>("");
 
   const {
     register,
@@ -197,15 +198,17 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
   }, [isOpen]);
 
   useEffect(() => {
-    const getAddress = async () => {
-      const search = "12120";
+    const getAddress = async (search: string) => {
       const result = await getAddressService(search);
 
       console.log("result ==> ", result);
     };
 
-    getAddress();
-  }, []);
+    if (searchAddress) {
+      console.log("searchAddress ==> ", searchAddress);
+      getAddress(searchAddress);
+    }
+  }, [searchAddress]);
 
   const isDisabled = status === STATE_STATUS_MANAGE_USER.GET;
 
@@ -349,7 +352,12 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                 />
               </div>
               <div className="mt-3">
-                <CustomSelectInput />
+                <CustomSelectInput
+                  label="ตำบล/อำเภอ/จังหวัด"
+                  required
+                  value={searchAddress}
+                  setValue={setSearchAddress}
+                />
                 {/* <CustomSelectInput
                   name="addresses"
                   placeholder="เลือก..."

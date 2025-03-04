@@ -6,24 +6,33 @@ import { cn } from "@/lib/utils";
 
 interface CustomSelectInputProps {
   label?: string;
-  required?: string;
+  required?: true;
   classLabel?: string;
   placeholder?: string;
+  value: string;
+  setValue: (value: string) => void;
 }
 
 const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
-  const { label, classLabel, required, placeholder = "เลือก" } = props;
+  const {
+    label,
+    classLabel,
+    required,
+    placeholder = "เลือก",
+    value,
+    setValue,
+  } = props;
 
   const [isOpen, setIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectValue, setSelectValue] = useState("");
+  // const [searchTerm, setSearchTerm] = useState("");
+  const [selectValue, setSelectValue] = useState(value);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const filterItems = (item) => {
-    return item.toLowerCase().includes(searchTerm.toLowerCase());
+  const filterItems = (item: string) => {
+    return item.toLowerCase().includes(value.toLowerCase());
   };
 
   const items = ["Uppercase", "Lowercase", "Camel Case", "Kebab Case"];
@@ -31,6 +40,7 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
   const handleSelect = (value: string) => {
     console.log("value ===> ", value);
     setSelectValue(value);
+    setValue(value);
     setIsOpen(false);
   };
 
@@ -70,8 +80,8 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
                 // className="block w-full px-4 py-2 text-gray-800 border rounded-md border-gray-300 focus:outline-none"
                 type="text"
                 placeholder="ค้นหา"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
                 autoComplete="off"
               />
               {items.filter(filterItems).map((item, index) => (
