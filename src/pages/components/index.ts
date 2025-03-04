@@ -11,3 +11,4 @@ export { default as CustomMap } from "./custom-map";
 export { default as CustomBreadcrumbs } from "./custom-breadcrumbs";
 export { default as Rating } from "./rating";
 export { default as CustomPopover } from "./custom-popover";
+export { default as CustomSelectInput } from "./custom-select-input";

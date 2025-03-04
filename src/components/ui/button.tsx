@@ -23,6 +23,7 @@ const buttonVariants = cva(
         input:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground w-full",
         cancel: "border border-[#D1D5DB] bg-[#F5F5F5] text-[#374151]",
+        select: "border border-[#D1D5DB] text-[#374151]",
       },
       size: {
         default: "h-[42px] text-[16px] px-4 py-2",

@@ -7,7 +7,11 @@ import {
 } from "@/components/ui/dialog";
 import CloseIcon from "@/assets/icons/icon-close.png";
 import { useForm } from "react-hook-form";
-import { CustomInput, CustomSelect } from "@/pages/components";
+import {
+  CustomInput,
+  CustomSelect,
+  CustomSelectInput,
+} from "@/pages/components";
 import { ROLE_CODE } from "@/pages/data/role-code";
 import { Button } from "@/components/ui/button";
 import {
@@ -345,7 +349,8 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                 />
               </div>
               <div className="mt-3">
-                <CustomSelect
+                <CustomSelectInput />
+                {/* <CustomSelectInput
                   name="addresses"
                   placeholder="เลือก..."
                   label="ตำบล/อำเภอ/จังหวัด (รอสรุป)"
@@ -366,7 +371,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   value={addresses}
                   setValue={setAddresses}
                   disabled={isDisabled}
-                />
+                /> */}
               </div>
               {status !== STATE_STATUS_MANAGE_USER.GET ? (
                 <div className="flex items-center justify-center mt-[22px] gap-4">

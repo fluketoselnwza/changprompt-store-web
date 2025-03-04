@@ -1,0 +1,94 @@
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+import React from "react";
+import { cn } from "@/lib/utils";
+
+interface CustomSelectInputProps {
+  label?: string;
+  required?: string;
+  classLabel?: string;
+  placeholder?: string;
+}
+
+const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
+  const { label, classLabel, required, placeholder = "เลือก" } = props;
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectValue, setSelectValue] = useState("");
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const filterItems = (item) => {
+    return item.toLowerCase().includes(searchTerm.toLowerCase());
+  };
+
+  const items = ["Uppercase", "Lowercase", "Camel Case", "Kebab Case"];
+
+  const handleSelect = (value: string) => {
+    console.log("value ===> ", value);
+    setSelectValue(value);
+    setIsOpen(false);
+  };
+
+  return (
+    <div className="flex flex-col gap-1">
+      {label && (
+        <label
+          className={cn("font-medium text-[14px] text-gray-900", classLabel)}
+        >
+          {label}{" "}
+          {required && <span className="text-red-600 text-[14px]">*</span>}
+        </label>
+      )}
+      <div className="flex items-center">
+        <div className="relative group  w-full">
+          <Button
+            type="button"
+            onClick={toggleDropdown}
+            variant={"select"}
+            className="w-full flex justify-between px-3"
+          >
+            {selectValue ? (
+              <span className="text-[#09090b] text-[16px]">{selectValue}</span>
+            ) : (
+              <span className="text-gray-500 text-[16px]">{placeholder}</span>
+            )}
+            <ChevronDown className="h-4 w-4 opacity-50" />
+          </Button>
+          {isOpen && (
+            <div
+              id="dropdown-menu"
+              className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-4 space-y-1"
+            >
+              <input
+                id="search-input"
+                className="flex mb-1.5 h-[42px] text-[#09090b] w-full rounded-[8px] border border-gray-300 bg-transparent px-3 py-1 text-[16px] transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-black md:text-[16px]"
+                // className="block w-full px-4 py-2 text-gray-800 border rounded-md border-gray-300 focus:outline-none"
+                type="text"
+                placeholder="ค้นหา"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                autoComplete="off"
+              />
+              {items.filter(filterItems).map((item, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleSelect(item)}
+                  className="block py-1.5  px-1 text-[#09090b] text-[14px] hover:bg-gray-100 active:bg-blue-100 cursor-pointer rounded-md"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CustomSelectInput;
