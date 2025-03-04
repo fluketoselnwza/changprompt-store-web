@@ -9,8 +9,10 @@ interface CustomSelectInputProps {
   required?: true;
   classLabel?: string;
   placeholder?: string;
+  placeholderSearch?: string;
   value: string;
   setValue: (value: string) => void;
+  option: string[];
 }
 
 const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
@@ -19,8 +21,10 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
     classLabel,
     required,
     placeholder = "เลือก",
+    placeholderSearch = "ค้นหา",
     value,
     setValue,
+    option,
   } = props;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -31,11 +35,9 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
     setIsOpen(!isOpen);
   };
 
-  const filterItems = (item: string) => {
-    return item.toLowerCase().includes(value.toLowerCase());
-  };
-
-  const items = ["Uppercase", "Lowercase", "Camel Case", "Kebab Case"];
+  // const filterItems = (item: string) => {
+  //   return item.toLowerCase().includes(value.toLowerCase());
+  // };
 
   const handleSelect = (value: string) => {
     console.log("value ===> ", value);
@@ -76,15 +78,15 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
             >
               <input
                 id="search-input"
-                className="flex mb-1.5 h-[42px] text-[#09090b] w-full rounded-[8px] border border-gray-300 bg-transparent px-3 py-1 text-[16px] transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-black md:text-[16px]"
+                className="flex mb-1.5 h-[42px] text-[#09090b] w-full rounded-[8px] border border-gray-300 bg-transparent px-3 py-1 text-[14px] transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-black md:text-[16px]"
                 // className="block w-full px-4 py-2 text-gray-800 border rounded-md border-gray-300 focus:outline-none"
                 type="text"
-                placeholder="ค้นหา"
+                placeholder={placeholderSearch}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 autoComplete="off"
               />
-              {items.filter(filterItems).map((item, index) => (
+              {option?.map((item, index) => (
                 <div
                   key={index}
                   onClick={() => handleSelect(item)}

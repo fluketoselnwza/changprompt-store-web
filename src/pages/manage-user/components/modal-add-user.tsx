@@ -64,8 +64,9 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
   closeModalWarning,
 }) => {
   const [roleCode, setRoleCode] = useState<string>("");
-  const [addresses, setAddresses] = useState<string>("");
   const [searchAddress, setSearchAddress] = useState<string>("");
+  const [debouncedQuery, setDebouncedQuery] = useState<string>(searchAddress);
+  const [addressDataList, setAddressDataList] = useState<string[]>([]);
 
   const {
     register,
@@ -175,7 +176,6 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
 
       if (isOpen) {
         getEmployeeCode();
-        setAddresses("");
         setRoleCode("");
         reset({
           role_code: "",
@@ -189,6 +189,8 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
           address: "",
           addresses: "",
         });
+        setSearchAddress("");
+        setAddressDataList([]);
       }
     } else {
       if (userId) {
@@ -198,17 +200,50 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
   }, [isOpen]);
 
   useEffect(() => {
-    const getAddress = async (search: string) => {
-      const result = await getAddressService(search);
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchAddress);
+    }, 500); // 500ms debounce delay
 
-      console.log("result ==> ", result);
+    return () => clearTimeout(timer);
+  }, [searchAddress]);
+
+  useEffect(() => {
+    const getAddress = async (search: string) => {
+      try {
+        const result = await getAddressService(search);
+
+        console.log("result ==> ", result);
+        if (result?.length) {
+          const dataAddress: string[] = [];
+          result.map((item) => {
+            const addressName =
+              item.subdistrict_thai +
+              ">>" +
+              item.district_thai +
+              ">>" +
+              item.province_thai +
+              ">>" +
+              item.post_code;
+
+            dataAddress.push(addressName);
+          });
+
+          console.log("data ===> ", dataAddress);
+          setAddressDataList(dataAddress);
+        } else {
+          setAddressDataList([]);
+        }
+      } catch {
+        setAddressDataList([]);
+      }
     };
 
-    if (searchAddress) {
-      console.log("searchAddress ==> ", searchAddress);
-      getAddress(searchAddress);
+    if (debouncedQuery && debouncedQuery.length > 2) {
+      getAddress(debouncedQuery);
+    } else {
+      setAddressDataList([]);
     }
-  }, [searchAddress]);
+  }, [debouncedQuery]);
 
   const isDisabled = status === STATE_STATUS_MANAGE_USER.GET;
 
@@ -357,29 +392,9 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   required
                   value={searchAddress}
                   setValue={setSearchAddress}
+                  placeholderSearch="ค้นหา รหัสไปรษณีย์ ตำบล อำเภอ จังหวัด"
+                  option={addressDataList}
                 />
-                {/* <CustomSelectInput
-                  name="addresses"
-                  placeholder="เลือก..."
-                  label="ตำบล/อำเภอ/จังหวัด (รอสรุป)"
-                  options={[
-                    {
-                      value: "1",
-                      label: "1",
-                    },
-                    {
-                      value: "2",
-                      label: "2",
-                    },
-                    {
-                      value: "3",
-                      label: "3",
-                    },
-                  ]}
-                  value={addresses}
-                  setValue={setAddresses}
-                  disabled={isDisabled}
-                /> */}
               </div>
               {status !== STATE_STATUS_MANAGE_USER.GET ? (
                 <div className="flex items-center justify-center mt-[22px] gap-4">

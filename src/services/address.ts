@@ -10,5 +10,5 @@ export const getAddressService = async (q: string) => {
 
   const response = await axiosInstance.get(urlPath, config);
 
-  return response.data as IAddressSearchResponse;
+  return response.data.data as IAddressSearchResponse[];
 };
