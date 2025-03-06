@@ -83,7 +83,8 @@ export interface ICreatePartnerUserParam {
   mobile_number: string;
   email: string;
   password: string;
-  addresses: IAddressesData;
+  address_name: string;
+  address_full_code: string;
 }
 
 export interface IPartnerUserDetailResponse {
@@ -136,4 +137,27 @@ export interface IChangePasswordUserParams {
   old_password: string;
   new_password: string;
   confirmed_new_password: string;
+}
+
+export interface IUpdatePartnerUserParams {
+  role_code: string;
+  first_name: string;
+  last_name: string;
+  nick_name: string;
+  nation_id: string;
+  mobile_number: string;
+  email: string;
+  address_name: string;
+  address_full_code: string;
+}
+
+export interface IAddressSearchResponse {
+  row_order: number;
+  subdistrict_thai: string;
+  district_thai: string;
+  province_thai: string;
+  post_code: string;
+  subdistrict_code: string;
+  district_code: string;
+  province_code: string;
 }

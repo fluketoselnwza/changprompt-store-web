@@ -67,19 +67,41 @@ const CustomPagination: React.FC<ICustomerProps> = (props) => {
               }
             />
           </PaginationItem>
-          {pageNumbers.slice(0, 3).map((page) => (
-            <PaginationItem key={page}>
-              <PaginationLink
-                className="text-[14px]"
-                href="#"
-                onClick={() => goToPage(page)}
-                isActive={page === currentPage}
-              >
-                {page}
-              </PaginationLink>
+          <PaginationItem>
+            <PaginationLink
+              className="text-[14px]"
+              href="#"
+              onClick={() => goToPage(1)}
+              isActive={1 === currentPage}
+            >
+              1
+            </PaginationLink>
+          </PaginationItem>
+          {currentPage - 2 > 1 && (
+            <PaginationItem>
+              <PaginationEllipsis />
             </PaginationItem>
-          ))}
-          {totalPages > 5 && (
+          )}
+          {pageNumbers?.length > 1
+            ? pageNumbers
+                .slice(
+                  currentPage > 3 ? currentPage - 2 : 1,
+                  currentPage > 3 && currentPage < totalPages ? currentPage : 3
+                )
+                .map((page) => (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      className="text-[14px]"
+                      href="#"
+                      onClick={() => goToPage(page)}
+                      isActive={page === currentPage}
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))
+            : null}
+          {totalPages - 2 > currentPage && (
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>

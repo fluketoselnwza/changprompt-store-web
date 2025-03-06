@@ -7,17 +7,22 @@ import {
 } from "@/components/ui/dialog";
 import CloseIcon from "@/assets/icons/icon-close.png";
 import { useForm } from "react-hook-form";
-import { CustomInput, CustomSelect } from "@/pages/components";
+import {
+  CustomInput,
+  CustomSelect,
+  CustomSelectInput,
+} from "@/pages/components";
 import { ROLE_CODE } from "@/pages/data/role-code";
 import { Button } from "@/components/ui/button";
 import {
   getPartnerEmployeeCodeService,
   createPartnerUserService,
   getPartnerUserDetailService,
+  updatePartnerUserService,
 } from "@/services/user";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { IPageProps } from "@/pages/interface";
+import { IPageProps, ISelectData } from "@/pages/interface";
 import IconWaringColor from "@/assets/icons/icon-warning-blue.png";
 import {
   openModalWarning,
@@ -27,6 +32,7 @@ import {
   STATE_STATUS_MANAGE_USER,
   STATUS_NAME_MANAGE_USER,
 } from "@/pages/data/status-code";
+import { getAddressService } from "@/services/address";
 
 type Inputs = {
   emp_code: string;
@@ -58,15 +64,46 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
   closeModalWarning,
 }) => {
   const [roleCode, setRoleCode] = useState<string>("");
-  const [addresses, setAddresses] = useState<string>("");
+  const [searchAddress, setSearchAddress] = useState<string>("");
+  const [fullAddress, setFullAddress] = useState<ISelectData>({
+    label: "",
+    value: "",
+  });
+  const [debouncedQuery, setDebouncedQuery] = useState<string>(searchAddress);
+  const [addressDataList, setAddressDataList] = useState<ISelectData[]>([]);
 
   const {
     register,
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<Inputs>();
+
+  const empCode = watch("emp_code");
+  const empRole = watch("role_code");
+  const firstName = watch("first_name");
+  const lastName = watch("last_name");
+  const nickName = watch("nick_name");
+  const nationId = watch("nation_id");
+  const mobileNumber = watch("mobile_number");
+  const email = watch("email");
+  const password = watch("password");
+  const address = watch("address");
+
+  const isDisabledBuuton =
+    empCode &&
+    empRole &&
+    firstName &&
+    lastName &&
+    nickName &&
+    nationId &&
+    mobileNumber &&
+    email &&
+    password &&
+    address &&
+    fullAddress.value;
 
   const handleConfirm = async (data: Inputs) => {
     openModalWarning(
@@ -92,7 +129,6 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
 
     try {
       const params = {
-        emp_code: data?.emp_code,
         role_code: data?.role_code,
         first_name: data?.first_name,
         last_name: data?.last_name,
@@ -100,17 +136,27 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
         nation_id: data?.nation_id,
         mobile_number: data?.mobile_number,
         email: data?.email,
-        password: data?.password,
-        addresses: {
-          address: data?.address,
-          sub_district_code: "22501",
-          district_code: "225010240",
-          province_code: "2",
-          zipcode: "10230",
-        },
       };
 
-      await createPartnerUserService(params);
+      if (status === STATE_STATUS_MANAGE_USER.CREATE) {
+        const paramsCreate = {
+          ...params,
+          emp_code: data?.emp_code,
+          password: data?.password,
+          address_name: data?.address,
+          address_full_code: fullAddress.value,
+        };
+
+        await createPartnerUserService(paramsCreate);
+      } else {
+        const paramsUpdate = {
+          ...params,
+          address_name: data?.address,
+          address_full_code: fullAddress.value,
+        };
+
+        await updatePartnerUserService(paramsUpdate, userId ?? "");
+      }
       setIsOpen(false, "success");
     } catch (error) {
       console.log("error ====> ", error);
@@ -134,7 +180,22 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
       setValue("email", result.email);
       setValue("password", "********");
       setValue("address", result.address);
-      setValue("addresses", result.full_address);
+
+      const addressName = result.full_address;
+      const addressFullCode =
+        result?.subdistrict_code +
+        "|" +
+        result?.district_code +
+        "|" +
+        result?.province_code +
+        "|" +
+        result?.post_code;
+
+      setSearchAddress(addressName);
+      setFullAddress({
+        label: addressName,
+        value: addressFullCode,
+      });
     }
   };
 
@@ -151,7 +212,6 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
 
       if (isOpen) {
         getEmployeeCode();
-        setAddresses("");
         setRoleCode("");
         reset({
           role_code: "",
@@ -165,6 +225,9 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
           address: "",
           addresses: "",
         });
+        setSearchAddress("");
+        setFullAddress({ label: "", value: "" });
+        setAddressDataList([]);
       }
     } else {
       if (userId) {
@@ -172,6 +235,64 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
       }
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchAddress);
+    }, 500); // 500ms debounce delay
+
+    return () => clearTimeout(timer);
+  }, [searchAddress]);
+
+  useEffect(() => {
+    const getAddress = async (search: string) => {
+      try {
+        const result = await getAddressService(search);
+
+        console.log("result ==> ", result);
+        if (result?.length) {
+          const dataAddress: ISelectData[] = [];
+          result.map((item) => {
+            const addressName =
+              item.subdistrict_thai +
+              "/" +
+              item.district_thai +
+              "/" +
+              item.province_thai +
+              "/" +
+              item.post_code;
+
+            const addressFullCode =
+              item.subdistrict_code +
+              "|" +
+              item.district_code +
+              "|" +
+              item.province_code +
+              "|" +
+              item.post_code;
+
+            dataAddress.push({
+              label: addressName,
+              value: addressFullCode,
+            });
+          });
+
+          console.log("data ===> ", dataAddress);
+          setAddressDataList(dataAddress);
+        } else {
+          setAddressDataList([]);
+        }
+      } catch {
+        setAddressDataList([]);
+      }
+    };
+
+    if (debouncedQuery && debouncedQuery.length > 2) {
+      getAddress(debouncedQuery);
+    } else {
+      setAddressDataList([]);
+    }
+  }, [debouncedQuery]);
 
   const isDisabled = status === STATE_STATUS_MANAGE_USER.GET;
 
@@ -315,26 +436,15 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                 />
               </div>
               <div className="mt-3">
-                <CustomSelect
-                  name="addresses"
-                  placeholder="เลือก..."
-                  label="ตำบล/อำเภอ/จังหวัด (รอสรุป)"
-                  options={[
-                    {
-                      value: "1",
-                      label: "1",
-                    },
-                    {
-                      value: "2",
-                      label: "2",
-                    },
-                    {
-                      value: "3",
-                      label: "3",
-                    },
-                  ]}
-                  value={addresses}
-                  setValue={setAddresses}
+                <CustomSelectInput
+                  label="ตำบล/อำเภอ/จังหวัด"
+                  required
+                  valueSearch={searchAddress}
+                  setValueSearch={setSearchAddress}
+                  value={fullAddress}
+                  setValue={setFullAddress}
+                  placeholderSearch="ค้นหา รหัสไปรษณีย์ ตำบล อำเภอ จังหวัด"
+                  option={addressDataList}
                   disabled={isDisabled}
                 />
               </div>
@@ -348,7 +458,10 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   >
                     ยกเลิก
                   </Button>
-                  <Button className="w-[82px]">
+                  <Button
+                    className="w-[82px]"
+                    disabled={isDisabledBuuton ? false : true}
+                  >
                     {status === STATE_STATUS_MANAGE_USER.CREATE
                       ? "เพิ่ม"
                       : "ตกลง"}

@@ -16,7 +16,10 @@ import IconSearch from "@/assets/icons/icon-search.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import IconHome from "@/assets/icons/icon-home.png";
-import { getPartnerAllTaskService } from "@/services/task";
+import {
+  deletePartnerJobsService,
+  getPartnerAllTaskService,
+} from "@/services/task";
 import { IJobData } from "@/services/interfaces";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 import { statusTaskColor } from "../data/status-code";
@@ -26,6 +29,18 @@ import {
   JOB_STATUS_OPTION,
   JOB_TYPE_OPTION,
 } from "../data/option-data";
+import IconSearchDetailUser from "@/assets/icons/icon-search-detail-user.png";
+import IconEditUser from "@/assets/icons/icon-edit-user.png";
+import IconDeleteUser from "@/assets/icons/icon-delete-user.png";
+import IconWaringColor from "@/assets/icons/icon-warning-blue.png";
+import { useToast } from "@/hooks/use-toast";
+import { connect } from "react-redux";
+import { IPageProps } from "@/pages/interface";
+import {
+  openModalWarning,
+  closeModalWarning,
+} from "@/redux/modal-warning/action";
+import { Dispatch } from "redux";
 
 const breadcrumbs = [
   {
@@ -48,8 +63,11 @@ type Inputs = {
   job_status: string;
 };
 
-const AllTasksPage = () => {
+const AllTasksPage: React.FC<IPageProps> = (props) => {
+  const { openModalWarning, closeModalWarning } = props;
   const { register, handleSubmit, setValue, getValues } = useForm<Inputs>();
+
+  const { toast } = useToast();
   const navigate = useNavigate();
   const [isOpenLink, setIsOpenLink] = useState<boolean>(false);
   const [jobsData, setJobsData] = useState<IJobData[]>([]);
@@ -64,10 +82,28 @@ const AllTasksPage = () => {
       label: "ดูรายละเอียดผู้ใช้งาน",
       onClick: (value?: string) => {
         if (value) {
-          console.log("value : ", value);
+          console.log("value ==> ", value);
         }
       },
-      icon: "",
+      icon: IconSearchDetailUser,
+    },
+    {
+      label: "แก้ไขผู้ใช้งาน",
+      onClick: (value?: string) => {
+        if (value) {
+          console.log("value ==> ", value);
+        }
+      },
+      icon: IconEditUser,
+    },
+    {
+      label: "ลบข้อมูลผู้ใช้งาน",
+      onClick: (value?: string) => {
+        if (value) {
+          confirmDeleteJob(value);
+        }
+      },
+      icon: IconDeleteUser,
     },
   ];
 
@@ -198,6 +234,45 @@ const AllTasksPage = () => {
     getAllTaskData();
   };
 
+  const handleDeleteJob = async (id: string) => {
+    try {
+      await deletePartnerJobsService(id);
+      toast({
+        title: "สำเร็จแล้ว",
+        description: "ลบข้อมูลใบงานเรียบร้อยแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+      });
+      getAllTaskData();
+    } catch (error) {
+      console.log("error : ", error);
+      toast({
+        title: "ไม่สำเร็จ",
+        description: "ไม่สามารถลบใบงานนี้ได้เนื่องจากมีนัดหมายลูกค้าแล้ว",
+        variant: "fail",
+        className: "w-[328px] mx-auto",
+      });
+    }
+  };
+
+  const confirmDeleteJob = (id: string) => {
+    console.log("confirm user :", id);
+    openModalWarning(
+      IconWaringColor,
+      "ยืนยีนลบใบงาน",
+      "",
+      "ยกเลิก",
+      () => {
+        closeModalWarning();
+      },
+      "ยืนยัน",
+      () => {
+        closeModalWarning();
+        handleDeleteJob(id);
+      }
+    );
+  };
+
   useEffect(() => {
     getAllTaskData();
   }, [currentPage]);
@@ -302,4 +377,33 @@ const AllTasksPage = () => {
   );
 };
 
-export default AllTasksPage;
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  openModalWarning: (
+    image: string | null,
+    title: string,
+    description: string,
+    labelBtnFirst?: string,
+    fnBtnFirst?: () => void | null,
+    labelBtnSecond?: string,
+    fnBtnSecond?: () => void | null
+  ) =>
+    openModalWarning(dispatch, {
+      image,
+      title,
+      description,
+      labelBtnFirst,
+      fnBtnFirst,
+      labelBtnSecond,
+      fnBtnSecond,
+    }),
+  closeModalWarning: () => closeModalWarning(dispatch),
+});
+
+const mapStateToProps = () => ({});
+
+const AllTasksPageWithConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AllTasksPage);
+
+export default AllTasksPageWithConnect;

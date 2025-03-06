@@ -22,3 +22,13 @@ export const getPartnerAllTaskService = async (params: IPartnerJobParams) => {
 
   return response.data as IPartnerJobResponse;
 };
+
+export const deletePartnerJobsService = async (jobId: string) => {
+  const path = `/partners/jobs/${jobId}`;
+
+  const config = {};
+
+  const response = await axiosInstance.delete(path, config);
+
+  return response.data;
+};

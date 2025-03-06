@@ -7,7 +7,7 @@ const center = {
 };
 
 const CustomMap = () => {
-  const { innerWidth: width } = window;
+  // const { innerWidth: width } = window;
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "YOUR_API_KEY",
@@ -31,7 +31,8 @@ const CustomMap = () => {
     <GoogleMap
       mapContainerStyle={{
         height: "350px",
-        width: width,
+        width: "100%",
+        color: "gray",
       }}
       center={center}
       zoom={10}
