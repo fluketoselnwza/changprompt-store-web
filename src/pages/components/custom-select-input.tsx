@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import React from "react";
 import { cn } from "@/lib/utils";
@@ -27,17 +27,15 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
     option,
   } = props;
 
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const [isOpen, setIsOpen] = useState(false);
-  // const [searchTerm, setSearchTerm] = useState("");
   const [selectValue, setSelectValue] = useState(value);
+  const [isDropdownUp, setIsDropdownUp] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-
-  // const filterItems = (item: string) => {
-  //   return item.toLowerCase().includes(value.toLowerCase());
-  // };
 
   const handleSelect = (value: string) => {
     console.log("value ===> ", value);
@@ -45,6 +43,45 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
     setValue(value);
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    console.log("isOpen ==> ", isOpen);
+    if (dropdownRef.current) {
+      const windowHeight = window.innerHeight;
+      const dropdownBottom = dropdownRef.current.getBoundingClientRect().bottom;
+
+      console.log("dropdownBottom ==> ", dropdownBottom);
+      console.log("windowHeight ==> ", windowHeight);
+
+      // If the dropdown goes beyond the bottom of the window, show it upwards
+      if (dropdownBottom + 500 > windowHeight) {
+        setIsDropdownUp(true);
+      } else {
+        setIsDropdownUp(false);
+      }
+    }
+  }, [value]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  console.log("option ==> ", option);
+  const optionItem = option?.length ? option.slice(0, 10) : [];
 
   return (
     <div className="flex flex-col gap-1">
@@ -60,6 +97,7 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
         <div className="relative group  w-full">
           <Button
             type="button"
+            ref={buttonRef}
             onClick={toggleDropdown}
             variant={"select"}
             className="w-full flex justify-between px-3"
@@ -73,20 +111,23 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
           </Button>
           {isOpen && (
             <div
+              ref={dropdownRef} // set ref to this div
               id="dropdown-menu"
-              className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-4 space-y-1"
+              className={`absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-4 space-y-1 ${
+                isDropdownUp ? "bottom-full mt-0" : "top-full mt-2"
+              }`}
+              // className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-4 space-y-1"
             >
               <input
                 id="search-input"
                 className="flex mb-1.5 h-[42px] text-[#09090b] w-full rounded-[8px] border border-gray-300 bg-transparent px-3 py-1 text-[14px] transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-black md:text-[16px]"
-                // className="block w-full px-4 py-2 text-gray-800 border rounded-md border-gray-300 focus:outline-none"
                 type="text"
                 placeholder={placeholderSearch}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 autoComplete="off"
               />
-              {option?.map((item, index) => (
+              {optionItem?.map((item, index) => (
                 <div
                   key={index}
                   onClick={() => handleSelect(item)}
