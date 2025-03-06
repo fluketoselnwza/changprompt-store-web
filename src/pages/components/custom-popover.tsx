@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -24,8 +24,32 @@ const CustomPopover: React.FC<ICustomPopoverProps> = ({
   itemPopOver,
   rowId,
 }) => {
+  const [isDropdownUp, setIsDropdownUp] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const popoverRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (popoverRef.current) {
+      // const popoverHeight = popoverRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const popoverBottom = popoverRef.current.getBoundingClientRect().bottom;
+
+      // If the popover goes beyond the bottom of the window, show it upwards
+      if (popoverBottom > windowHeight) {
+        setIsDropdownUp(true); // Show dropdown upwards
+      } else {
+        setIsDropdownUp(false); // Show dropdown downwards
+      }
+    }
+  }, [isOpen]);
+
+  const handlePopover = () => {
+    console.log("sdsds");
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <Popover>
+    <Popover onOpenChange={handlePopover}>
       <PopoverTrigger>
         {icon && (
           <img
@@ -36,7 +60,13 @@ const CustomPopover: React.FC<ICustomPopoverProps> = ({
         )}
       </PopoverTrigger>
       <PopoverContent
-        className={cn("absolute right-[-12px] p-0", classPopOver)}
+        style={{ display: isOpen ? "block" : "none" }}
+        ref={popoverRef}
+        className={cn(
+          "absolute right-[-12px] p-0",
+          isDropdownUp ? "bottom-full mb-9" : "top-full mt-2",
+          classPopOver
+        )}
       >
         {itemPopOver?.map((item, index) => (
           <div
