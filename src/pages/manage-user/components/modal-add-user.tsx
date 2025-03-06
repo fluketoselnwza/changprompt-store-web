@@ -77,8 +77,33 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<Inputs>();
+
+  const empCode = watch("emp_code");
+  const empRole = watch("role_code");
+  const firstName = watch("first_name");
+  const lastName = watch("last_name");
+  const nickName = watch("nick_name");
+  const nationId = watch("nation_id");
+  const mobileNumber = watch("mobile_number");
+  const email = watch("email");
+  const password = watch("password");
+  const address = watch("address");
+
+  const isDisabledBuuton =
+    empCode &&
+    empRole &&
+    firstName &&
+    lastName &&
+    nickName &&
+    nationId &&
+    mobileNumber &&
+    email &&
+    password &&
+    address &&
+    fullAddress.value;
 
   const handleConfirm = async (data: Inputs) => {
     openModalWarning(
@@ -433,7 +458,10 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   >
                     ยกเลิก
                   </Button>
-                  <Button className="w-[82px]">
+                  <Button
+                    className="w-[82px]"
+                    disabled={isDisabledBuuton ? false : true}
+                  >
                     {status === STATE_STATUS_MANAGE_USER.CREATE
                       ? "เพิ่ม"
                       : "ตกลง"}
