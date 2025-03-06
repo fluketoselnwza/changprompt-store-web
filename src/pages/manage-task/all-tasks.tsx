@@ -76,14 +76,13 @@ const AllTasksPage: React.FC<IPageProps> = (props) => {
   const [jobType, setJobType] = useState<string>("");
   const [jobStatus, setJobStatus] = useState<string>("");
   const [productName, setProductName] = useState<string>("");
-  const [jobId, setJobId] = useState<string>("");
 
   const itemPopOverData = [
     {
       label: "ดูรายละเอียดผู้ใช้งาน",
       onClick: (value?: string) => {
         if (value) {
-          setJobId(value);
+          console.log("value ==> ", value);
         }
       },
       icon: IconSearchDetailUser,
@@ -92,7 +91,7 @@ const AllTasksPage: React.FC<IPageProps> = (props) => {
       label: "แก้ไขผู้ใช้งาน",
       onClick: (value?: string) => {
         if (value) {
-          setJobId(value);
+          console.log("value ==> ", value);
         }
       },
       icon: IconEditUser,

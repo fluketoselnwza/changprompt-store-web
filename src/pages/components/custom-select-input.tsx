@@ -84,7 +84,7 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
   const optionItem = option?.length ? option.slice(0, 10) : [];
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-2">
       {label && (
         <label
           className={cn("font-medium text-[14px] text-gray-900", classLabel)}
