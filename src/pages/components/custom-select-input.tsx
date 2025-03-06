@@ -37,7 +37,7 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectValue, setSelectValue] = useState<string>(valueSearch);
+  // const [selectValue, setSelectValue] = useState<string>(valueSearch);
   const [isDropdownUp, setIsDropdownUp] = useState<boolean>(false);
 
   const toggleDropdown = () => {
@@ -46,7 +46,7 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
 
   const handleSelect = (data: ISelectData) => {
     console.log("value ===> ", value);
-    setSelectValue(data.label);
+    // setSelectValue(data.label);
     setValue(data);
     setIsOpen(false);
   };
@@ -110,8 +110,8 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
             className="w-full flex justify-between px-3"
             disabled={disabled}
           >
-            {selectValue ? (
-              <span className="text-[#09090b] text-[16px]">{selectValue}</span>
+            {value?.label ? (
+              <span className="text-[#09090b] text-[16px]">{value?.label}</span>
             ) : (
               <span className="text-gray-500 text-[16px]">{placeholder}</span>
             )}

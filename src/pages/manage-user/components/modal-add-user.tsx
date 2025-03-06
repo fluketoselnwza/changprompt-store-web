@@ -126,11 +126,8 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
       } else {
         const paramsUpdate = {
           ...params,
-          address: "999999 tragic",
-          subdistrict_code: "22103",
-          district_code: "221010220",
-          province_code: "2",
-          post_code: "10230",
+          address_name: data?.address,
+          address_full_code: fullAddress.value,
         };
 
         await updatePartnerUserService(paramsUpdate, userId ?? "");

@@ -147,11 +147,8 @@ export interface IUpdatePartnerUserParams {
   nation_id: string;
   mobile_number: string;
   email: string;
-  address: string;
-  subdistrict_code: string;
-  district_code: string;
-  province_code: string;
-  post_code: string;
+  address_name: string;
+  address_full_code: string;
 }
 
 export interface IAddressSearchResponse {
