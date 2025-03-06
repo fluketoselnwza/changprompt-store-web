@@ -158,7 +158,22 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
       setValue("email", result.email);
       setValue("password", "********");
       setValue("address", result.address);
-      setValue("addresses", result.full_address);
+
+      const addressName = result.full_address;
+      const addressFullCode =
+        result?.subdistrict_code +
+        "|" +
+        result?.district_code +
+        "|" +
+        result?.province_code +
+        "|" +
+        result?.post_code;
+
+      setSearchAddress(addressName);
+      setFullAddress({
+        label: addressName,
+        value: addressFullCode,
+      });
     }
   };
 
@@ -218,11 +233,11 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
           result.map((item) => {
             const addressName =
               item.subdistrict_thai +
-              " / " +
+              "/" +
               item.district_thai +
-              " / " +
+              "/" +
               item.province_thai +
-              " / " +
+              "/" +
               item.post_code;
 
             const addressFullCode =
