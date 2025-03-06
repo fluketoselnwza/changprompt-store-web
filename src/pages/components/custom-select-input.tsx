@@ -16,6 +16,7 @@ interface CustomSelectInputProps {
   value: ISelectData;
   setValue: (value: ISelectData) => void;
   option: ISelectData[];
+  disabled?: boolean;
 }
 
 const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
@@ -30,6 +31,7 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
     valueSearch,
     setValueSearch,
     option,
+    disabled,
   } = props;
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -106,6 +108,7 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
             onClick={toggleDropdown}
             variant={"select"}
             className="w-full flex justify-between px-3"
+            disabled={disabled}
           >
             {selectValue ? (
               <span className="text-[#09090b] text-[16px]">{selectValue}</span>

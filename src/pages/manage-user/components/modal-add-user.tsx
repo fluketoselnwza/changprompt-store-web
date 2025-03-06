@@ -423,6 +423,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   setValue={setFullAddress}
                   placeholderSearch="ค้นหา รหัสไปรษณีย์ ตำบล อำเภอ จังหวัด"
                   option={addressDataList}
+                  disabled={isDisabled}
                 />
               </div>
               {status !== STATE_STATUS_MANAGE_USER.GET ? (
