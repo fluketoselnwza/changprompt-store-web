@@ -16,6 +16,7 @@ import IconSearch from "@/assets/icons/icon-search.png";
 import dayjs from "dayjs";
 import { useState, useEffect } from "react";
 import { getAddressService } from "@/services/address";
+import { ISelectData } from "../interface";
 
 const breadcrumbs = [
   {
@@ -62,10 +63,13 @@ type Inputs = {
 const NewTaskPage = () => {
   const navigate = useNavigate();
 
-  const [searchFullAddress, setSearchFullAddress] = useState<string>("");
-  const [debouncedQuery, setDebouncedQuery] =
-    useState<string>(searchFullAddress);
-  const [addressDataList, setAddressDataList] = useState<string[]>([]);
+  const [searchAddress, setSearchAddress] = useState<string>("");
+  const [fullAddress, setFullAddress] = useState<ISelectData>({
+    label: "",
+    value: "",
+  });
+  const [debouncedQuery, setDebouncedQuery] = useState<string>(searchAddress);
+  const [addressDataList, setAddressDataList] = useState<ISelectData[]>([]);
 
   const {
     register,
@@ -80,18 +84,30 @@ const NewTaskPage = () => {
 
         console.log("result ==> ", result);
         if (result?.length) {
-          const dataAddress: string[] = [];
+          const dataAddress: ISelectData[] = [];
           result.map((item) => {
             const addressName =
               item.subdistrict_thai +
-              ">>" +
+              "/" +
               item.district_thai +
-              ">>" +
+              "/" +
               item.province_thai +
-              ">>" +
+              "/" +
               item.post_code;
 
-            dataAddress.push(addressName);
+            const addressFullCode =
+              item.subdistrict_code +
+              "|" +
+              item.district_code +
+              "|" +
+              item.province_code +
+              "|" +
+              item.post_code;
+
+            dataAddress.push({
+              label: addressName,
+              value: addressFullCode,
+            });
           });
 
           console.log("data ===> ", dataAddress);
@@ -113,11 +129,11 @@ const NewTaskPage = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedQuery(searchFullAddress);
+      setDebouncedQuery(searchAddress);
     }, 500); // 500ms debounce delay
 
     return () => clearTimeout(timer);
-  }, [searchFullAddress]);
+  }, [searchAddress]);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log("data > ", data);
@@ -252,8 +268,10 @@ const NewTaskPage = () => {
                   <CustomSelectInput
                     label="ตำบล/อำเภอ/จังหวัด"
                     required
-                    value={searchFullAddress}
-                    setValue={setSearchFullAddress}
+                    valueSearch={searchAddress}
+                    setValueSearch={setSearchAddress}
+                    value={fullAddress}
+                    setValue={setFullAddress}
                     placeholderSearch="ค้นหา รหัสไปรษณีย์ ตำบล อำเภอ จังหวัด"
                     option={addressDataList}
                   />
