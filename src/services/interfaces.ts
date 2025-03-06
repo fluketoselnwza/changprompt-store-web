@@ -83,7 +83,8 @@ export interface ICreatePartnerUserParam {
   mobile_number: string;
   email: string;
   password: string;
-  addresses: IAddressesData;
+  address_name: string;
+  address_full_code: string;
 }
 
 export interface IPartnerUserDetailResponse {

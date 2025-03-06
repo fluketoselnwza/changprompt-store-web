@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import React from "react";
 import { cn } from "@/lib/utils";
+import { ISelectData } from "../interface";
 
 interface CustomSelectInputProps {
   label?: string;
@@ -10,9 +11,11 @@ interface CustomSelectInputProps {
   classLabel?: string;
   placeholder?: string;
   placeholderSearch?: string;
-  value: string;
-  setValue: (value: string) => void;
-  option: string[];
+  valueSearch: string;
+  setValueSearch: (value: string) => void;
+  value: ISelectData;
+  setValue: (value: ISelectData) => void;
+  option: ISelectData[];
 }
 
 const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
@@ -24,23 +27,25 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
     placeholderSearch = "ค้นหา",
     value,
     setValue,
+    valueSearch,
+    setValueSearch,
     option,
   } = props;
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectValue, setSelectValue] = useState(value);
-  const [isDropdownUp, setIsDropdownUp] = useState(false);
+  const [selectValue, setSelectValue] = useState<string>(valueSearch);
+  const [isDropdownUp, setIsDropdownUp] = useState<boolean>(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSelect = (value: string) => {
+  const handleSelect = (data: ISelectData) => {
     console.log("value ===> ", value);
-    setSelectValue(value);
-    setValue(value);
+    setSelectValue(data.label);
+    setValue(data);
     setIsOpen(false);
   };
 
@@ -60,7 +65,7 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
         setIsDropdownUp(false);
       }
     }
-  }, [value]);
+  }, [valueSearch]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -123,8 +128,8 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
                 className="flex mb-1.5 h-[42px] text-[#09090b] w-full rounded-[8px] border border-gray-300 bg-transparent px-3 py-1 text-[14px] transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-black md:text-[16px]"
                 type="text"
                 placeholder={placeholderSearch}
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
+                value={valueSearch}
+                onChange={(e) => setValueSearch(e.target.value)}
                 autoComplete="off"
               />
               {optionItem?.map((item, index) => (
@@ -133,7 +138,7 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
                   onClick={() => handleSelect(item)}
                   className="block py-1.5  px-1 text-[#09090b] text-[14px] hover:bg-gray-100 active:bg-blue-100 cursor-pointer rounded-md"
                 >
-                  {item}
+                  {item.label}
                 </div>
               ))}
             </div>

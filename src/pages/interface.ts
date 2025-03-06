@@ -22,3 +22,8 @@ export interface ISidebarProps {
 export interface ISidebarState {
   isSidebar: boolean;
 }
+
+export interface ISelectData {
+  label: string;
+  value: string;
+}

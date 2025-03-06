@@ -22,7 +22,7 @@ import {
 } from "@/services/user";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { IPageProps } from "@/pages/interface";
+import { IPageProps, ISelectData } from "@/pages/interface";
 import IconWaringColor from "@/assets/icons/icon-warning-blue.png";
 import {
   openModalWarning,
@@ -65,8 +65,12 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
 }) => {
   const [roleCode, setRoleCode] = useState<string>("");
   const [searchAddress, setSearchAddress] = useState<string>("");
+  const [fullAddress, setFullAddress] = useState<ISelectData>({
+    label: "",
+    value: "",
+  });
   const [debouncedQuery, setDebouncedQuery] = useState<string>(searchAddress);
-  const [addressDataList, setAddressDataList] = useState<string[]>([]);
+  const [addressDataList, setAddressDataList] = useState<ISelectData[]>([]);
 
   const {
     register,
@@ -114,13 +118,8 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
           ...params,
           emp_code: data?.emp_code,
           password: data?.password,
-          addresses: {
-            address: data?.address,
-            sub_district_code: "22501",
-            district_code: "225010240",
-            province_code: "2",
-            zipcode: "10230",
-          },
+          address_name: data?.address,
+          address_full_code: fullAddress.value,
         };
 
         await createPartnerUserService(paramsCreate);
@@ -190,6 +189,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
           addresses: "",
         });
         setSearchAddress("");
+        setFullAddress({ label: "", value: "" });
         setAddressDataList([]);
       }
     } else {
@@ -214,18 +214,30 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
 
         console.log("result ==> ", result);
         if (result?.length) {
-          const dataAddress: string[] = [];
+          const dataAddress: ISelectData[] = [];
           result.map((item) => {
             const addressName =
               item.subdistrict_thai +
-              ">>" +
+              " / " +
               item.district_thai +
-              ">>" +
+              " / " +
               item.province_thai +
-              ">>" +
+              " / " +
               item.post_code;
 
-            dataAddress.push(addressName);
+            const addressFullCode =
+              item.subdistrict_code +
+              "|" +
+              item.district_code +
+              "|" +
+              item.province_code +
+              "|" +
+              item.post_code;
+
+            dataAddress.push({
+              label: addressName,
+              value: addressFullCode,
+            });
           });
 
           console.log("data ===> ", dataAddress);
@@ -390,8 +402,10 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                 <CustomSelectInput
                   label="ตำบล/อำเภอ/จังหวัด"
                   required
-                  value={searchAddress}
-                  setValue={setSearchAddress}
+                  valueSearch={searchAddress}
+                  setValueSearch={setSearchAddress}
+                  value={fullAddress}
+                  setValue={setFullAddress}
                   placeholderSearch="ค้นหา รหัสไปรษณีย์ ตำบล อำเภอ จังหวัด"
                   option={addressDataList}
                 />
