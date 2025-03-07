@@ -98,9 +98,10 @@ const AllTasksPage: React.FC<IPageProps> = (props) => {
     },
     {
       label: "ลบข้อมูลผู้ใช้งาน",
-      onClick: (value?: string) => {
-        if (value) {
-          confirmDeleteJob(value);
+      onClick: (data?: IJobData) => {
+        if (data?.id) {
+          console.log("value ==> ", data);
+          confirmDeleteJob(data);
         }
       },
       icon: IconDeleteUser,
@@ -182,7 +183,7 @@ const AllTasksPage: React.FC<IPageProps> = (props) => {
               icon={IconSubMenu}
               classPopOver="w-[224px]"
               itemPopOver={itemPopOverData}
-              rowId={row.id}
+              data={row}
             />
           </div>
         );
@@ -255,12 +256,12 @@ const AllTasksPage: React.FC<IPageProps> = (props) => {
     }
   };
 
-  const confirmDeleteJob = (id: string) => {
-    console.log("confirm user :", id);
+  const confirmDeleteJob = (data: IJobData) => {
+    console.log("data user :", data);
     openModalWarning(
       IconWaringColor,
       "ยืนยีนลบใบงาน",
-      "",
+      `(ส่งใบงาน กับอุปกรณ์ติดตั้ง)`,
       "ยกเลิก",
       () => {
         closeModalWarning();
@@ -268,7 +269,7 @@ const AllTasksPage: React.FC<IPageProps> = (props) => {
       "ยืนยัน",
       () => {
         closeModalWarning();
-        handleDeleteJob(id);
+        handleDeleteJob(data.id);
       }
     );
   };

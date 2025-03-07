@@ -73,9 +73,9 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
   const itemPopOverData = [
     {
       label: "ดูรายละเอียดผู้ใช้งาน",
-      onClick: (value?: string) => {
-        if (value) {
-          setUserId(value);
+      onClick: (data?: IUserData) => {
+        if (data?.id) {
+          setUserId(data.id);
           setStatus(STATE_STATUS_MANAGE_USER.GET);
           setIsAddUser(true);
         }
@@ -84,9 +84,9 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
     },
     {
       label: "แก้ไขผู้ใช้งาน",
-      onClick: (value?: string) => {
-        if (value) {
-          setUserId(value);
+      onClick: (data?: IUserData) => {
+        if (data?.id) {
+          setUserId(data.id);
           setStatus(STATE_STATUS_MANAGE_USER.UPDATE);
           setIsAddUser(true);
         }
@@ -95,9 +95,9 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
     },
     {
       label: "ลบข้อมูลผู้ใช้งาน",
-      onClick: (value?: string) => {
-        if (value) {
-          confirmDeleteUser(value);
+      onClick: (data?: IUserData) => {
+        if (data) {
+          confirmDeleteUser(data);
         }
       },
       icon: IconDeleteUser,
@@ -168,7 +168,7 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
               icon={IconSubMenu}
               classPopOver="w-[224px]"
               itemPopOver={itemPopOverData}
-              rowId={row.id}
+              data={row}
             />
           </div>
         );
@@ -191,8 +191,8 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
     }
   };
 
-  const confirmDeleteUser = (id: string) => {
-    console.log("confirm user :", id);
+  const confirmDeleteUser = (data: IUserData) => {
+    console.log("confirm user :", data.id);
     openModalWarning(
       IconWaringColor,
       "ยืนยันการลบสมาชิกใช่หรือไม่",
@@ -204,7 +204,7 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
       "ยืนยัน",
       () => {
         closeModalWarning();
-        handleDeleteUser(id);
+        handleDeleteUser(data.id);
       }
     );
   };
