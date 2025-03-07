@@ -123,8 +123,10 @@ export interface IJobData {
   product_name: string;
   customer_name: string;
   technician_name: string;
+  technician_mobile: string;
   create_by: string;
   created_at: string;
+  create_by_name: string;
   job_status: string;
 }
 
