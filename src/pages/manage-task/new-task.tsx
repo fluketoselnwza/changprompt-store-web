@@ -212,6 +212,8 @@ const NewTaskPage = () => {
                     label="เบอร์โทรศัพท์"
                     placeholder="เบอร์โทรศัพท์"
                     required
+                    type="number"
+                    maxLength={10}
                     error={errors.mobile_number?.message}
                     register={register("mobile_number", {
                       required: "กรุณาระบุเบอร์โทรศัพท์",
@@ -220,6 +222,8 @@ const NewTaskPage = () => {
                   <CustomInput
                     name="mobile_spare"
                     label="เบอร์โทรศัพท์ (สำรอง)"
+                    type="number"
+                    maxLength={10}
                     placeholder="เบอร์โทรศัพท์ (สำรอง)"
                     register={register("mobile_spare", {
                       required: "กรุณาระบุเบอร์โทรศัพท์ (สำรอง)",
@@ -228,6 +232,7 @@ const NewTaskPage = () => {
                   <DatePicker
                     name="appointment_date"
                     label="วันที่นัดหมาย"
+                    classInput="text-[16px]"
                     required
                     error={errors.appointment_date?.message}
                     register={register("appointment_date", {
@@ -238,6 +243,8 @@ const NewTaskPage = () => {
                     name="appointment_time"
                     label="เวลานัดหมาย"
                     required
+                    placeholder="เลิอกเวลานัดหมาย"
+                    className="[&>span]:text-[16px]"
                     error={errors.appointment_time?.message}
                     options={[
                       {
@@ -316,7 +323,9 @@ const NewTaskPage = () => {
                   <CustomSelect
                     name="job_type"
                     label="ประเภทงาน"
+                    placeholder="เลือกประเภทงาน"
                     required
+                    className="[&>span]:text-[16px]"
                     error={errors.job_type?.message}
                     options={[]}
                     register={register("job_type", {
@@ -326,7 +335,9 @@ const NewTaskPage = () => {
                   <CustomSelect
                     name="product"
                     label="เลือกสินค้า"
+                    placeholder="เลือกสินค้า"
                     required
+                    className="[&>span]:text-[16px]"
                     error={errors.product?.message}
                     options={[]}
                     register={register("product", {
@@ -338,11 +349,13 @@ const NewTaskPage = () => {
                   <CustomSelect
                     name="type_technicial"
                     label="เลือกช่าง"
+                    placeholder="เลือกช่าง"
                     required
+                    className="[&>span]:text-[16px]"
                     error={errors.type_technicial?.message}
                     options={[]}
                     register={register("type_technicial", {
-                      required: "กรุณาเลือก่าง",
+                      required: "กรุณาเลือกช่าง",
                     })}
                   />
                   <CustomInputIcon
@@ -358,7 +371,9 @@ const NewTaskPage = () => {
                   <CustomSelect
                     name="type_payment"
                     label="ประเภทการเก็บเงิน"
+                    placeholder="เลือกประเภทการเก็บเงิน"
                     required
+                    className="[&>span]:text-[16px]"
                     error={errors.type_payment?.message}
                     options={[]}
                     register={register("type_payment", {

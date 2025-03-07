@@ -41,7 +41,7 @@ const CustomSelect: React.FC<CustomerSelectProps> = ({
   ...props
 }) => {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-2">
       {label && (
         <label
           className={cn("font-medium text-[14px] text-gray-900", classLabel)}
