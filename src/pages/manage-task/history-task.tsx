@@ -22,7 +22,7 @@ const breadcrumbs = [
     icon: IconHome,
   },
   {
-    label: "ประวัติการรับงาน",
+    label: "ประวัติใบงาน",
     link: "",
     icon: "",
   },
