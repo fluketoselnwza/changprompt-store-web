@@ -108,10 +108,12 @@ export interface IPartnerUserDetailResponse {
 
 export interface IPartnerJobParams {
   job_code: string;
-  customer_name: string;
-  product_name: string;
-  job_type: string;
+  customer_name?: string;
+  product_name?: string;
+  tech_name?: string;
+  job_type?: string;
   job_status: string;
+  job_date?: string;
   skip: number;
   take?: number;
 }
