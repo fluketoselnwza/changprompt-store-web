@@ -17,6 +17,7 @@ import dayjs from "dayjs";
 import { useState, useEffect } from "react";
 import { getAddressService } from "@/services/address";
 import { ISelectData } from "../interface";
+import { getJobInquiryService } from "@/services/task";
 
 const breadcrumbs = [
   {
@@ -37,9 +38,9 @@ const breadcrumbs = [
 ];
 
 type Inputs = {
-  no_job: string;
-  store_name: string;
-  creator_name: string;
+  job_code: string;
+  partner_name: string;
+  create_by: string;
   full_name: string;
   mobile_number: string;
   mobile_spare: string;
@@ -74,6 +75,7 @@ const NewTaskPage = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -135,6 +137,21 @@ const NewTaskPage = () => {
     return () => clearTimeout(timer);
   }, [searchAddress]);
 
+  useEffect(() => {
+    const getJobInquiry = async () => {
+      const result = await getJobInquiryService();
+      console.log("resilt ==> ", result);
+
+      if (result) {
+        setValue("job_code", result.job_code);
+        setValue("partner_name", result.partner_name);
+        setValue("create_by", result.create_by);
+      }
+    };
+
+    getJobInquiry();
+  }, []);
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log("data > ", data);
   };
@@ -169,26 +186,29 @@ const NewTaskPage = () => {
                 </div>
                 <div className="mt-6 grid grid-cols-3 gap-4">
                   <CustomInput
-                    name="no_job"
+                    name="job_code"
                     label="เลขที่ใบงาน"
                     placeholder="เลขที่ใบงาน"
-                    register={register("no_job", {
+                    disabled
+                    register={register("job_code", {
                       required: "กรุณาระบุเลขที่ใบงาน",
                     })}
                   />
                   <CustomInput
-                    name="store_name"
+                    name="partner_name"
                     label="ชื่อร้าน"
                     placeholder="ชื่อร้าน"
-                    register={register("store_name", {
+                    disabled
+                    register={register("partner_name", {
                       required: "กรุณาระบุชื่อร้าน",
                     })}
                   />
                   <CustomInput
-                    name="creator_name"
+                    name="create_by"
                     label="ผู้สร้างใบงาน"
                     placeholder="ผู้สร้างใบงาน"
-                    register={register("creator_name", {
+                    disabled
+                    register={register("create_by", {
                       required: "กรุณาระบุผู้สร้างใบงาน",
                     })}
                   />

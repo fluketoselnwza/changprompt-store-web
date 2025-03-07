@@ -161,3 +161,9 @@ export interface IAddressSearchResponse {
   district_code: string;
   province_code: string;
 }
+
+export interface IJobInquiryResponse {
+  job_code: string;
+  partner_name: string;
+  create_by: string;
+}

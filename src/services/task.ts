@@ -1,5 +1,9 @@
 import { axiosInstance } from "@/config/api";
-import { IPartnerJobParams, IPartnerJobResponse } from "./interfaces";
+import {
+  IPartnerJobParams,
+  IPartnerJobResponse,
+  IJobInquiryResponse,
+} from "./interfaces";
 
 export const getPartnerAllTaskService = async (params: IPartnerJobParams) => {
   const {
@@ -31,4 +35,14 @@ export const deletePartnerJobsService = async (jobId: string) => {
   const response = await axiosInstance.delete(path, config);
 
   return response.data;
+};
+
+export const getJobInquiryService = async () => {
+  const path = `/partners/jobs/inquiry/latest`;
+
+  const config = {};
+
+  const response = await axiosInstance.get(path, config);
+
+  return response.data as IJobInquiryResponse;
 };
