@@ -3,6 +3,7 @@ import {
   IPartnerJobParams,
   IPartnerJobResponse,
   IJobInquiryResponse,
+  ICreateJobParams,
 } from "./interfaces";
 
 export const getPartnerAllTaskService = async (params: IPartnerJobParams) => {
@@ -45,4 +46,14 @@ export const getJobInquiryService = async () => {
   const response = await axiosInstance.get(path, config);
 
   return response.data as IJobInquiryResponse;
+};
+
+export const createJobService = async (params: ICreateJobParams) => {
+  const path = "/partners/jobs";
+
+  const config = {};
+
+  const response = await axiosInstance.post(path, params, config);
+
+  return response.data;
 };

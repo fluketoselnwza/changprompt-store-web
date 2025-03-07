@@ -43,22 +43,19 @@ type Inputs = {
   create_by: string;
   full_name: string;
   mobile_number: string;
-  mobile_spare: string;
+  mobile_number_secondary: string;
   appointment_date: string;
   appointment_time: string;
+  additional_information: string;
+  distance: number;
   address: string;
-  zipcode: string;
-  district: string;
-  province: string;
-  point_service: string;
-  distance: string;
-  technicial_name: string;
-  cost: string;
-  type_payment: string;
-  sub_district: string;
   job_type: string;
   product: string;
-  type_technicial: string;
+  tech_id: string;
+  tech_type: string;
+  tech_name: string;
+  payment_type: string;
+  wages: number;
 };
 
 const NewTaskPage = () => {
@@ -154,6 +151,8 @@ const NewTaskPage = () => {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log("data > ", data);
+
+    // createJobService();
   };
 
   return (
@@ -240,12 +239,12 @@ const NewTaskPage = () => {
                     })}
                   />
                   <CustomInput
-                    name="mobile_spare"
+                    name="mobile_number_secondary"
                     label="เบอร์โทรศัพท์ (สำรอง)"
                     type="number"
                     maxLength={10}
                     placeholder="เบอร์โทรศัพท์ (สำรอง)"
-                    register={register("mobile_spare", {
+                    register={register("mobile_number_secondary", {
                       required: "กรุณาระบุเบอร์โทรศัพท์ (สำรอง)",
                     })}
                   />
@@ -306,12 +305,12 @@ const NewTaskPage = () => {
                 <div className="mt-6 grid grid-cols-3 gap-4">
                   <div className="col-span-2">
                     <CustomInput
-                      name="point_service"
+                      name="additional_information"
                       label="ระบุจุดที่ต้องการเข้าให้บริการ (ชั้น ห้อง อื่นๆ)"
                       placeholder="ระบุรายละเอียดจุดให้บริการของลูกค้าให้ชัดเจนมากขึ้น เช่น บ้านชั้น 2"
                       required
-                      error={errors.point_service?.message}
-                      register={register("point_service", {
+                      error={errors.additional_information?.message}
+                      register={register("additional_information", {
                         required: "กรุณาระบุจุดที่ต้องการเข้าให้บริการ",
                       })}
                     />
@@ -367,50 +366,50 @@ const NewTaskPage = () => {
                 </div>
                 <div className="mt-6 grid grid-cols-3 gap-4">
                   <CustomSelect
-                    name="type_technicial"
+                    name="tech_type"
                     label="เลือกช่าง"
                     placeholder="เลือกช่าง"
                     required
                     className="[&>span]:text-[16px]"
-                    error={errors.type_technicial?.message}
+                    error={errors.tech_type?.message}
                     options={[]}
-                    register={register("type_technicial", {
+                    register={register("tech_type", {
                       required: "กรุณาเลือกช่าง",
                     })}
                   />
                   <CustomInputIcon
                     label="ช่าง"
                     iconRight={IconSearch}
-                    name="technicial_name"
+                    name="tech_name"
                     placeholder="ค้นหาช่าง"
-                    error={errors.technicial_name?.message}
-                    register={register("technicial_name", {
+                    error={errors.tech_name?.message}
+                    register={register("tech_name", {
                       required: "กรุณาระบุช่าง",
                     })}
                   />
                   <CustomSelect
-                    name="type_payment"
+                    name="payment_type"
                     label="ประเภทการเก็บเงิน"
                     placeholder="เลือกประเภทการเก็บเงิน"
                     required
                     className="[&>span]:text-[16px]"
-                    error={errors.type_payment?.message}
+                    error={errors.payment_type?.message}
                     options={[]}
-                    register={register("type_payment", {
+                    register={register("payment_type", {
                       required: "กรุณาเลือกประเภทการเก็บเงิน",
                     })}
                   />
                 </div>
                 <div className="mt-6 grid grid-cols-3 gap-4">
                   <CustomInput
-                    name="cost"
+                    name="wages"
                     label="ค่าแรง"
                     placeholder="00.00"
                     classInput="text-right"
                     type="number"
                     required
-                    error={errors.cost?.message}
-                    register={register("cost", {
+                    error={errors.wages?.message}
+                    register={register("wages", {
                       required: "กรุณาระบุค่าแรง",
                     })}
                   />

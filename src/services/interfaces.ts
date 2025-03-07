@@ -167,3 +167,57 @@ export interface IJobInquiryResponse {
   partner_name: string;
   create_by: string;
 }
+
+export interface IJobInfoData {
+  job_code: string;
+  partner_name: string;
+}
+
+export interface IAddressInfoData {
+  address: string;
+  sub_district_code: string;
+  sub_district_name: string;
+  district_code: string;
+  district_name: string;
+  province_code: string;
+  province_name: string;
+  postcode: string;
+  latitude: number;
+  longitude: number;
+}
+export interface ICustomerInfoData {
+  full_name: string;
+  mobile_number: string;
+  mobile_number_secondary: string;
+  appointment_date: string;
+  appointment_time: string;
+  additional_information: string;
+  distance: number;
+  address: IAddressInfoData;
+}
+
+export interface IProductServiceInfoData {
+  job_type: string;
+  product: string;
+  product_type: string;
+  product_model: string;
+  product_brand: string;
+  serial_number: string;
+  product_unit: string;
+  status: string;
+  remark: string;
+  accessories: string;
+}
+
+export interface ITechServiceFeeInfoData {
+  tech_id: string;
+  payment_type: string;
+  wages: number;
+}
+
+export interface ICreateJobParams {
+  job_info: IJobInfoData;
+  customer_info: ICustomerInfoData;
+  product_service_info: IProductServiceInfoData;
+  tech_service_fee_info: ITechServiceFeeInfoData;
+}
