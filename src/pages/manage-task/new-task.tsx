@@ -385,7 +385,9 @@ const NewTaskPage = () => {
                   <CustomInput
                     name="cost"
                     label="ค่าแรง"
-                    placeholder="กรอกข้อมูล"
+                    placeholder="00.00"
+                    classInput="text-right"
+                    type="number"
                     required
                     error={errors.cost?.message}
                     register={register("cost", {
