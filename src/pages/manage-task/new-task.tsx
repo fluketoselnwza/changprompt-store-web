@@ -20,9 +20,14 @@ import { ISelectData } from "../interface";
 import { getJobInquiryService } from "@/services/task";
 import {
   TECH_TYPE_OPTION,
-  PRODUCR_NAME_OPTION,
+  PRODUCT_NAME_OPTION,
   JOB_TYPE_OPTION,
   PAYMENT_TYPE_OPTION,
+  PRODUCT_TYPE_OPTION,
+  PRODUCT_MODAL_OPTION,
+  PRODUCT_BRAND_OPTION,
+  PRODUCT_UNIT_OPTION,
+  STATUS_JOB_OPTION,
 } from "../data/option-data";
 
 const breadcrumbs = [
@@ -376,7 +381,7 @@ const NewTaskPage = () => {
                       required
                       className="[&>span]:text-[16px]"
                       error={errors.product?.message}
-                      options={PRODUCR_NAME_OPTION}
+                      options={PRODUCT_NAME_OPTION}
                       register={register("product", {
                         required: "กรุณาเลือกสินค้า",
                       })}
@@ -389,9 +394,9 @@ const NewTaskPage = () => {
                       required
                       className="[&>span]:text-[16px]"
                       error={errors.product_type?.message}
-                      options={PRODUCR_NAME_OPTION}
+                      options={PRODUCT_TYPE_OPTION}
                       register={register("product_type", {
-                        required: "กรุณาเลือกสินค้า",
+                        required: "กรุณาเลือกประเภทสินค้า",
                       })}
                     />
                     <CustomSelect
@@ -399,7 +404,7 @@ const NewTaskPage = () => {
                       label="รุ่นสินค้า"
                       placeholder="เลือกรุ่นสินค้า"
                       className="[&>span]:text-[16px]"
-                      options={PRODUCR_NAME_OPTION}
+                      options={PRODUCT_MODAL_OPTION}
                       register={register("product_model")}
                     />
                     <CustomSelect
@@ -409,7 +414,7 @@ const NewTaskPage = () => {
                       required
                       className="[&>span]:text-[16px]"
                       error={errors.product_brand?.message}
-                      options={PRODUCR_NAME_OPTION}
+                      options={PRODUCT_BRAND_OPTION}
                       register={register("product_brand", {
                         required: "กรุณาเลือกยี่ห้อหรือแบรนด์สินค้า",
                       })}
@@ -429,7 +434,7 @@ const NewTaskPage = () => {
                       label="หน่วย"
                       placeholder="เลือกหน่วย"
                       className="[&>span]:text-[16px]"
-                      options={PRODUCR_NAME_OPTION}
+                      options={PRODUCT_UNIT_OPTION}
                       register={register("product_unit")}
                     />
                     <CustomSelect
@@ -437,7 +442,7 @@ const NewTaskPage = () => {
                       label="สถานะ / เหตุผล"
                       placeholder="เลือกสถานะ / เหตุผล"
                       className="[&>span]:text-[16px]"
-                      options={PRODUCR_NAME_OPTION}
+                      options={STATUS_JOB_OPTION}
                       register={register("status")}
                     />
                     <CustomInput

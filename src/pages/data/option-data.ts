@@ -1,4 +1,4 @@
-export const PRODUCR_NAME_OPTION = [
+export const PRODUCT_NAME_OPTION = [
   {
     label: "แอร์",
     value: "แอร์",
@@ -74,5 +74,68 @@ export const PAYMENT_TYPE_OPTION = [
   {
     label: "ยังไม่ชำระ",
     value: "ยังไม่ชำระ",
+  },
+];
+
+export const PRODUCT_TYPE_OPTION = [
+  {
+    label: "วัสดุปูพื้นและผนัง",
+    value: "วัสดุปูพื้นและผนัง",
+  },
+  {
+    label: "เครื่องใช้ไฟฟ้า",
+    value: "เครื่องใช้ไฟฟ้า",
+  },
+  {
+    label: "ห้องครัวและอุปกรณ์",
+    value: "ห้องครัวและอุปกรณ์",
+  },
+];
+
+export const PRODUCT_MODAL_OPTION = [
+  {
+    label: "mx-2025",
+    value: "mx-2025",
+  },
+  {
+    label: "ma-2025",
+    value: "ma-2025",
+  },
+];
+
+export const PRODUCT_BRAND_OPTION = [
+  {
+    label: "DAIKIN",
+    value: "DAIKIN",
+  },
+  {
+    label: "BEKO",
+    value: "BEKO",
+  },
+  {
+    label: "LG",
+    value: "LG",
+  },
+];
+
+export const PRODUCT_UNIT_OPTION = [
+  {
+    label: "เครื่อง",
+    value: "เครื่อง",
+  },
+  {
+    label: "ชุด",
+    value: "ชุด",
+  },
+  {
+    label: "ชิ้น",
+    value: "ชิ้น",
+  },
+];
+
+export const STATUS_JOB_OPTION = [
+  {
+    label: "รอมอบหมาย",
+    value: "WAITING_ASSIGN",
   },
 ];

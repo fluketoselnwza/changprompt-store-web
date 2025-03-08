@@ -14,7 +14,7 @@ import {
 import IconSearch from "@/assets/icons/icon-search.png";
 import IconUserPlus from "@/assets/icons/icon-user-plus.png";
 import {
-  PRODUCR_NAME_OPTION,
+  PRODUCT_NAME_OPTION,
   JOB_STATUS_OPTION,
   JOB_TYPE_OPTION,
 } from "../data/option-data";
@@ -194,7 +194,7 @@ const WaitingTechTaskPage: React.FC = () => {
               <CustomSelect
                 name="product_name"
                 placeholder="เลืกสินค้า"
-                options={PRODUCR_NAME_OPTION}
+                options={PRODUCT_NAME_OPTION}
                 register={register("product_name")}
                 value={productName}
                 setValue={setProductName}
