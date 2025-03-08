@@ -187,7 +187,7 @@ const NewTaskPage = () => {
               >
                 <span className="text-[16px]">ย้อนกลับ</span>
               </Button>
-              <Button variant={"outline"}>
+              <Button disabled>
                 <span className="text-[16px]">สร้างใบงาน</span>
               </Button>
             </div>
