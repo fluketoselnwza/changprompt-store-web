@@ -261,7 +261,7 @@ const AllTasksPage: React.FC<IPageProps> = (props) => {
     openModalWarning(
       IconWaringColor,
       "ยืนยีนลบใบงาน",
-      `(ส่งใบงาน กับอุปกรณ์ติดตั้ง)`,
+      `${data?.job_code} : ${data?.job_type}${data?.product_name}`,
       "ยกเลิก",
       () => {
         closeModalWarning();
