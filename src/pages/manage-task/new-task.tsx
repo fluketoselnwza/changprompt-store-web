@@ -57,6 +57,14 @@ type Inputs = {
   address: string;
   job_type: string;
   product: string;
+  product_type: string;
+  product_model: string;
+  product_brand: string;
+  serial_number: string;
+  product_unit: string;
+  status: string;
+  remark: string;
+  accessories: string;
   tech_id: string;
   tech_type: string;
   tech_name: string;
@@ -93,11 +101,11 @@ const NewTaskPage = () => {
           result.map((item) => {
             const addressName =
               item.subdistrict_thai +
-              "/" +
+              ">" +
               item.district_thai +
-              "/" +
+              ">" +
               item.province_thai +
-              "/" +
+              ">" +
               item.post_code;
 
             const addressFullCode =
@@ -297,16 +305,18 @@ const NewTaskPage = () => {
                       required: "กรุณาระบุที่อยู่",
                     })}
                   />
-                  <CustomSelectInput
-                    label="ตำบล/อำเภอ/จังหวัด"
-                    required
-                    valueSearch={searchAddress}
-                    setValueSearch={setSearchAddress}
-                    value={fullAddress}
-                    setValue={setFullAddress}
-                    placeholderSearch="ค้นหา รหัสไปรษณีย์ ตำบล อำเภอ จังหวัด"
-                    option={addressDataList}
-                  />
+                  <div className="col-span-2">
+                    <CustomSelectInput
+                      label="ตำบล/อำเภอ/จังหวัด/รหัสไปรษณีย์"
+                      required
+                      valueSearch={searchAddress}
+                      setValueSearch={setSearchAddress}
+                      value={fullAddress}
+                      setValue={setFullAddress}
+                      placeholderSearch="ค้นหา รหัสไปรษณีย์ ตำบล อำเภอ จังหวัด"
+                      option={addressDataList}
+                    />
+                  </div>
                 </div>
                 <div className="mt-6 grid grid-cols-3 gap-4">
                   <div className="col-span-2">
@@ -344,66 +354,143 @@ const NewTaskPage = () => {
                 <div className="mt-3">
                   <CustomMap />
                 </div>
-                <div className="mt-6 grid grid-cols-3 gap-4">
-                  <CustomSelect
-                    name="job_type"
-                    label="ประเภทงาน"
-                    placeholder="เลือกประเภทงาน"
-                    required
-                    className="[&>span]:text-[16px]"
-                    error={errors.job_type?.message}
-                    options={JOB_TYPE_OPTION}
-                    register={register("job_type", {
-                      required: "กรุณาเลือกประเภทงาน",
-                    })}
-                  />
-                  <CustomSelect
-                    name="product"
-                    label="เลือกสินค้า"
-                    placeholder="เลือกสินค้า"
-                    required
-                    className="[&>span]:text-[16px]"
-                    error={errors.product?.message}
-                    options={PRODUCR_NAME_OPTION}
-                    register={register("product", {
-                      required: "กรุณาเลือกสินค้า",
-                    })}
-                  />
+                <div className="mt-14">
+                  <p className="text-[16] font-bold">ข้อมูลบริการและสินค้า</p>
+                  <div className="mt-6 grid grid-cols-3 gap-4">
+                    <CustomSelect
+                      name="job_type"
+                      label="ประเภทงาน"
+                      placeholder="เลือกประเภทงาน"
+                      required
+                      className="[&>span]:text-[16px]"
+                      error={errors.job_type?.message}
+                      options={JOB_TYPE_OPTION}
+                      register={register("job_type", {
+                        required: "กรุณาเลือกประเภทงาน",
+                      })}
+                    />
+                    <CustomSelect
+                      name="product"
+                      label="เลือกสินค้า"
+                      placeholder="เลือกสินค้า"
+                      required
+                      className="[&>span]:text-[16px]"
+                      error={errors.product?.message}
+                      options={PRODUCR_NAME_OPTION}
+                      register={register("product", {
+                        required: "กรุณาเลือกสินค้า",
+                      })}
+                    />
+                    <div></div>
+                    <CustomSelect
+                      name="product_type"
+                      label="ประเภทสินค้า"
+                      placeholder="เลือกประเภทสินค้า"
+                      required
+                      className="[&>span]:text-[16px]"
+                      error={errors.product_type?.message}
+                      options={PRODUCR_NAME_OPTION}
+                      register={register("product_type", {
+                        required: "กรุณาเลือกสินค้า",
+                      })}
+                    />
+                    <CustomSelect
+                      name="product_model"
+                      label="รุ่นสินค้า"
+                      placeholder="เลือกรุ่นสินค้า"
+                      className="[&>span]:text-[16px]"
+                      options={PRODUCR_NAME_OPTION}
+                      register={register("product_model")}
+                    />
+                    <CustomSelect
+                      name="product_brand"
+                      label="ยี่ห้อหรือแบรนด์สินค้า"
+                      placeholder="เลือกยี่ห้อหรือแบรนด์สินค้า"
+                      required
+                      className="[&>span]:text-[16px]"
+                      error={errors.product_brand?.message}
+                      options={PRODUCR_NAME_OPTION}
+                      register={register("product_brand", {
+                        required: "กรุณาเลือกยี่ห้อหรือแบรนด์สินค้า",
+                      })}
+                    />
+                    <CustomInput
+                      name="serial_number"
+                      label="หมายเลขสินค้า (SN Number)"
+                      placeholder="กรอกข้อมูล"
+                      required
+                      error={errors.serial_number?.message}
+                      register={register("serial_number", {
+                        required: "กรุณาระบุหมายเลขสินค้า",
+                      })}
+                    />
+                    <CustomSelect
+                      name="product_unit"
+                      label="หน่วย"
+                      placeholder="เลือกหน่วย"
+                      className="[&>span]:text-[16px]"
+                      options={PRODUCR_NAME_OPTION}
+                      register={register("product_unit")}
+                    />
+                    <CustomSelect
+                      name="status"
+                      label="สถานะ / เหตุผล"
+                      placeholder="เลือกสถานะ / เหตุผล"
+                      className="[&>span]:text-[16px]"
+                      options={PRODUCR_NAME_OPTION}
+                      register={register("status")}
+                    />
+                    <CustomInput
+                      name="remark"
+                      label="หมายเหตุ"
+                      placeholder="ระบุหมายเหตุ"
+                      register={register("remark")}
+                    />
+                    <CustomInput
+                      name="accessories"
+                      label="อุปกรณ์เสริม"
+                      placeholder="ระบุอุปกรณ์เสริม"
+                      register={register("accessories")}
+                    />
+                  </div>
                 </div>
-                <div className="mt-6 grid grid-cols-3 gap-4">
-                  <CustomSelect
-                    name="tech_type"
-                    label="เลือกช่าง"
-                    placeholder="เลือกช่าง"
-                    className="[&>span]:text-[16px]"
-                    options={TECH_TYPE_OPTION}
-                    register={register("tech_type")}
-                  />
-                  <CustomInputIcon
-                    label="ช่าง"
-                    iconRight={IconSearch}
-                    name="tech_name"
-                    placeholder="ค้นหาช่าง"
-                    register={register("tech_name")}
-                  />
-                  <CustomSelect
-                    name="payment_type"
-                    label="ประเภทการเก็บเงิน"
-                    placeholder="เลือกประเภทการเก็บเงิน"
-                    className="[&>span]:text-[16px]"
-                    options={PAYMENT_TYPE_OPTION}
-                    register={register("payment_type")}
-                  />
-                </div>
-                <div className="mt-6 grid grid-cols-3 gap-4">
-                  <CustomInput
-                    name="wages"
-                    label="ค่าแรง"
-                    placeholder="00.00"
-                    classInput="text-right"
-                    type="number"
-                    register={register("wages")}
-                  />
+                <div className="mt-14">
+                  <p className="text-[16] font-bold">ข้อมูลช่างและค่าบริการ</p>
+                  <div className="mt-6 grid grid-cols-3 gap-4">
+                    <CustomSelect
+                      name="tech_type"
+                      label="เลือกช่าง"
+                      placeholder="เลือกช่าง"
+                      className="[&>span]:text-[16px]"
+                      options={TECH_TYPE_OPTION}
+                      register={register("tech_type")}
+                    />
+                    <CustomInputIcon
+                      label="ช่าง"
+                      iconRight={IconSearch}
+                      name="tech_name"
+                      placeholder="ค้นหาช่าง"
+                      register={register("tech_name")}
+                    />
+                    <CustomSelect
+                      name="payment_type"
+                      label="ประเภทการเก็บเงิน"
+                      placeholder="เลือกประเภทการเก็บเงิน"
+                      className="[&>span]:text-[16px]"
+                      options={PAYMENT_TYPE_OPTION}
+                      register={register("payment_type")}
+                    />
+                  </div>
+                  <div className="mt-6 grid grid-cols-3 gap-4">
+                    <CustomInput
+                      name="wages"
+                      label="ค่าแรง"
+                      placeholder="00.00"
+                      classInput="text-right"
+                      type="number"
+                      register={register("wages")}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
