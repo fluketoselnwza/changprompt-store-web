@@ -23,26 +23,34 @@ export const JOB_TYPE_OPTION = [
 export const JOB_STATUS_OPTION = [
   {
     label: "รอมอบหมาย",
-    value: "รอมอบหมาย",
+    value: "WAITING_ASSIGN",
+  },
+  {
+    label: "รอช่างยืนยัน",
+    value: "WAITING_TECH_CONFIRM",
   },
   {
     label: "รอให้บริการ",
-    value: "รอให้บริการ",
+    value: "TECH_CONFIRMED",
   },
   {
     label: "กำลังให้บริการ",
-    value: "กำลังให้บริการ",
+    value: "INPROGRESS",
   },
   {
     label: "ช่างส่งงาน",
-    value: "ช่างส่งงาน",
+    value: "TECH_COMPLETED",
   },
   {
-    label: "งานสำเร็จ",
-    value: "งานสำเร็จ",
+    label: "อนุมัติส่งงานเรียบร้อย",
+    value: "APPROVED",
   },
   {
     label: "ลบใบงาน",
-    value: "ลบใบงาน",
+    value: "DELETED",
+  },
+  {
+    label: "ยกเลิกใบงาน",
+    value: "CANCELLED",
   },
 ];
