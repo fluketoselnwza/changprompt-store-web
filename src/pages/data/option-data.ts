@@ -139,3 +139,14 @@ export const STATUS_JOB_OPTION = [
     value: "WAITING_ASSIGN",
   },
 ];
+
+export const APPOINTMENT_TIME_OPTION = [
+  {
+    label: "เช้า 08:00 - 12:00",
+    value: "08:00 - 12:00",
+  },
+  {
+    label: "บ่าย 13:00 - 17:00",
+    value: "13:00 - 17:00",
+  },
+];

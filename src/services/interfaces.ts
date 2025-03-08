@@ -178,18 +178,13 @@ export interface IJobInfoData {
 }
 
 export interface IAddressInfoData {
-  address: string;
-  sub_district_code: string;
-  sub_district_name: string;
-  district_code: string;
-  district_name: string;
-  province_code: string;
-  province_name: string;
-  postcode: string;
+  address_name: string;
+  address_full_code: string;
   latitude: number;
   longitude: number;
 }
 export interface ICustomerInfoData {
+  customer_id?: string;
   full_name: string;
   mobile_number: string;
   mobile_number_secondary: string;
