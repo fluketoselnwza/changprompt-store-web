@@ -54,3 +54,25 @@ export const JOB_STATUS_OPTION = [
     value: "CANCELLED",
   },
 ];
+
+export const TECH_TYPE_OPTION = [
+  {
+    label: "ช่างซ่อมแอร์",
+    value: "ช่างซ่อมแอร์",
+  },
+  {
+    label: "ช่างซ่อมตู้่เย็น",
+    value: "ช่างซ่อมตู้่เย็น",
+  },
+];
+
+export const PAYMENT_TYPE_OPTION = [
+  {
+    label: "ชำระหน้าร้านแล้ว",
+    value: "ชำระหน้าร้านแล้ว",
+  },
+  {
+    label: "ยังไม่ชำระ",
+    value: "ยังไม่ชำระ",
+  },
+];

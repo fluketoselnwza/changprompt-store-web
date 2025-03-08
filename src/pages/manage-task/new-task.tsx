@@ -18,6 +18,12 @@ import { useState, useEffect } from "react";
 import { getAddressService } from "@/services/address";
 import { ISelectData } from "../interface";
 import { getJobInquiryService } from "@/services/task";
+import {
+  TECH_TYPE_OPTION,
+  PRODUCR_NAME_OPTION,
+  JOB_TYPE_OPTION,
+  PAYMENT_TYPE_OPTION,
+} from "../data/option-data";
 
 const breadcrumbs = [
   {
@@ -346,7 +352,7 @@ const NewTaskPage = () => {
                     required
                     className="[&>span]:text-[16px]"
                     error={errors.job_type?.message}
-                    options={[]}
+                    options={JOB_TYPE_OPTION}
                     register={register("job_type", {
                       required: "กรุณาเลือกประเภทงาน",
                     })}
@@ -358,7 +364,7 @@ const NewTaskPage = () => {
                     required
                     className="[&>span]:text-[16px]"
                     error={errors.product?.message}
-                    options={[]}
+                    options={PRODUCR_NAME_OPTION}
                     register={register("product", {
                       required: "กรุณาเลือกสินค้า",
                     })}
@@ -369,35 +375,24 @@ const NewTaskPage = () => {
                     name="tech_type"
                     label="เลือกช่าง"
                     placeholder="เลือกช่าง"
-                    required
                     className="[&>span]:text-[16px]"
-                    error={errors.tech_type?.message}
-                    options={[]}
-                    register={register("tech_type", {
-                      required: "กรุณาเลือกช่าง",
-                    })}
+                    options={TECH_TYPE_OPTION}
+                    register={register("tech_type")}
                   />
                   <CustomInputIcon
                     label="ช่าง"
                     iconRight={IconSearch}
                     name="tech_name"
                     placeholder="ค้นหาช่าง"
-                    error={errors.tech_name?.message}
-                    register={register("tech_name", {
-                      required: "กรุณาระบุช่าง",
-                    })}
+                    register={register("tech_name")}
                   />
                   <CustomSelect
                     name="payment_type"
                     label="ประเภทการเก็บเงิน"
                     placeholder="เลือกประเภทการเก็บเงิน"
-                    required
                     className="[&>span]:text-[16px]"
-                    error={errors.payment_type?.message}
-                    options={[]}
-                    register={register("payment_type", {
-                      required: "กรุณาเลือกประเภทการเก็บเงิน",
-                    })}
+                    options={PAYMENT_TYPE_OPTION}
+                    register={register("payment_type")}
                   />
                 </div>
                 <div className="mt-6 grid grid-cols-3 gap-4">
@@ -407,11 +402,7 @@ const NewTaskPage = () => {
                     placeholder="00.00"
                     classInput="text-right"
                     type="number"
-                    required
-                    error={errors.wages?.message}
-                    register={register("wages", {
-                      required: "กรุณาระบุค่าแรง",
-                    })}
+                    register={register("wages")}
                   />
                 </div>
               </div>
