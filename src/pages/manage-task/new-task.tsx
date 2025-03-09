@@ -50,6 +50,8 @@ import { ICustomersData } from "@/services/interfaces";
 import IconBack from "@/assets/icons/icon-back.png";
 import IconEditJob from "@/assets/icons/icon-edit-task.png";
 import IconDeleteJob from "@/assets/icons/icon-delete-job.png";
+import { IGetJobResponse } from "@/services/interfaces";
+import { deletePartnerJobsService } from "@/services/task";
 
 const breadcrumbs = [
   {
@@ -143,6 +145,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
   const [jobStatus, setJobStatus] = useState<string>("");
   const [techType, setTechType] = useState<string>("");
   const [paymentType, setPaymentType] = useState<string>("");
+  const [jobData, setJobsData] = useState<IGetJobResponse>();
 
   const {
     register,
@@ -375,6 +378,8 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
       const result = await getJobDetailService(id);
       console.log("result > ", result);
 
+      setJobsData(result);
+
       const jobInfo = result?.job_info;
       const customerInfo = result?.customer_info;
       const productServiceInfo = result?.product_service_info;
@@ -445,6 +450,44 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
     }
   };
 
+  const handleDeleteJob = async (id: string) => {
+    try {
+      await deletePartnerJobsService(id);
+      toast({
+        title: "สำเร็จแล้ว",
+        description: "ลบข้อมูลใบงานเรียบร้อยแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+      });
+      navigate("/manage-task/all-tasks");
+    } catch (error) {
+      console.log("error : ", error);
+      toast({
+        title: "ไม่สำเร็จ",
+        description: "ไม่สามารถลบใบงานนี้ได้เนื่องจากมีนัดหมายลูกค้าแล้ว",
+        variant: "fail",
+        className: "w-[328px] mx-auto",
+      });
+    }
+  };
+
+  const confirmDeleteJob = () => {
+    openModalWarning(
+      IconWaringColor,
+      "ยืนยีนลบใบงาน",
+      `${jobData?.job_info.job_code} : ${jobData?.product_service_info?.job_type}${jobData?.product_service_info?.product}`,
+      "ยกเลิก",
+      () => {
+        closeModalWarning();
+      },
+      "ยืนยัน",
+      () => {
+        closeModalWarning();
+        handleDeleteJob(job_id);
+      }
+    );
+  };
+
   useEffect(() => {
     if (STATE_STATUS_MANAGE_USER.GET == status) {
       jobDetail(job_id);
@@ -463,7 +506,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
               <div className="flex items-center gap-1">
                 <img
                   src={IconBack}
-                  className="w-[20px] h-[20px]"
+                  className="w-[20px] h-[20px] cursor-pointer"
                   alt="icon back"
                   onClick={() => navigate("/manage-task/all-tasks")}
                 />
@@ -488,8 +531,9 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
               <div className="flex items-center gap-4">
                 <Button
                   variant={"outline"}
-                  onClick={() => navigate("/manage-task/all-tasks")}
+                  onClick={() => confirmDeleteJob()}
                   className="w-[128px]"
+                  type="button"
                 >
                   <img
                     src={IconDeleteJob}
