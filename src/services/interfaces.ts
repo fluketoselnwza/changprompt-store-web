@@ -296,3 +296,14 @@ export interface ITechNameData {
 export interface IPartnerTechSearchNameResponse {
   tech_names: ITechNameData[];
 }
+
+export interface ICustomersData {
+  id: string;
+  customer_name: string;
+  customer_nickname: string;
+  mobile_number: string;
+  mobile_spare: string;
+}
+export interface IGetCustomerResponse {
+  customers: ICustomersData[];
+}

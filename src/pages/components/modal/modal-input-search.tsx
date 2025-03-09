@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Dialog,
   DialogContent,
@@ -11,6 +12,7 @@ import { useForm } from "react-hook-form";
 import CustomSelectInput from "../custom-select-input";
 import IconSearch from "@/assets/icons/icon-search.png";
 import { ISelectData } from "@/pages/interface";
+import { getCustomerSerivice } from "@/services/user";
 
 interface IModalInputSearchProps {
   isOpen: boolean;
@@ -18,24 +20,44 @@ interface IModalInputSearchProps {
   title: string;
   placeholder?: string;
   label?: string;
-  value: ISelectData;
-  setValue: (value: ISelectData) => void;
+  value: any;
+  setValue: (value: any) => void;
 }
 
 const ModalInputSearch: React.FC<IModalInputSearchProps> = (props) => {
-  const { isOpen, setIsOpen, title, placeholder, label, value, setValue } =
-    props;
+  const { isOpen, setIsOpen, title, placeholder, label, setValue } = props;
 
   const { handleSubmit } = useForm();
 
   const [search, setSearch] = useState<string>("");
+  const [valueSearch, setValueSearch] = useState<ISelectData>({
+    label: "",
+    value: "",
+  });
   const [debouncedQuery, setDebouncedQuery] = useState<string>(search);
   const [optionData, setOptionData] = useState<ISelectData[]>([]);
+  const [resultData, setResultData] = useState<any[]>([]);
 
   useEffect(() => {
     const getData = async (searchTxt: string) => {
       console.log("searchTxt ==> ", searchTxt);
-      setOptionData([]);
+
+      const result = await getCustomerSerivice(searchTxt);
+
+      console.log("result => ", result);
+
+      if (result?.customers?.length) {
+        const resultData = result.customers.map((item) => {
+          return {
+            label: item?.customer_name,
+            value: item?.id,
+          };
+        });
+        setOptionData(resultData);
+        setResultData(result.customers);
+      } else {
+        setOptionData([]);
+      }
     };
 
     getData(debouncedQuery);
@@ -50,7 +72,15 @@ const ModalInputSearch: React.FC<IModalInputSearchProps> = (props) => {
   }, [search]);
 
   const onSubmit = () => {
-    setIsOpen(false);
+    console.log("valueSearch => ", valueSearch);
+    console.log("option => ", optionData);
+    if (valueSearch?.value && resultData?.length) {
+      const data = resultData.find((item) => item.id === valueSearch.value);
+      setValue(data);
+      setIsOpen(false);
+    } else {
+      setIsOpen(false);
+    }
   };
 
   return (
@@ -78,8 +108,8 @@ const ModalInputSearch: React.FC<IModalInputSearchProps> = (props) => {
                 option={optionData}
                 valueSearch={search}
                 setValueSearch={setSearch}
-                value={value}
-                setValue={setValue}
+                value={valueSearch}
+                setValue={setValueSearch}
               />
             </DialogDescription>
             <div className="space-x-[16px]">

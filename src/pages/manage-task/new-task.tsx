@@ -44,6 +44,8 @@ import {
 import { Dispatch } from "redux";
 import { useToast } from "@/hooks/use-toast";
 import { formatFloatFixed2 } from "@/lib/format";
+import { STATE_STATUS_MANAGE_USER } from "../data/status-code";
+import { ICustomersData } from "@/services/interfaces";
 
 const breadcrumbs = [
   {
@@ -93,8 +95,12 @@ type Inputs = {
   wages: number;
 };
 
-const NewTaskPage: React.FC<IPageProps> = (props) => {
-  const { openModalWarning, closeModalWarning } = props;
+interface INewTaskPage extends IPageProps {
+  status: string;
+}
+
+const NewTaskPage: React.FC<INewTaskPage> = (props) => {
+  const { openModalWarning, closeModalWarning, status } = props;
 
   const navigate = useNavigate();
   const { toast, dismiss } = useToast();
@@ -118,10 +124,7 @@ const NewTaskPage: React.FC<IPageProps> = (props) => {
   const [debouncedQueryTech, setDebouncedQueryTech] =
     useState<string>(searchTech);
   const [techDataList, setTechDataList] = useState<ISelectData[]>([]);
-  const [oldUserData, setOldUserData] = useState<ISelectData>({
-    label: "",
-    value: "",
-  });
+  const [oldUserData, setOldUserData] = useState<ICustomersData>();
   const [isOpenOldUser, setIsOpenOldUser] = useState<boolean>(false);
 
   const {
@@ -317,6 +320,12 @@ const NewTaskPage: React.FC<IPageProps> = (props) => {
     getJobInquiry();
   }, []);
 
+  useEffect(() => {
+    if (oldUserData) {
+      console.log("oldUserData => ", oldUserData);
+    }
+  }, [oldUserData]);
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     console.log("data > ", data);
     openModalWarning(
@@ -395,14 +404,16 @@ const NewTaskPage: React.FC<IPageProps> = (props) => {
             <div className="mt-14">
               <div className="flex justify-between items-center">
                 <p className="text-[16] font-bold">ข้อมูลใบงาน</p>
-                <Button
-                  variant={"link"}
-                  className="w-fit"
-                  type="button"
-                  onClick={() => setIsOpenOldUser(true)}
-                >
-                  ค้นหาจากข้อมูลลูกค้าเก่า
-                </Button>
+                {status !== STATE_STATUS_MANAGE_USER.GET && (
+                  <Button
+                    variant={"link"}
+                    className="w-fit p-0"
+                    type="button"
+                    onClick={() => setIsOpenOldUser(true)}
+                  >
+                    ค้นหาจากข้อมูลลูกค้าเก่า
+                  </Button>
+                )}
               </div>
               <div className="mt-6 grid grid-cols-3 gap-4">
                 <CustomInput

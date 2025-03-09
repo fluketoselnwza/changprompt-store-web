@@ -7,6 +7,7 @@ import {
   IPartnerUserDetailResponse,
   IChangePasswordUserParams,
   IUpdatePartnerUserParams,
+  IGetCustomerResponse,
 } from "@/services/interfaces";
 
 export const getPartnerUserService = async (params: IPartnerUserParams) => {
@@ -105,4 +106,16 @@ export const updatePartnerUserService = async (
   const response = await axiosInstance.put(path, params, config);
 
   return response.data;
+};
+
+export const getCustomerSerivice = async (name: string) => {
+  const path = `/partners/jobs/customer/search`;
+  const query = `q=${name}`;
+  const config = {};
+
+  const urlPath = `${path}?${query}`;
+
+  const response = await axiosInstance.get(urlPath, config);
+
+  return response.data as IGetCustomerResponse;
 };

@@ -80,9 +80,10 @@ const AllTasksPage: React.FC<IPageProps> = (props) => {
   const itemPopOverData = [
     {
       label: "ดูรายละเอียดผู้ใช้งาน",
-      onClick: (value?: string) => {
-        if (value) {
-          console.log("value ==> ", value);
+      onClick: (data?: IJobData) => {
+        if (data?.id) {
+          console.log("data ==> ", data);
+          navigate(`/manage-task/all-tasks/detail-task/${data.id}`);
         }
       },
       icon: IconSearchDetailUser,

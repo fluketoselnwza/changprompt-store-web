@@ -47,7 +47,7 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
   };
 
   const handleSelect = (data: ISelectData) => {
-    console.log("value ===> ", value);
+    console.log("data ===> ", data);
     // setSelectValue(data.label);
     setValue(data);
     setIsOpen(false);
