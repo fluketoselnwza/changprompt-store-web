@@ -9,6 +9,7 @@ import {
   DatePicker,
   CustomMap,
   CustomSelectInput,
+  ModalInputSearch,
 } from "../components";
 import { Checkbox } from "@/components/ui/checkbox";
 import IconSearch from "@/assets/icons/icon-search.png";
@@ -117,13 +118,39 @@ const NewTaskPage: React.FC<IPageProps> = (props) => {
   const [debouncedQueryTech, setDebouncedQueryTech] =
     useState<string>(searchTech);
   const [techDataList, setTechDataList] = useState<ISelectData[]>([]);
+  const [oldUserData, setOldUserData] = useState<ISelectData>({
+    label: "",
+    value: "",
+  });
+  const [isOpenOldUser, setIsOpenOldUser] = useState<boolean>(false);
 
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<Inputs>();
+
+  const watchFields = watch([
+    "full_name",
+    "mobile_number",
+    "appointment_date",
+    "appointment_time",
+    "address_name",
+    "additional_information",
+    "distance",
+    "job_type",
+    "product",
+    "product_type",
+    "product_brand",
+    "serial_number",
+  ]);
+
+  const disabledButton =
+    watchFields.includes("") || !fullAddress.value || !searchTechData.value
+      ? true
+      : false;
 
   const submitConfirmCreateJob = async (data: Inputs) => {
     try {
@@ -321,7 +348,7 @@ const NewTaskPage: React.FC<IPageProps> = (props) => {
               >
                 <span className="text-[16px]">ย้อนกลับ</span>
               </Button>
-              <Button>
+              <Button disabled={disabledButton}>
                 <span className="text-[16px]">สร้างใบงาน</span>
               </Button>
             </div>
@@ -366,7 +393,17 @@ const NewTaskPage: React.FC<IPageProps> = (props) => {
               </div>
             </div>
             <div className="mt-14">
-              <p className="text-[16] font-bold">ข้อมูลใบงาน</p>
+              <div className="flex justify-between items-center">
+                <p className="text-[16] font-bold">ข้อมูลใบงาน</p>
+                <Button
+                  variant={"link"}
+                  className="w-fit"
+                  type="button"
+                  onClick={() => setIsOpenOldUser(true)}
+                >
+                  ค้นหาจากข้อมูลลูกค้าเก่า
+                </Button>
+              </div>
               <div className="mt-6 grid grid-cols-3 gap-4">
                 <CustomInput
                   name="full_name"
@@ -637,6 +674,15 @@ const NewTaskPage: React.FC<IPageProps> = (props) => {
           </div>
         </form>
       </SidebarLayout>
+      <ModalInputSearch
+        isOpen={isOpenOldUser}
+        setIsOpen={setIsOpenOldUser}
+        title="ค้นหาข้อมูลลูกค้าเก่า"
+        label="ค้นหา"
+        placeholder="ค้นหา"
+        value={oldUserData}
+        setValue={setOldUserData}
+      />
     </>
   );
 };

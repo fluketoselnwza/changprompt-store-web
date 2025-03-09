@@ -118,7 +118,7 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
               <span className="text-gray-500 text-[16px]">{placeholder}</span>
             )}
             {icon ? (
-              <img src={icon} alt="icon" className="w-4 h-4" />
+              <img src={icon} alt="icon" className="w-[18px] h-[18px]" />
             ) : (
               <ChevronDown className="h-4 w-4 opacity-50" />
             )}
