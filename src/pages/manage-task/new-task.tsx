@@ -1,6 +1,6 @@
 import SidebarLayout from "../sidebar-layout";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import IconHome from "@/assets/icons/icon-home.png";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
@@ -20,7 +20,8 @@ import { ISelectData } from "../interface";
 import {
   getJobInquiryService,
   createJobService,
-  getTechSearchNameSearch,
+  getTechSearchNameSearchService,
+  getJobDetailService,
 } from "@/services/task";
 import {
   TECH_TYPE_OPTION,
@@ -43,7 +44,7 @@ import {
 } from "@/redux/modal-warning/action";
 import { Dispatch } from "redux";
 import { useToast } from "@/hooks/use-toast";
-import { formatFloatFixed2 } from "@/lib/format";
+import { formatFloatFixed2, formatStringtoDate } from "@/lib/format";
 import { STATE_STATUS_MANAGE_USER } from "../data/status-code";
 import { ICustomersData } from "@/services/interfaces";
 
@@ -72,7 +73,7 @@ type Inputs = {
   full_name: string;
   mobile_number: string;
   mobile_number_secondary: string;
-  appointment_date: string;
+  appointment_date: Date;
   appointment_time: string;
   additional_information: string;
   distance: number;
@@ -103,6 +104,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
   const { openModalWarning, closeModalWarning, status } = props;
 
   const navigate = useNavigate();
+  const { job_id = "" } = useParams();
   const { toast, dismiss } = useToast();
 
   const [searchAddress, setSearchAddress] = useState<string>("");
@@ -127,6 +129,8 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
   const [oldUserData, setOldUserData] = useState<ICustomersData>();
   const [isOpenOldUser, setIsOpenOldUser] = useState<boolean>(false);
   const [customerId, setCustomerId] = useState<string>("");
+  const [appointmentDate, setAppointmentDate] = useState<Date>();
+  const [appointmentTime, setAppointmentTime] = useState<string>("");
 
   const {
     register,
@@ -280,7 +284,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
 
   useEffect(() => {
     const getTech = async (search: string) => {
-      const result = await getTechSearchNameSearch(search);
+      const result = await getTechSearchNameSearchService(search);
 
       console.log("result ==> ", result);
       if (result?.tech_names?.length) {
@@ -319,7 +323,9 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
       }
     };
 
-    getJobInquiry();
+    if (STATE_STATUS_MANAGE_USER.CREATE === status) {
+      getJobInquiry();
+    }
   }, []);
 
   useEffect(() => {
@@ -349,6 +355,39 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
       }
     );
   };
+
+  const jobDetail = async (id: string) => {
+    try {
+      const result = await getJobDetailService(id);
+      console.log("result > ", result);
+
+      const customerInfo = result?.customer_info;
+
+      if (customerInfo) {
+        setValue("full_name", customerInfo.full_name);
+        setValue("mobile_number", customerInfo.mobile_number);
+        setValue(
+          "mobile_number_secondary",
+          customerInfo.mobile_number_secondary
+        );
+        setValue(
+          "appointment_date",
+          formatStringtoDate(customerInfo.appointment_date)
+        );
+        setAppointmentDate(formatStringtoDate(customerInfo.appointment_date));
+        setValue("appointment_time", customerInfo.appointment_time);
+        setAppointmentTime(customerInfo.appointment_time);
+      }
+    } catch (error) {
+      console.log("error => ", error);
+    }
+  };
+
+  useEffect(() => {
+    if (STATE_STATUS_MANAGE_USER.GET == status) {
+      jobDetail(job_id);
+    }
+  }, []);
 
   return (
     <>
@@ -458,6 +497,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                   name="appointment_date"
                   label="วันที่นัดหมาย"
                   classInput="text-[16px]"
+                  defaultValue={appointmentDate}
                   required
                   error={errors.appointment_date?.message}
                   register={register("appointment_date", {
@@ -471,6 +511,8 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                   placeholder="เลิอกเวลานัดหมาย"
                   className="[&>span]:text-[16px]"
                   error={errors.appointment_time?.message}
+                  value={appointmentTime}
+                  setValue={setAppointmentTime}
                   options={APPOINTMENT_TIME_OPTION}
                   register={register("appointment_time", {
                     required: "กรุณาเลือกเวลานัดหมาย",

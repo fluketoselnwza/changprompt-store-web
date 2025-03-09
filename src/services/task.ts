@@ -5,6 +5,7 @@ import {
   IJobInquiryResponse,
   ICreateJobParams,
   IPartnerTechSearchNameResponse,
+  IGetJobResponse,
 } from "./interfaces";
 
 export const getPartnerAllTaskService = async (params: IPartnerJobParams) => {
@@ -103,7 +104,7 @@ export const getHistoryJobsService = async (params: IPartnerJobParams) => {
   return response.data as IPartnerJobResponse;
 };
 
-export const getTechSearchNameSearch = async (name: string) => {
+export const getTechSearchNameSearchService = async (name: string) => {
   const path = `/partners/jobs/tech/search-name`;
   const query = `q=${name}`;
   const config = {};
@@ -113,4 +114,13 @@ export const getTechSearchNameSearch = async (name: string) => {
   const response = await axiosInstance.get(urlPath, config);
 
   return response.data as IPartnerTechSearchNameResponse;
+};
+
+export const getJobDetailService = async (jobId: string) => {
+  const path = `/partners/jobs/${jobId}`;
+  const config = {};
+
+  const response = await axiosInstance.get(path, config);
+
+  return response.data as IGetJobResponse;
 };

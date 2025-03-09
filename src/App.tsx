@@ -34,7 +34,7 @@ function App() {
               element={<NewTaskPage status={STATE_STATUS_MANAGE_USER.CREATE} />}
             />
             <Route
-              path="/manage-task/all-tasks/detail-task/:id"
+              path="/manage-task/all-tasks/detail-task/:job_id"
               element={<NewTaskPage status={STATE_STATUS_MANAGE_USER.GET} />}
             />
             <Route

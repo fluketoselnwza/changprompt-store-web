@@ -180,8 +180,10 @@ export interface IJobInfoData {
 }
 
 export interface IAddressInfoData {
+  id?: string;
   address_name: string;
   address_full_code: string;
+  address_full_name?: string;
   latitude: number;
   longitude: number;
 }
@@ -306,4 +308,11 @@ export interface ICustomersData {
 }
 export interface IGetCustomerResponse {
   customers: ICustomersData[];
+}
+
+export interface IGetJobResponse {
+  job_info: IJobInfoData;
+  customer_info: ICustomerInfoData;
+  product_service_info: IProductServiceInfoData;
+  tech_service_fee_info: ITechServiceFeeInfoData;
 }
