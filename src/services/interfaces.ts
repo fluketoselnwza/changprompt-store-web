@@ -287,3 +287,12 @@ export interface IPartnerProfileResponse {
   training_info: ITrainingInfoProfileData;
   service_area_info: IServiceAreaInfoData;
 }
+
+export interface ITechNameData {
+  id: string;
+  tech_code: string;
+  tech_name: string;
+}
+export interface IPartnerTechSearchNameResponse {
+  tech_names: ITechNameData[];
+}

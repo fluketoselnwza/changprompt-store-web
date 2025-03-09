@@ -7,7 +7,6 @@ import {
   CustomInput,
   CustomSelect,
   DatePicker,
-  CustomInputIcon,
   CustomMap,
   CustomSelectInput,
 } from "../components";
@@ -17,7 +16,11 @@ import dayjs from "dayjs";
 import { useState, useEffect } from "react";
 import { getAddressService } from "@/services/address";
 import { ISelectData } from "../interface";
-import { getJobInquiryService, createJobService } from "@/services/task";
+import {
+  getJobInquiryService,
+  createJobService,
+  getTechSearchNameSearch,
+} from "@/services/task";
 import {
   TECH_TYPE_OPTION,
   PRODUCT_NAME_OPTION,
@@ -100,10 +103,20 @@ const NewTaskPage: React.FC<IPageProps> = (props) => {
     label: "",
     value: "",
   });
-  const [debouncedQuery, setDebouncedQuery] = useState<string>(searchAddress);
+  const [debouncedQueryAddress, setDebouncedQueryAddress] =
+    useState<string>(searchAddress);
   const [addressDataList, setAddressDataList] = useState<ISelectData[]>([]);
   // const [latitude, setLatitude] = useState<number>(10.245);
   // const [longitude, setLongitude] = useState<number>(100.42);
+
+  const [searchTech, setSearchTech] = useState<string>("");
+  const [searchTechData, setSearchTechData] = useState<ISelectData>({
+    label: "",
+    value: "",
+  });
+  const [debouncedQueryTech, setDebouncedQueryTech] =
+    useState<string>(searchTech);
+  const [techDataList, setTechDataList] = useState<ISelectData[]>([]);
 
   const {
     register,
@@ -148,7 +161,7 @@ const NewTaskPage: React.FC<IPageProps> = (props) => {
           accessories: data?.accessories ?? "",
         },
         tech_service_fee_info: {
-          tech_id: data?.tech_id ?? "550e8400-e29b-41d4-a716-446655440000",
+          tech_id: searchTechData?.value ?? "",
           payment_type: data?.payment_type ?? "",
           wages: data?.wages ? formatFloatFixed2(data.wages) : 0.0,
         },
@@ -218,20 +231,49 @@ const NewTaskPage: React.FC<IPageProps> = (props) => {
       }
     };
 
-    if (debouncedQuery && debouncedQuery.length > 2) {
-      getAddress(debouncedQuery);
+    if (debouncedQueryAddress && debouncedQueryAddress.length > 2) {
+      getAddress(debouncedQueryAddress);
     } else {
       setAddressDataList([]);
     }
-  }, [debouncedQuery]);
+  }, [debouncedQueryAddress]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedQuery(searchAddress);
+      setDebouncedQueryAddress(searchAddress);
     }, 500); // 500ms debounce delay
 
     return () => clearTimeout(timer);
   }, [searchAddress]);
+
+  useEffect(() => {
+    const getTech = async (search: string) => {
+      const result = await getTechSearchNameSearch(search);
+
+      console.log("result ==> ", result);
+      if (result?.tech_names?.length) {
+        const resultData = result.tech_names.map((item) => {
+          return {
+            label: item?.tech_name,
+            value: item?.id,
+          };
+        });
+        setTechDataList(resultData);
+      } else {
+        setTechDataList([]);
+      }
+    };
+
+    getTech(debouncedQueryTech);
+  }, [debouncedQueryTech]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQueryTech(searchTech);
+    }, 500); // 500ms debounce delay
+
+    return () => clearTimeout(timer);
+  }, [searchTech]);
 
   useEffect(() => {
     const getJobInquiry = async () => {
@@ -553,13 +595,24 @@ const NewTaskPage: React.FC<IPageProps> = (props) => {
                     options={TECH_TYPE_OPTION}
                     register={register("tech_type")}
                   />
-                  <CustomInputIcon
+                  <CustomSelectInput
+                    label="ช่าง"
+                    valueSearch={searchTech}
+                    setValueSearch={setSearchTech}
+                    value={searchTechData}
+                    setValue={setSearchTechData}
+                    placeholder="ค้นหา"
+                    placeholderSearch="ค้นหาช่าง"
+                    option={techDataList}
+                    icon={IconSearch}
+                  />
+                  {/* <CustomInputIcon
                     label="ช่าง"
                     iconRight={IconSearch}
                     name="tech_name"
                     placeholder="ค้นหาช่าง"
                     register={register("tech_name")}
-                  />
+                  /> */}
                   <CustomSelect
                     name="payment_type"
                     label="ประเภทการเก็บเงิน"

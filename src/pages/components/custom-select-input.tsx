@@ -17,6 +17,7 @@ interface CustomSelectInputProps {
   setValue: (value: ISelectData) => void;
   option: ISelectData[];
   disabled?: boolean;
+  icon?: string;
 }
 
 const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
@@ -32,6 +33,7 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
     setValueSearch,
     option,
     disabled,
+    icon,
   } = props;
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -115,7 +117,11 @@ const CustomSelectInput: React.FC<CustomSelectInputProps> = (props) => {
             ) : (
               <span className="text-gray-500 text-[16px]">{placeholder}</span>
             )}
-            <ChevronDown className="h-4 w-4 opacity-50" />
+            {icon ? (
+              <img src={icon} alt="icon" className="w-4 h-4" />
+            ) : (
+              <ChevronDown className="h-4 w-4 opacity-50" />
+            )}
           </Button>
           {isOpen && (
             <div
