@@ -102,11 +102,11 @@ type Inputs = {
 };
 
 interface INewTaskPage extends IPageProps {
-  status: string;
+  statusType: "GET" | "CREATE" | "UPDATE" | "";
 }
 
 const NewTaskPage: React.FC<INewTaskPage> = (props) => {
-  const { openModalWarning, closeModalWarning, status } = props;
+  const { openModalWarning, closeModalWarning, statusType = "" } = props;
 
   const navigate = useNavigate();
   const { job_id = "" } = useParams();
@@ -175,7 +175,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
       ? true
       : false;
 
-  const disabledFields = STATE_STATUS_MANAGE_USER.GET === status;
+  const disabledFields = STATE_STATUS_MANAGE_USER.GET === statusType;
 
   const submitConfirmCreateJob = async (data: Inputs) => {
     try {
@@ -340,7 +340,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
       }
     };
 
-    if (STATE_STATUS_MANAGE_USER.CREATE === status) {
+    if (STATE_STATUS_MANAGE_USER.CREATE === statusType) {
       getJobInquiry();
     }
   }, []);
@@ -489,7 +489,10 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
   };
 
   useEffect(() => {
-    if (STATE_STATUS_MANAGE_USER.GET == status) {
+    if (
+      STATE_STATUS_MANAGE_USER.GET === statusType ||
+      STATE_STATUS_MANAGE_USER.UPDATE === statusType
+    ) {
       jobDetail(job_id);
     }
   }, []);
@@ -499,10 +502,10 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
       <SidebarLayout breadcrumbs={breadcrumbs}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex justify-between items-end">
-            {STATE_STATUS_MANAGE_USER.CREATE === status && (
+            {STATE_STATUS_MANAGE_USER.CREATE === statusType && (
               <p className="font-bold text-[16px]">สร้างใบงานใหม่</p>
             )}
-            {STATE_STATUS_MANAGE_USER.GET === status && (
+            {STATE_STATUS_MANAGE_USER.GET === statusType && (
               <div className="flex items-center gap-1">
                 <img
                   src={IconBack}
@@ -513,7 +516,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                 <p className="font-bold text-[16px]">รายละเอียดใบงาน</p>
               </div>
             )}
-            {STATE_STATUS_MANAGE_USER.CREATE === status && (
+            {STATE_STATUS_MANAGE_USER.CREATE === statusType && (
               <div className="flex items-center gap-4">
                 <Button
                   variant={"outline"}
@@ -527,7 +530,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
               </div>
             )}
 
-            {STATE_STATUS_MANAGE_USER.GET === status && (
+            {STATE_STATUS_MANAGE_USER.GET === statusType && (
               <div className="flex items-center gap-4">
                 <Button
                   variant={"outline"}
@@ -542,13 +545,20 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                   />
                   <span className="text-[16px]">ลบใบงาน</span>
                 </Button>
-                <Button variant={"outline"} type="button" className="w-[176px]">
+                <Button
+                  variant={"outline"}
+                  type="button"
+                  className="w-[176px]"
+                  onClick={() =>
+                    navigate(`/manage-task/all-tasks/edit-task/${job_id}`)
+                  }
+                >
                   <img
                     src={IconEditJob}
                     className="w-[20px] h-[20px]"
-                    alt="icon delete"
+                    alt="icon edit"
                   />
-                  <span className="text-[16px]">สร้างใบงาน</span>
+                  <span className="text-[16px]">แก้ไขข้อมูลใบงาน</span>
                 </Button>
               </div>
             )}
@@ -595,7 +605,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
             <div className="mt-14">
               <div className="flex justify-between items-center">
                 <p className="text-[16] font-bold">ข้อมูลใบงาน</p>
-                {status !== STATE_STATUS_MANAGE_USER.GET && (
+                {statusType !== STATE_STATUS_MANAGE_USER.GET && (
                   <Button
                     variant={"link"}
                     className="w-fit p-0"

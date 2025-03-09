@@ -31,11 +31,21 @@ function App() {
             <Route path="/manage-task/all-tasks" element={<AllTasksPage />} />
             <Route
               path="/manage-task/all-tasks/new-task"
-              element={<NewTaskPage status={STATE_STATUS_MANAGE_USER.CREATE} />}
+              element={
+                <NewTaskPage statusType={STATE_STATUS_MANAGE_USER.CREATE} />
+              }
             />
             <Route
               path="/manage-task/all-tasks/detail-task/:job_id"
-              element={<NewTaskPage status={STATE_STATUS_MANAGE_USER.GET} />}
+              element={
+                <NewTaskPage statusType={STATE_STATUS_MANAGE_USER.GET} />
+              }
+            />
+            <Route
+              path="/manage-task/all-tasks/edit-task/:job_id"
+              element={
+                <NewTaskPage statusType={STATE_STATUS_MANAGE_USER.UPDATE} />
+              }
             />
             <Route
               path="/manage-task/waiting-tech-task"
