@@ -124,3 +124,16 @@ export const getJobDetailService = async (jobId: string) => {
 
   return response.data as IGetJobResponse;
 };
+
+export const updateJobService = async (
+  params: ICreateJobParams,
+  jobId: string
+) => {
+  const path = `/partners/jobs/${jobId}`;
+
+  const config = {};
+
+  const response = await axiosInstance.put(path, params, config);
+
+  return response.data;
+};

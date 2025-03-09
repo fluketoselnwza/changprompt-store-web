@@ -22,6 +22,7 @@ import {
   createJobService,
   getTechSearchNameSearchService,
   getJobDetailService,
+  updateJobService,
 } from "@/services/task";
 import {
   TECH_TYPE_OPTION,
@@ -219,17 +220,31 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
           wages: data?.wages ? formatFloatFixed2(data.wages) : 0.0,
         },
       };
-      await createJobService(body);
-      const { id } = toast({
-        title: "สำเร็จแล้ว",
-        description: "สร้างใบงานสำเร็จแล้ว",
-        variant: "success",
-        className: "w-[300px] mx-auto",
-        duration: 3000,
-      });
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      dismiss(id);
-      navigate("/manage-task/all-tasks");
+      if (STATE_STATUS_MANAGE_USER.CREATE === statusType) {
+        await createJobService(body);
+        const { id } = toast({
+          title: "สำเร็จแล้ว",
+          description: "สร้างใบงานสำเร็จแล้ว",
+          variant: "success",
+          className: "w-[300px] mx-auto",
+          duration: 3000,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        dismiss(id);
+        navigate("/manage-task/all-tasks");
+      } else {
+        await updateJobService(body, job_id);
+        const { id } = toast({
+          title: "สำเร็จแล้ว",
+          description: "บันทึกข้อมูลการแก้ไขใบงานสำเร็จแล้ว",
+          variant: "success",
+          className: "w-[300px] mx-auto",
+          duration: 3000,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        dismiss(id);
+        navigate(`/manage-task/all-tasks/detail-task/${job_id}`);
+      }
     } catch (error) {
       console.log("error ==> ", error);
       toast({
@@ -359,7 +374,9 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
     console.log("data > ", data);
     openModalWarning(
       IconWaringColor,
-      "ยืนยีนสร้างใบงาน",
+      STATE_STATUS_MANAGE_USER.CREATE === statusType
+        ? "ยืนยีนสร้างใบงาน"
+        : "ยืนยันบันทึกข้อมูลการแก้ไข",
       `${data?.job_code} : ${data?.job_type}${data?.product}`,
       "ยกเลิก",
       () => {
@@ -392,6 +409,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
       }
 
       if (customerInfo) {
+        setCustomerId(customerInfo?.customer_id ?? "");
         setValue("full_name", customerInfo.full_name);
         setValue("mobile_number", customerInfo.mobile_number);
         setValue(
@@ -516,10 +534,14 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                 <p className="font-bold text-[16px]">รายละเอียดใบงาน</p>
               </div>
             )}
+            {STATE_STATUS_MANAGE_USER.UPDATE === statusType && (
+              <p className="font-bold text-[16px]">แก้ไขข้อมูลใบงาน</p>
+            )}
             {STATE_STATUS_MANAGE_USER.CREATE === statusType && (
               <div className="flex items-center gap-4">
                 <Button
                   variant={"outline"}
+                  type="button"
                   onClick={() => navigate("/manage-task/all-tasks")}
                 >
                   <span className="text-[16px]">ย้อนกลับ</span>
@@ -559,6 +581,22 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                     alt="icon edit"
                   />
                   <span className="text-[16px]">แก้ไขข้อมูลใบงาน</span>
+                </Button>
+              </div>
+            )}
+            {STATE_STATUS_MANAGE_USER.UPDATE === statusType && (
+              <div className="flex items-center gap-4">
+                <Button
+                  variant={"outline"}
+                  type="button"
+                  onClick={() =>
+                    navigate(`/manage-task/all-tasks/detail-task/${job_id}`)
+                  }
+                >
+                  <span className="text-[16px]">ยกเลิก</span>
+                </Button>
+                <Button disabled={disabledButton}>
+                  <span className="text-[16px]">บันทึก</span>
                 </Button>
               </div>
             )}
