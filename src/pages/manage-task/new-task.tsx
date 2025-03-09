@@ -30,6 +30,16 @@ import {
   STATUS_JOB_OPTION,
   APPOINTMENT_TIME_OPTION,
 } from "../data/option-data";
+import IconWaringColor from "@/assets/icons/icon-warning-blue.png";
+import { connect } from "react-redux";
+import { IPageProps } from "@/pages/interface";
+import {
+  openModalWarning,
+  closeModalWarning,
+} from "@/redux/modal-warning/action";
+import { Dispatch } from "redux";
+import { useToast } from "@/hooks/use-toast";
+import { formatFloatFixed2 } from "@/lib/format";
 
 const breadcrumbs = [
   {
@@ -79,8 +89,11 @@ type Inputs = {
   wages: number;
 };
 
-const NewTaskPage = () => {
+const NewTaskPage: React.FC<IPageProps> = (props) => {
+  const { openModalWarning, closeModalWarning } = props;
+
   const navigate = useNavigate();
+  const { toast, dismiss } = useToast();
 
   const [searchAddress, setSearchAddress] = useState<string>("");
   const [fullAddress, setFullAddress] = useState<ISelectData>({
@@ -98,6 +111,69 @@ const NewTaskPage = () => {
     setValue,
     formState: { errors },
   } = useForm<Inputs>();
+
+  const submitConfirmCreateJob = async (data: Inputs) => {
+    try {
+      const body = {
+        job_info: {
+          job_code: data?.job_code,
+          partner_name: data?.partner_name,
+        },
+        customer_info: {
+          // customer_id: "",
+          full_name: data?.full_name ?? "",
+          mobile_number: data?.mobile_number ?? "",
+          mobile_number_secondary: data?.mobile_number_secondary ?? "",
+          appointment_date: dayjs(data.appointment_date),
+          appointment_time: data.appointment_time,
+          additional_information: data?.additional_information ?? "",
+          distance: data?.distance ? formatFloatFixed2(data?.distance) : 0.0,
+          address: {
+            address_name: data?.address_name ?? "",
+            address_full_code: fullAddress?.value ?? "",
+            latitude: 10.245,
+            longitude: 100.42,
+          },
+        },
+        product_service_info: {
+          job_type: data?.job_type ?? "",
+          product: data?.product ?? "",
+          product_type: data?.product_type ?? "",
+          product_model: data?.product_model ?? "",
+          product_brand: data?.product_brand ?? "",
+          serial_number: data?.serial_number ?? "",
+          product_unit: data?.product_unit ?? "",
+          status: data?.status ?? "",
+          remark: data?.remark ?? "",
+          accessories: data?.accessories ?? "",
+        },
+        tech_service_fee_info: {
+          tech_id: data?.tech_id ?? "550e8400-e29b-41d4-a716-446655440000",
+          payment_type: data?.payment_type ?? "",
+          wages: data?.wages ? formatFloatFixed2(data.wages) : 0.0,
+        },
+      };
+      await createJobService(body);
+      const { id } = toast({
+        title: "สำเร็จแล้ว",
+        description: "สร้างใบงานสำเร็จแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+        duration: 3000,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      dismiss(id);
+      navigate("/manage-task/all-tasks");
+    } catch (error) {
+      console.log("error ==> ", error);
+      toast({
+        title: "ไม่สำเร็จ",
+        description: "ไม่สามารถมอบหมายงานให้ช่างได้ตามเวลาที่เลือก",
+        variant: "fail",
+        className: "w-[328px] mx-auto",
+      });
+    }
+  };
 
   useEffect(() => {
     const getAddress = async (search: string) => {
@@ -174,50 +250,20 @@ const NewTaskPage = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     console.log("data > ", data);
-    try {
-      const body = {
-        job_info: {
-          job_code: data?.job_code,
-          partner_name: data?.partner_name,
-        },
-        customer_info: {
-          // customer_id: "",
-          full_name: data?.full_name ?? "",
-          mobile_number: data?.mobile_number ?? "",
-          mobile_number_secondary: data?.mobile_number_secondary ?? "",
-          appointment_date: dayjs(data.appointment_date).format("YYYY-MM-DD"),
-          appointment_time: data.appointment_time,
-          additional_information: data?.additional_information ?? "",
-          distance: data.distance,
-          address: {
-            address_name: data?.address_name ?? "",
-            address_full_code: fullAddress?.value ?? "",
-            latitude: 10.245,
-            longitude: 100.42,
-          },
-        },
-        product_service_info: {
-          job_type: data?.job_type ?? "",
-          product: data?.product ?? "",
-          product_type: data?.product_type ?? "",
-          product_model: data?.product_model ?? "",
-          product_brand: data?.product_brand ?? "",
-          serial_number: data?.serial_number ?? "",
-          product_unit: data?.product_unit ?? "",
-          status: data?.status ?? "",
-          remark: data?.remark ?? "",
-          accessories: data?.accessories ?? "",
-        },
-        tech_service_fee_info: {
-          tech_id: data?.tech_id ?? "",
-          payment_type: data?.payment_type ?? "",
-          wages: data?.wages ?? 0,
-        },
-      };
-      await createJobService(body);
-    } catch (error) {
-      console.log("error ==> ", error);
-    }
+    openModalWarning(
+      IconWaringColor,
+      "ยืนยีนสร้างใบงาน",
+      `${data?.job_code} : ${data?.job_type}${data?.product}`,
+      "ยกเลิก",
+      () => {
+        closeModalWarning();
+      },
+      "ยืนยัน",
+      () => {
+        closeModalWarning();
+        submitConfirmCreateJob(data);
+      }
+    );
   };
 
   return (
@@ -375,6 +421,7 @@ const NewTaskPage = () => {
                 <CustomInput
                   name="distance"
                   label="ระยะทาง"
+                  type="number"
                   placeholder="กรอกข้อมูล"
                   required
                   error={errors.distance?.message}
@@ -541,4 +588,33 @@ const NewTaskPage = () => {
   );
 };
 
-export default NewTaskPage;
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  openModalWarning: (
+    image: string | null,
+    title: string,
+    description: string,
+    labelBtnFirst?: string,
+    fnBtnFirst?: () => void | null,
+    labelBtnSecond?: string,
+    fnBtnSecond?: () => void | null
+  ) =>
+    openModalWarning(dispatch, {
+      image,
+      title,
+      description,
+      labelBtnFirst,
+      fnBtnFirst,
+      labelBtnSecond,
+      fnBtnSecond,
+    }),
+  closeModalWarning: () => closeModalWarning(dispatch),
+});
+
+const mapStateToProps = () => ({});
+
+const NewTaskPageWithConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NewTaskPage);
+
+export default NewTaskPageWithConnect;

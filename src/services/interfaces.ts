@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 export interface ILoginParams {
   mobile_number: string;
   password: string;
@@ -188,7 +190,7 @@ export interface ICustomerInfoData {
   full_name: string;
   mobile_number: string;
   mobile_number_secondary: string;
-  appointment_date: string;
+  appointment_date: Dayjs;
   appointment_time: string;
   additional_information: string;
   distance: number;
