@@ -222,3 +222,68 @@ export interface ICreateJobParams {
   product_service_info: IProductServiceInfoData;
   tech_service_fee_info: ITechServiceFeeInfoData;
 }
+
+export interface IAddressInfoProfileData {
+  id: string;
+  address: string;
+  full_address: string;
+  sub_district_code: string;
+  sub_district_name: string;
+  district_code: string;
+  district_name: string;
+  province_code: string;
+  province_name: string;
+  zipcode: string;
+  is_current_addr: boolean;
+  is_regis_addr: boolean;
+}
+
+export interface IGeneralInfoProfileData {
+  business_name: string;
+  business_model: string;
+  owner_name: string;
+  mobile_number: string;
+  mobile_spare: string;
+  email: string;
+  address: IAddressInfoProfileData;
+}
+
+export interface IFilesData {
+  id: string;
+  file_group: string;
+  file_path: string;
+  file_name: string;
+}
+export interface IOwnerInfoProfileData {
+  id_card_number: string;
+  account_number: string;
+  bank_id: string;
+  bank_code: string;
+  bank_name: string;
+  files: IFilesData[];
+}
+
+export interface IBusinessVerificationDocumentsProfileData {
+  files: IFilesData[];
+}
+
+export interface ITrainingInfoProfileData {
+  training_details: string;
+  files: IFilesData[];
+}
+
+export interface IServiceAreaInfoData {
+  province_name: string;
+  district_name: string;
+  province_code: string;
+  district_code: string;
+}
+
+export interface IPartnerProfileResponse {
+  verification_status: string;
+  general_info: IGeneralInfoProfileData;
+  owner_info: IOwnerInfoProfileData;
+  business_verification_documents: IBusinessVerificationDocumentsProfileData;
+  training_info: ITrainingInfoProfileData;
+  service_area_info: IServiceAreaInfoData;
+}
