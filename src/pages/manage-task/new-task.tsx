@@ -47,6 +47,9 @@ import { useToast } from "@/hooks/use-toast";
 import { formatFloatFixed2, formatStringtoDate } from "@/lib/format";
 import { STATE_STATUS_MANAGE_USER } from "../data/status-code";
 import { ICustomersData } from "@/services/interfaces";
+import IconBack from "@/assets/icons/icon-back.png";
+import IconEditJob from "@/assets/icons/icon-edit-task.png";
+import IconDeleteJob from "@/assets/icons/icon-delete-job.png";
 
 const breadcrumbs = [
   {
@@ -131,6 +134,15 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
   const [customerId, setCustomerId] = useState<string>("");
   const [appointmentDate, setAppointmentDate] = useState<Date>();
   const [appointmentTime, setAppointmentTime] = useState<string>("");
+  const [jobType, setJobType] = useState<string>("");
+  const [product, setProduct] = useState<string>("");
+  const [productType, setProductType] = useState<string>("");
+  const [productModel, setProductModel] = useState<string>("");
+  const [productBrand, setProductBrand] = useState<string>("");
+  const [productUnit, setProductUnit] = useState<string>("");
+  const [jobStatus, setJobStatus] = useState<string>("");
+  const [techType, setTechType] = useState<string>("");
+  const [paymentType, setPaymentType] = useState<string>("");
 
   const {
     register,
@@ -159,6 +171,8 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
     watchFields.includes("") || !fullAddress.value || !searchTechData.value
       ? true
       : false;
+
+  const disabledFields = STATE_STATUS_MANAGE_USER.GET === status;
 
   const submitConfirmCreateJob = async (data: Inputs) => {
     try {
@@ -361,7 +375,16 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
       const result = await getJobDetailService(id);
       console.log("result > ", result);
 
+      const jobInfo = result?.job_info;
       const customerInfo = result?.customer_info;
+      const productServiceInfo = result?.product_service_info;
+      const techServiceFeeInfo = result?.tech_service_fee_info;
+
+      if (jobInfo) {
+        setValue("job_code", jobInfo.job_code);
+        setValue("partner_name", jobInfo.partner_name);
+        setValue("create_by", jobInfo.role_created_by ?? "");
+      }
 
       if (customerInfo) {
         setValue("full_name", customerInfo.full_name);
@@ -377,6 +400,45 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
         setAppointmentDate(formatStringtoDate(customerInfo.appointment_date));
         setValue("appointment_time", customerInfo.appointment_time);
         setAppointmentTime(customerInfo.appointment_time);
+        setValue("address_name", customerInfo.address.address_name);
+        setFullAddress({
+          label: customerInfo.address.address_full_name ?? "",
+          value: customerInfo.address.address_full_code ?? "",
+        });
+        setValue("additional_information", customerInfo.additional_information);
+        setValue("distance", customerInfo.distance);
+      }
+
+      if (productServiceInfo) {
+        setValue("job_type", productServiceInfo.job_type);
+        setJobType(productServiceInfo.job_type);
+        setValue("product", productServiceInfo.product);
+        setProduct(productServiceInfo.product);
+        setValue("product_type", productServiceInfo.product_type);
+        setProductType(productServiceInfo.product_type);
+        setValue("product_model", productServiceInfo.product_model);
+        setProductModel(productServiceInfo.product_model);
+        setValue("product_brand", productServiceInfo.product_brand);
+        setProductBrand(productServiceInfo.product_brand);
+        setValue("serial_number", productServiceInfo.serial_number);
+        setValue("product_unit", productServiceInfo.product_unit);
+        setProductUnit(productServiceInfo.product_unit);
+        setValue("status", productServiceInfo.status);
+        setJobStatus(productServiceInfo.status);
+        setValue("status", productServiceInfo.remark);
+        setValue("accessories", productServiceInfo.accessories);
+      }
+
+      if (techServiceFeeInfo) {
+        setValue("tech_type", "");
+        setTechType("");
+        setSearchTechData({
+          label: techServiceFeeInfo.tech_name ?? "",
+          value: techServiceFeeInfo.tech_id ?? "",
+        });
+        setValue("payment_type", techServiceFeeInfo.payment_type);
+        setPaymentType(techServiceFeeInfo.payment_type);
+        setValue("wages", techServiceFeeInfo.wages);
       }
     } catch (error) {
       console.log("error => ", error);
@@ -394,18 +456,58 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
       <SidebarLayout breadcrumbs={breadcrumbs}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex justify-between items-end">
-            <p className="font-bold text-[16px]">สร้างใบงานใหม่</p>
-            <div className="flex items-center gap-4">
-              <Button
-                variant={"outline"}
-                onClick={() => navigate("/manage-task/all-tasks")}
-              >
-                <span className="text-[16px]">ย้อนกลับ</span>
-              </Button>
-              <Button disabled={disabledButton}>
-                <span className="text-[16px]">สร้างใบงาน</span>
-              </Button>
-            </div>
+            {STATE_STATUS_MANAGE_USER.CREATE === status && (
+              <p className="font-bold text-[16px]">สร้างใบงานใหม่</p>
+            )}
+            {STATE_STATUS_MANAGE_USER.GET === status && (
+              <div className="flex items-center gap-1">
+                <img
+                  src={IconBack}
+                  className="w-[20px] h-[20px]"
+                  alt="icon back"
+                  onClick={() => navigate("/manage-task/all-tasks")}
+                />
+                <p className="font-bold text-[16px]">รายละเอียดใบงาน</p>
+              </div>
+            )}
+            {STATE_STATUS_MANAGE_USER.CREATE === status && (
+              <div className="flex items-center gap-4">
+                <Button
+                  variant={"outline"}
+                  onClick={() => navigate("/manage-task/all-tasks")}
+                >
+                  <span className="text-[16px]">ย้อนกลับ</span>
+                </Button>
+                <Button disabled={disabledButton}>
+                  <span className="text-[16px]">สร้างใบงาน</span>
+                </Button>
+              </div>
+            )}
+
+            {STATE_STATUS_MANAGE_USER.GET === status && (
+              <div className="flex items-center gap-4">
+                <Button
+                  variant={"outline"}
+                  onClick={() => navigate("/manage-task/all-tasks")}
+                  className="w-[128px]"
+                >
+                  <img
+                    src={IconDeleteJob}
+                    className="w-[20px] h-[20px]"
+                    alt="icon delete"
+                  />
+                  <span className="text-[16px]">ลบใบงาน</span>
+                </Button>
+                <Button variant={"outline"} type="button" className="w-[176px]">
+                  <img
+                    src={IconEditJob}
+                    className="w-[20px] h-[20px]"
+                    alt="icon delete"
+                  />
+                  <span className="text-[16px]">สร้างใบงาน</span>
+                </Button>
+              </div>
+            )}
           </div>
 
           <div className="bg-white p-[22px] mt-[16px] rounded-[8px]">
@@ -466,6 +568,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                   label="ชื่อ - นามสกุล"
                   placeholder="ชื่อ - นามสกุล"
                   required
+                  disabled={disabledFields}
                   error={errors.full_name?.message}
                   register={register("full_name", {
                     required: "กรุณาระบุชื่อ - นามสกุล",
@@ -478,6 +581,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                   required
                   type="number"
                   maxLength={10}
+                  disabled={disabledFields}
                   error={errors.mobile_number?.message}
                   register={register("mobile_number", {
                     required: "กรุณาระบุเบอร์โทรศัพท์",
@@ -488,6 +592,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                   label="เบอร์โทรศัพท์ (สำรอง)"
                   type="number"
                   maxLength={10}
+                  disabled={disabledFields}
                   placeholder="เบอร์โทรศัพท์ (สำรอง)"
                   register={register("mobile_number_secondary", {
                     required: "กรุณาระบุเบอร์โทรศัพท์ (สำรอง)",
@@ -499,6 +604,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                   classInput="text-[16px]"
                   defaultValue={appointmentDate}
                   required
+                  disabledPicker={disabledFields}
                   error={errors.appointment_date?.message}
                   register={register("appointment_date", {
                     required: "เลือกวันที่นัดหมาย",
@@ -513,6 +619,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                   error={errors.appointment_time?.message}
                   value={appointmentTime}
                   setValue={setAppointmentTime}
+                  disabled={disabledFields}
                   options={APPOINTMENT_TIME_OPTION}
                   register={register("appointment_time", {
                     required: "กรุณาเลือกเวลานัดหมาย",
@@ -525,6 +632,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                   label="ที่อยู่ บ้านเลขที่ หมู่บ้าน ซอย ถนน"
                   placeholder="กรอกข้อมูล"
                   required
+                  disabled={disabledFields}
                   error={errors.address_name?.message}
                   register={register("address_name", {
                     required: "กรุณาระบุที่อยู่",
@@ -540,6 +648,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                     setValue={setFullAddress}
                     placeholderSearch="ค้นหา รหัสไปรษณีย์ ตำบล อำเภอ จังหวัด"
                     option={addressDataList}
+                    disabled={disabledFields}
                   />
                 </div>
               </div>
@@ -550,6 +659,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                     label="ระบุจุดที่ต้องการเข้าให้บริการ (ชั้น ห้อง อื่นๆ)"
                     placeholder="ระบุรายละเอียดจุดให้บริการของลูกค้าให้ชัดเจนมากขึ้น เช่น บ้านชั้น 2"
                     required
+                    disabled={disabledFields}
                     error={errors.additional_information?.message}
                     register={register("additional_information", {
                       required: "กรุณาระบุจุดที่ต้องการเข้าให้บริการ",
@@ -562,6 +672,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                   type="number"
                   placeholder="กรอกข้อมูล"
                   required
+                  disabled={disabledFields}
                   error={errors.distance?.message}
                   register={register("distance", {
                     required: "กรุณาระบุจุดระยะทาง",
@@ -591,6 +702,9 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                     className="[&>span]:text-[16px]"
                     error={errors.job_type?.message}
                     options={JOB_TYPE_OPTION}
+                    value={jobType}
+                    setValue={setJobType}
+                    disabled={disabledFields}
                     register={register("job_type", {
                       required: "กรุณาเลือกประเภทงาน",
                     })}
@@ -603,6 +717,9 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                     className="[&>span]:text-[16px]"
                     error={errors.product?.message}
                     options={PRODUCT_NAME_OPTION}
+                    value={product}
+                    setValue={setProduct}
+                    disabled={disabledFields}
                     register={register("product", {
                       required: "กรุณาเลือกสินค้า",
                     })}
@@ -614,8 +731,11 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                     placeholder="เลือกประเภทสินค้า"
                     required
                     className="[&>span]:text-[16px]"
+                    value={productType}
+                    setValue={setProductType}
                     error={errors.product_type?.message}
                     options={PRODUCT_TYPE_OPTION}
+                    disabled={disabledFields}
                     register={register("product_type", {
                       required: "กรุณาเลือกประเภทสินค้า",
                     })}
@@ -625,7 +745,10 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                     label="รุ่นสินค้า"
                     placeholder="เลือกรุ่นสินค้า"
                     className="[&>span]:text-[16px]"
+                    value={productModel}
+                    setValue={setProductModel}
                     options={PRODUCT_MODAL_OPTION}
+                    disabled={disabledFields}
                     register={register("product_model")}
                   />
                   <CustomSelect
@@ -634,8 +757,11 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                     placeholder="เลือกยี่ห้อหรือแบรนด์สินค้า"
                     required
                     className="[&>span]:text-[16px]"
+                    value={productBrand}
+                    setValue={setProductBrand}
                     error={errors.product_brand?.message}
                     options={PRODUCT_BRAND_OPTION}
+                    disabled={disabledFields}
                     register={register("product_brand", {
                       required: "กรุณาเลือกยี่ห้อหรือแบรนด์สินค้า",
                     })}
@@ -646,6 +772,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                     placeholder="กรอกข้อมูล"
                     required
                     error={errors.serial_number?.message}
+                    disabled={disabledFields}
                     register={register("serial_number", {
                       required: "กรุณาระบุหมายเลขสินค้า",
                     })}
@@ -655,6 +782,9 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                     label="หน่วย"
                     placeholder="เลือกหน่วย"
                     className="[&>span]:text-[16px]"
+                    value={productUnit}
+                    setValue={setProductUnit}
+                    disabled={disabledFields}
                     options={PRODUCT_UNIT_OPTION}
                     register={register("product_unit")}
                   />
@@ -663,19 +793,24 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                     label="สถานะ / เหตุผล"
                     placeholder="เลือกสถานะ / เหตุผล"
                     className="[&>span]:text-[16px]"
+                    value={jobStatus}
+                    setValue={setJobStatus}
                     options={STATUS_JOB_OPTION}
+                    disabled={disabledFields}
                     register={register("status")}
                   />
                   <CustomInput
                     name="remark"
                     label="หมายเหตุ"
                     placeholder="ระบุหมายเหตุ"
+                    disabled={disabledFields}
                     register={register("remark")}
                   />
                   <CustomInput
                     name="accessories"
                     label="อุปกรณ์เสริม"
                     placeholder="ระบุอุปกรณ์เสริม"
+                    disabled={disabledFields}
                     register={register("accessories")}
                   />
                 </div>
@@ -688,8 +823,11 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                     label="เลือกช่าง"
                     placeholder="เลือกช่าง"
                     className="[&>span]:text-[16px]"
+                    value={techType}
+                    setValue={setTechType}
                     options={TECH_TYPE_OPTION}
                     register={register("tech_type")}
+                    disabled={disabledFields}
                   />
                   <CustomSelectInput
                     label="ช่าง"
@@ -701,21 +839,18 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                     placeholderSearch="ค้นหาช่าง"
                     option={techDataList}
                     icon={IconSearch}
+                    disabled={disabledFields}
                   />
-                  {/* <CustomInputIcon
-                    label="ช่าง"
-                    iconRight={IconSearch}
-                    name="tech_name"
-                    placeholder="ค้นหาช่าง"
-                    register={register("tech_name")}
-                  /> */}
                   <CustomSelect
                     name="payment_type"
                     label="ประเภทการเก็บเงิน"
                     placeholder="เลือกประเภทการเก็บเงิน"
                     className="[&>span]:text-[16px]"
+                    value={paymentType}
+                    setValue={setPaymentType}
                     options={PAYMENT_TYPE_OPTION}
                     register={register("payment_type")}
+                    disabled={disabledFields}
                   />
                 </div>
                 <div className="mt-6 grid grid-cols-3 gap-4">
@@ -726,6 +861,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                     classInput="text-right"
                     type="number"
                     register={register("wages")}
+                    disabled={disabledFields}
                   />
                 </div>
               </div>

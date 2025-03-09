@@ -177,6 +177,7 @@ export interface IJobInquiryResponse {
 export interface IJobInfoData {
   job_code: string;
   partner_name: string;
+  role_created_by?: string;
 }
 
 export interface IAddressInfoData {
@@ -214,6 +215,7 @@ export interface IProductServiceInfoData {
 
 export interface ITechServiceFeeInfoData {
   tech_id: string;
+  tech_name?: string;
   payment_type: string;
   wages: number;
 }
