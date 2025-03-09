@@ -126,6 +126,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
   const [techDataList, setTechDataList] = useState<ISelectData[]>([]);
   const [oldUserData, setOldUserData] = useState<ICustomersData>();
   const [isOpenOldUser, setIsOpenOldUser] = useState<boolean>(false);
+  const [customerId, setCustomerId] = useState<string>("");
 
   const {
     register,
@@ -157,13 +158,14 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
 
   const submitConfirmCreateJob = async (data: Inputs) => {
     try {
+      const customerIdData = customerId ? { customer_id: customerId } : {};
       const body = {
         job_info: {
           job_code: data?.job_code,
           partner_name: data?.partner_name,
         },
         customer_info: {
-          // customer_id: "",
+          ...customerIdData,
           full_name: data?.full_name ?? "",
           mobile_number: data?.mobile_number ?? "",
           mobile_number_secondary: data?.mobile_number_secondary ?? "",
@@ -323,6 +325,10 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
   useEffect(() => {
     if (oldUserData) {
       console.log("oldUserData => ", oldUserData);
+      setCustomerId(oldUserData?.id);
+      setValue("full_name", oldUserData?.customer_name);
+      setValue("mobile_number", oldUserData?.mobile_number);
+      setValue("mobile_number_secondary", oldUserData?.mobile_spare);
     }
   }, [oldUserData]);
 
