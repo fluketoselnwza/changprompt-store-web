@@ -54,7 +54,10 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
           <TableHeader className="bg-gray-50 text-[12px]">
             <TableRow className="h-[50px]">
               {headerData?.map((item, index: number) => (
-                <TableHead key={index} className={item.class}>
+                <TableHead
+                  key={index}
+                  className={cn("font-semibold", item.class)}
+                >
                   {item.title}
                 </TableHead>
               ))}
@@ -86,7 +89,7 @@ const CustomTableComponent: React.FC<ICustomTablePrpos> = (props) => {
                     return (
                       <TableCell
                         key={`${index}_${headerIndex}`}
-                        className="sticky z-10"
+                        className="sticky z-10 right-0 bg-white"
                       >
                         {headerCell.renderCell({ row: item, index: index })}
                       </TableCell>

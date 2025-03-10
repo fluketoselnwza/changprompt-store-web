@@ -152,6 +152,18 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
     },
     {
       dataType: "DATA",
+      title: "ที่อยู่",
+      class: "w-[200px]",
+      id: "full_address",
+    },
+    {
+      dataType: "DATA",
+      title: "วันที่เริ่มงาน",
+      class: "w-[100px]",
+      id: "hire_date",
+    },
+    {
+      dataType: "DATA",
       title: "ตำแหน่ง",
       class: "w-[100px]",
       id: "role_code",
@@ -376,8 +388,8 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
                 total={totalUser}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
-                // widthMin={"full:w-[1510px] desktop:w-[1110px]"}
-                // widthMax={"full:w-[1810px] desktop:w-[1350px]"}
+                widthMin={"full:w-[1810px] desktop:w-[1500px]"}
+                widthMax={"full:w-[2210px] desktop:w-[1750px]"}
                 textNotFoundData="ไม่พบรายการข้อมูลผู้ใช้งาน"
               />
             </div>
