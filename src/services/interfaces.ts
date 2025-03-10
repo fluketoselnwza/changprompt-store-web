@@ -319,3 +319,8 @@ export interface IGetJobResponse {
   product_service_info: IProductServiceInfoData;
   tech_service_fee_info: ITechServiceFeeInfoData;
 }
+
+export interface IUpdateAssignTechParam {
+  job_id: string;
+  tech_id: string;
+}

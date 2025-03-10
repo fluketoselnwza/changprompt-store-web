@@ -13,6 +13,8 @@ import CustomSelectInput from "../custom-select-input";
 import IconSearch from "@/assets/icons/icon-search.png";
 import { ISelectData } from "@/pages/interface";
 import { getCustomerSerivice } from "@/services/user";
+import { getTechSearchNameSearchService } from "@/services/task";
+import { TYPE_SEARCH_INPUT } from "@/pages/data/status-code";
 
 interface IModalInputSearchProps {
   isOpen: boolean;
@@ -22,10 +24,12 @@ interface IModalInputSearchProps {
   label?: string;
   value: any;
   setValue: (value: any) => void;
+  type: string;
 }
 
 const ModalInputSearch: React.FC<IModalInputSearchProps> = (props) => {
-  const { isOpen, setIsOpen, title, placeholder, label, setValue } = props;
+  const { isOpen, setIsOpen, title, placeholder, label, setValue, type } =
+    props;
 
   const { handleSubmit } = useForm();
 
@@ -42,21 +46,34 @@ const ModalInputSearch: React.FC<IModalInputSearchProps> = (props) => {
     const getData = async (searchTxt: string) => {
       console.log("searchTxt ==> ", searchTxt);
 
-      const result = await getCustomerSerivice(searchTxt);
-
-      console.log("result => ", result);
-
-      if (result?.customers?.length) {
-        const resultData = result.customers.map((item) => {
-          return {
-            label: item?.customer_name,
-            value: item?.id,
-          };
-        });
-        setOptionData(resultData);
-        setResultData(result.customers);
-      } else {
-        setOptionData([]);
+      if (TYPE_SEARCH_INPUT.CUSTOMER == type) {
+        const result = await getCustomerSerivice(searchTxt);
+        if (result?.customers?.length) {
+          const resultData = result.customers.map((item) => {
+            return {
+              label: item?.customer_name,
+              value: item?.id,
+            };
+          });
+          setOptionData(resultData);
+          setResultData(result.customers);
+        } else {
+          setOptionData([]);
+        }
+      } else if (TYPE_SEARCH_INPUT.TECH === type) {
+        const result = await getTechSearchNameSearchService(searchTxt);
+        if (result?.tech_names?.length) {
+          const resultData = result.tech_names.map((item) => {
+            return {
+              label: item?.tech_name,
+              value: item?.id,
+            };
+          });
+          setOptionData(resultData);
+          setResultData(result.tech_names);
+        } else {
+          setOptionData([]);
+        }
       }
     };
 
@@ -77,6 +94,11 @@ const ModalInputSearch: React.FC<IModalInputSearchProps> = (props) => {
     if (valueSearch?.value && resultData?.length) {
       const data = resultData.find((item) => item.id === valueSearch.value);
       setValue(data);
+      setSearch("");
+      setValueSearch({
+        value: "",
+        label: "",
+      });
       setIsOpen(false);
     } else {
       setIsOpen(false);

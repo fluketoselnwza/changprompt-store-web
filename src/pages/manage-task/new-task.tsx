@@ -53,6 +53,7 @@ import IconEditJob from "@/assets/icons/icon-edit-task.png";
 import IconDeleteJob from "@/assets/icons/icon-delete-job.png";
 import { IGetJobResponse } from "@/services/interfaces";
 import { deletePartnerJobsService } from "@/services/task";
+import { TYPE_SEARCH_INPUT } from "../data/status-code";
 
 const breadcrumbs = [
   {
@@ -970,6 +971,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
         title="ค้นหาข้อมูลลูกค้าเก่า"
         label="ค้นหา"
         placeholder="ค้นหา"
+        type={TYPE_SEARCH_INPUT.CUSTOMER}
         value={oldUserData}
         setValue={setOldUserData}
       />
