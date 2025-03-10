@@ -216,6 +216,7 @@ export interface IProductServiceInfoData {
 export interface ITechServiceFeeInfoData {
   tech_id: string;
   tech_name?: string;
+  tech_type: string;
   payment_type: string;
   wages: number;
 }

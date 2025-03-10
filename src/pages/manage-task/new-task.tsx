@@ -181,6 +181,8 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
   const submitConfirmCreateJob = async (data: Inputs) => {
     try {
       const customerIdData = customerId ? { customer_id: customerId } : {};
+
+      console.log("customerIdData ===> ", customerIdData);
       const body = {
         job_info: {
           job_code: data?.job_code,
@@ -216,6 +218,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
         },
         tech_service_fee_info: {
           tech_id: searchTechData?.value ?? "",
+          tech_type: data?.tech_type ?? "",
           payment_type: data?.payment_type ?? "",
           wages: data?.wages ? formatFloatFixed2(data.wages) : 0.0,
         },
@@ -453,8 +456,8 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
       }
 
       if (techServiceFeeInfo) {
-        setValue("tech_type", "");
-        setTechType("");
+        setValue("tech_type", techServiceFeeInfo.tech_type);
+        setTechType(techServiceFeeInfo.tech_type);
         setSearchTechData({
           label: techServiceFeeInfo.tech_name ?? "",
           value: techServiceFeeInfo.tech_id ?? "",
