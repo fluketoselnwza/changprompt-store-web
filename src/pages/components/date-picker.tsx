@@ -27,6 +27,7 @@ interface DatePickerProps {
   defaultValue?: Date | undefined;
   disabledPicker?: boolean;
   className?: string;
+  classInput?: string;
   placeholder?: string;
 }
 
@@ -43,6 +44,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   register,
   defaultValue,
   className,
+  classInput,
   placeholder = "วัน เดือน ปี",
   ...props
 }) => {
@@ -83,13 +85,14 @@ const DatePicker: React.FC<DatePickerProps> = ({
             className={cn(
               "w-full justify-between text-left text-[14px] font-normal",
               !date && "text-gray-500",
-              error ? "border-red-600" : "border-gray-300"
+              error ? "border-red-600" : "border-gray-300",
+              classInput
             )}
           >
             {date ? (
               dayjs(date).locale("th").format("DD MMMM BBBB")
             ) : (
-              <span>{placeholder}</span>
+              <>{placeholder}</>
             )}
             <CalendarIcon />
           </Button>

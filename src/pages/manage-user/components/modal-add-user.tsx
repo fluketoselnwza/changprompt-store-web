@@ -255,11 +255,11 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
           result.map((item) => {
             const addressName =
               item.subdistrict_thai +
-              "/" +
+              ">" +
               item.district_thai +
-              "/" +
+              ">" +
               item.province_thai +
-              "/" +
+              ">" +
               item.post_code;
 
             const addressFullCode =

@@ -25,7 +25,7 @@ import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 import { statusTaskColor } from "../data/status-code";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
-  PRODUCR_NAME_OPTION,
+  PRODUCT_NAME_OPTION,
   JOB_STATUS_OPTION,
   JOB_TYPE_OPTION,
 } from "../data/option-data";
@@ -80,27 +80,30 @@ const AllTasksPage: React.FC<IPageProps> = (props) => {
   const itemPopOverData = [
     {
       label: "ดูรายละเอียดผู้ใช้งาน",
-      onClick: (value?: string) => {
-        if (value) {
-          console.log("value ==> ", value);
+      onClick: (data?: IJobData) => {
+        if (data?.id) {
+          console.log("data ==> ", data);
+          navigate(`/manage-task/all-tasks/detail-task/${data.id}`);
         }
       },
       icon: IconSearchDetailUser,
     },
     {
       label: "แก้ไขผู้ใช้งาน",
-      onClick: (value?: string) => {
-        if (value) {
-          console.log("value ==> ", value);
+      onClick: (data?: IJobData) => {
+        if (data?.id) {
+          console.log("data ==> ", data);
+          navigate(`/manage-task/all-tasks/edit-task/${data.id}`);
         }
       },
       icon: IconEditUser,
     },
     {
       label: "ลบข้อมูลผู้ใช้งาน",
-      onClick: (value?: string) => {
-        if (value) {
-          confirmDeleteJob(value);
+      onClick: (data?: IJobData) => {
+        if (data?.id) {
+          console.log("value ==> ", data);
+          confirmDeleteJob(data);
         }
       },
       icon: IconDeleteUser,
@@ -182,7 +185,7 @@ const AllTasksPage: React.FC<IPageProps> = (props) => {
               icon={IconSubMenu}
               classPopOver="w-[224px]"
               itemPopOver={itemPopOverData}
-              rowId={row.id}
+              data={row}
             />
           </div>
         );
@@ -255,12 +258,12 @@ const AllTasksPage: React.FC<IPageProps> = (props) => {
     }
   };
 
-  const confirmDeleteJob = (id: string) => {
-    console.log("confirm user :", id);
+  const confirmDeleteJob = (data: IJobData) => {
+    console.log("data user :", data);
     openModalWarning(
       IconWaringColor,
       "ยืนยีนลบใบงาน",
-      "",
+      `${data?.job_code} : ${data?.job_type}${data?.product_name}`,
       "ยกเลิก",
       () => {
         closeModalWarning();
@@ -268,7 +271,7 @@ const AllTasksPage: React.FC<IPageProps> = (props) => {
       "ยืนยัน",
       () => {
         closeModalWarning();
-        handleDeleteJob(id);
+        handleDeleteJob(data.id);
       }
     );
   };
@@ -321,7 +324,7 @@ const AllTasksPage: React.FC<IPageProps> = (props) => {
                 <CustomSelect
                   name="product_name"
                   placeholder="เลืกสินค้า"
-                  options={PRODUCR_NAME_OPTION}
+                  options={PRODUCT_NAME_OPTION}
                   register={register("product_name")}
                   value={productName}
                   setValue={setProductName}

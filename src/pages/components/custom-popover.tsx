@@ -13,16 +13,16 @@ interface ICustomPopoverProps {
   itemPopOver: {
     icon?: string;
     label: string;
-    onClick: (value?: string) => any;
+    onClick: (data?: any) => any;
   }[];
-  rowId: string;
+  data?: any;
 }
 
 const CustomPopover: React.FC<ICustomPopoverProps> = ({
   icon,
   classPopOver,
   itemPopOver,
-  rowId,
+  data,
 }) => {
   const [isDropdownUp, setIsDropdownUp] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +44,6 @@ const CustomPopover: React.FC<ICustomPopoverProps> = ({
   }, [isOpen]);
 
   const handlePopover = () => {
-    console.log("sdsds");
     setIsOpen(!isOpen);
   };
 
@@ -72,7 +71,7 @@ const CustomPopover: React.FC<ICustomPopoverProps> = ({
           <div
             className="h-[45px] flex items-center cursor-pointer gap-x-3 px-4"
             key={index}
-            onClick={() => item.onClick(rowId)}
+            onClick={() => item.onClick(data)}
           >
             {item?.icon && (
               <img src={item.icon} className="w-[18px] h-[18px]" alt="icon" />

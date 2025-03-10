@@ -10,7 +10,7 @@ const CustomMap = () => {
   // const { innerWidth: width } = window;
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "YOUR_API_KEY",
+    googleMapsApiKey: "AIzaSyDuJ1iGoRaqPrRIfZh-lLlKbqaFrX2L0VQ",
   });
 
   //   const [map, setMap] = React.useState(null);
