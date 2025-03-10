@@ -25,12 +25,7 @@ type Inputs = {
 const GetStorePage: React.FC = () => {
   const [getProfileData, setProfileData] = useState<IPartnerProfileResponse>();
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const { handleSubmit } = useForm<Inputs>();
 
   const getProfile = async () => {
     const result = await getPartnerProfileService();
@@ -42,6 +37,7 @@ const GetStorePage: React.FC = () => {
   };
 
   useEffect(() => {
+    console.log("getProfileData ==> ", getProfileData);
     getProfile();
   }, []);
 
