@@ -136,6 +136,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
   const [oldUserData, setOldUserData] = useState<ICustomersData>();
   const [isOpenOldUser, setIsOpenOldUser] = useState<boolean>(false);
   const [customerId, setCustomerId] = useState<string>("");
+  const [addressId, setAddressId] = useState<string>("");
   const [appointmentDate, setAppointmentDate] = useState<Date>();
   const [appointmentTime, setAppointmentTime] = useState<string>("");
   const [jobType, setJobType] = useState<string>("");
@@ -173,15 +174,14 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
   ]);
 
   const disabledButton =
-    watchFields.includes("") || !fullAddress.value || !searchTechData.value
-      ? true
-      : false;
+    watchFields.includes("") || !fullAddress.value ? true : false;
 
   const disabledFields = STATE_STATUS_MANAGE_USER.GET === statusType;
 
   const submitConfirmCreateJob = async (data: Inputs) => {
     try {
       const customerIdData = customerId ? { customer_id: customerId } : {};
+      const addressIdData = addressId ? { id: addressId } : {};
 
       console.log("customerIdData ===> ", customerIdData);
       const body = {
@@ -199,6 +199,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
           additional_information: data?.additional_information ?? "",
           distance: data?.distance ? formatFloatFixed2(data?.distance) : 0.0,
           address: {
+            ...addressIdData,
             address_name: data?.address_name ?? "",
             address_full_code: fullAddress?.value ?? "",
             latitude: 10.245,
@@ -428,6 +429,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
         setValue("appointment_time", customerInfo.appointment_time);
         setAppointmentTime(customerInfo.appointment_time);
         setValue("address_name", customerInfo.address.address_name);
+        setAddressId(customerInfo.address.id ?? "");
         setFullAddress({
           label: customerInfo.address.address_full_name ?? "",
           value: customerInfo.address.address_full_code ?? "",
