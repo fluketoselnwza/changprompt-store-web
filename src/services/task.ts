@@ -6,6 +6,7 @@ import {
   ICreateJobParams,
   IPartnerTechSearchNameResponse,
   IGetJobResponse,
+  IUpdateAssignTechParam,
 } from "./interfaces";
 
 export const getPartnerAllTaskService = async (params: IPartnerJobParams) => {
@@ -130,6 +131,18 @@ export const updateJobService = async (
   jobId: string
 ) => {
   const path = `/partners/jobs/${jobId}`;
+
+  const config = {};
+
+  const response = await axiosInstance.put(path, params, config);
+
+  return response.data;
+};
+
+export const updateAssignTechService = async (
+  params: IUpdateAssignTechParam
+) => {
+  const path = `/partners/jobs/tech/assign`;
 
   const config = {};
 

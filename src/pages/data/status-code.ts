@@ -13,6 +13,11 @@ export const STATE_STATUS_MANAGE_USER: {
   GET: "GET",
 };
 
+export const TYPE_SEARCH_INPUT = {
+  TECH: "TECH",
+  CUSTOMER: "CUSTOMER",
+};
+
 export const STATUS_NAME_MANAGE_USER = {
   CREATE: {
     title: "เพิ่มข้อมูลผู้ใช้งาน",

@@ -53,6 +53,7 @@ import IconEditJob from "@/assets/icons/icon-edit-task.png";
 import IconDeleteJob from "@/assets/icons/icon-delete-job.png";
 import { IGetJobResponse } from "@/services/interfaces";
 import { deletePartnerJobsService } from "@/services/task";
+import { TYPE_SEARCH_INPUT } from "../data/status-code";
 
 const breadcrumbs = [
   {
@@ -135,6 +136,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
   const [oldUserData, setOldUserData] = useState<ICustomersData>();
   const [isOpenOldUser, setIsOpenOldUser] = useState<boolean>(false);
   const [customerId, setCustomerId] = useState<string>("");
+  const [addressId, setAddressId] = useState<string>("");
   const [appointmentDate, setAppointmentDate] = useState<Date>();
   const [appointmentTime, setAppointmentTime] = useState<string>("");
   const [jobType, setJobType] = useState<string>("");
@@ -172,15 +174,16 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
   ]);
 
   const disabledButton =
-    watchFields.includes("") || !fullAddress.value || !searchTechData.value
-      ? true
-      : false;
+    watchFields.includes("") || !fullAddress.value ? true : false;
 
   const disabledFields = STATE_STATUS_MANAGE_USER.GET === statusType;
 
   const submitConfirmCreateJob = async (data: Inputs) => {
     try {
       const customerIdData = customerId ? { customer_id: customerId } : {};
+      const addressIdData = addressId ? { id: addressId } : {};
+
+      console.log("customerIdData ===> ", customerIdData);
       const body = {
         job_info: {
           job_code: data?.job_code,
@@ -196,6 +199,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
           additional_information: data?.additional_information ?? "",
           distance: data?.distance ? formatFloatFixed2(data?.distance) : 0.0,
           address: {
+            ...addressIdData,
             address_name: data?.address_name ?? "",
             address_full_code: fullAddress?.value ?? "",
             latitude: 10.245,
@@ -216,6 +220,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
         },
         tech_service_fee_info: {
           tech_id: searchTechData?.value ?? "",
+          tech_type: data?.tech_type ?? "",
           payment_type: data?.payment_type ?? "",
           wages: data?.wages ? formatFloatFixed2(data.wages) : 0.0,
         },
@@ -424,6 +429,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
         setValue("appointment_time", customerInfo.appointment_time);
         setAppointmentTime(customerInfo.appointment_time);
         setValue("address_name", customerInfo.address.address_name);
+        setAddressId(customerInfo.address.id ?? "");
         setFullAddress({
           label: customerInfo.address.address_full_name ?? "",
           value: customerInfo.address.address_full_code ?? "",
@@ -453,8 +459,8 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
       }
 
       if (techServiceFeeInfo) {
-        setValue("tech_type", "");
-        setTechType("");
+        setValue("tech_type", techServiceFeeInfo.tech_type);
+        setTechType(techServiceFeeInfo.tech_type);
         setSearchTechData({
           label: techServiceFeeInfo.tech_name ?? "",
           value: techServiceFeeInfo.tech_id ?? "",
@@ -967,6 +973,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
         title="ค้นหาข้อมูลลูกค้าเก่า"
         label="ค้นหา"
         placeholder="ค้นหา"
+        type={TYPE_SEARCH_INPUT.CUSTOMER}
         value={oldUserData}
         setValue={setOldUserData}
       />

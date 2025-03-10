@@ -19,6 +19,11 @@ import {
   JOB_TYPE_OPTION,
 } from "../data/option-data";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
+import { ModalInputSearch } from "../components";
+import { TYPE_SEARCH_INPUT } from "../data/status-code";
+import { ITechNameData } from "@/services/interfaces";
+import { updateAssignTechService } from "@/services/task";
+import { useToast } from "@/hooks/use-toast";
 
 const breadcrumbs = [
   {
@@ -42,12 +47,16 @@ type Inputs = {
 };
 
 const WaitingTechTaskPage: React.FC = () => {
+  const { toast, dismiss } = useToast();
   const [jobsData, setJobsData] = useState<IJobData[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [jobType, setJobType] = useState<string>("");
   const [jobStatus, setJobStatus] = useState<string>("");
   const [productName, setProductName] = useState<string>("");
+  const [isOpenChangeTech, setIsOpenChangeTech] = useState<boolean>(false);
+  const [changeTechData, setChangeTechData] = useState<ITechNameData>();
+  const [jobId, setJobId] = useState<string>("");
 
   const { register, handleSubmit, setValue, getValues } = useForm<Inputs>();
 
@@ -57,6 +66,8 @@ const WaitingTechTaskPage: React.FC = () => {
       onClick: (data?: IJobData) => {
         if (data?.id) {
           console.log("data ==> ", data);
+          setJobId(data.id);
+          setIsOpenChangeTech(true);
         }
       },
       icon: IconUserPlus,
@@ -168,6 +179,36 @@ const WaitingTechTaskPage: React.FC = () => {
     getTechWaiting();
   }, [currentPage]);
 
+  useEffect(() => {
+    const assignTech = async () => {
+      console.log("changeTechData => ", changeTechData);
+      try {
+        const params = {
+          job_id: jobId,
+          tech_id: changeTechData?.id ?? "",
+        };
+
+        await updateAssignTechService(params);
+        const { id } = toast({
+          title: "สำเร็จแล้ว",
+          description: "บันทึกข้อมูลการแก้ไขใบงานสำเร็จแล้ว",
+          variant: "success",
+          className: "w-[300px] mx-auto",
+          duration: 3000,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        dismiss(id);
+        getTechWaiting();
+      } catch (error) {
+        console.log("error => ", error);
+      }
+    };
+
+    if (changeTechData) {
+      assignTech();
+    }
+  }, [changeTechData]);
+
   return (
     <>
       <SidebarLayout breadcrumbs={breadcrumbs}>
@@ -244,6 +285,16 @@ const WaitingTechTaskPage: React.FC = () => {
           </div>
         </div>
       </SidebarLayout>
+      <ModalInputSearch
+        isOpen={isOpenChangeTech}
+        setIsOpen={setIsOpenChangeTech}
+        title="มอบหมายงานช่าง"
+        label="ค้นหาช่าง..."
+        placeholder="ค้นหาช่าง..."
+        value={changeTechData}
+        type={TYPE_SEARCH_INPUT.TECH}
+        setValue={setChangeTechData}
+      />
     </>
   );
 };

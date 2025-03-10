@@ -216,6 +216,7 @@ export interface IProductServiceInfoData {
 export interface ITechServiceFeeInfoData {
   tech_id: string;
   tech_name?: string;
+  tech_type: string;
   payment_type: string;
   wages: number;
 }
@@ -317,4 +318,9 @@ export interface IGetJobResponse {
   customer_info: ICustomerInfoData;
   product_service_info: IProductServiceInfoData;
   tech_service_fee_info: ITechServiceFeeInfoData;
+}
+
+export interface IUpdateAssignTechParam {
+  job_id: string;
+  tech_id: string;
 }
