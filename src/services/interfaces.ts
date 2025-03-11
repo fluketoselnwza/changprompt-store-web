@@ -324,3 +324,12 @@ export interface IUpdateAssignTechParam {
   job_id: string;
   tech_id: string;
 }
+
+export interface IBookbankData {
+  bank_code: string;
+  bank_desc: string;
+}
+
+export interface IBookbankResponse {
+  data: IBookbankData[];
+}

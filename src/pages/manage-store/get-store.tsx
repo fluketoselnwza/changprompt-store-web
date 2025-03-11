@@ -4,9 +4,18 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import IconHome from "@/assets/icons/icon-home.png";
 import { getPartnerProfileService } from "@/services/profile";
 import { IPartnerProfileResponse } from "@/services/interfaces";
-import { CustomInput, CustomSelect, CustomSelectInput } from "../components";
+import {
+  CustomInput,
+  CustomSelect,
+  CustomSelectInput,
+  CardAuthen,
+} from "../components";
 import { ISelectData } from "../interface";
 import { getAddressService } from "@/services/address";
+import ImageIdCardWithSelfie from "@/assets/images/img-idcard-with-selfie.png";
+import ImageIdCard from "@/assets/images/img-idcard.png";
+import ImageBookBank from "@/assets/images/img-book-bank.png";
+import { getBookbankService } from "@/services/info-data";
 
 const breadcrumbs = [
   {
@@ -29,6 +38,11 @@ type Inputs = {
   mobile_spare: string;
   email: string;
   address_name: string;
+  id_card_number: string;
+  account_number: string;
+  bank_id: string;
+  bank_code: string;
+  bank_name: string;
 };
 
 const GetStorePage: React.FC = () => {
@@ -41,6 +55,8 @@ const GetStorePage: React.FC = () => {
   const [debouncedQueryAddress, setDebouncedQueryAddress] =
     useState<string>(searchAddress);
   const [addressDataList, setAddressDataList] = useState<ISelectData[]>([]);
+  const [bankCode, setBankCode] = useState<string>("");
+  const [bookbankData, setBookbankData] = useState<ISelectData[]>([]);
 
   const {
     handleSubmit,
@@ -120,6 +136,26 @@ const GetStorePage: React.FC = () => {
     getProfile();
   }, []);
 
+  useEffect(() => {
+    const getBookbankData = async () => {
+      const result = await getBookbankService();
+
+      console.log("result ==> ", result);
+      if (result?.data?.length) {
+        const resData = result.data.map((item) => {
+          return {
+            label: item.bank_desc,
+            value: item.bank_code,
+          };
+        });
+
+        setBookbankData(resData);
+      }
+    };
+
+    getBookbankData();
+  }, []);
+
   const onSubmit: SubmitHandler<Inputs> = () => {};
 
   return (
@@ -139,7 +175,7 @@ const GetStorePage: React.FC = () => {
                 </p>
               </div>
             </div>
-            <div className="mt-6 grid grid-cols-3 gap-6">
+            <div className="mt-4 grid grid-cols-3 gap-6">
               <CustomInput
                 name="business_name"
                 label="ชื่อสถานประกอบการ"
@@ -209,6 +245,51 @@ const GetStorePage: React.FC = () => {
                   placeholderSearch="ค้นหา รหัสไปรษณีย์ ตำบล อำเภอ จังหวัด"
                   option={addressDataList}
                 />
+              </div>
+            </div>
+            <div className="mt-[28px]">
+              <p className="font-bold text-[16px]">ข้อมูลเจ้าของร้าน</p>
+              <div className="mt-4 grid grid-cols-3 gap-6">
+                <div className="flex flex-col gap-4">
+                  <CustomInput
+                    name="id_card_number"
+                    label="เลขที่บัตรประจำตัวประชาชน"
+                    placeholder="กรอกเลขที่บัตรประจำตัวประชาชน"
+                    required
+                    error={errors.id_card_number?.message}
+                    register={register("id_card_number", {
+                      required: "กรุณาระบุเลขที่บัตรประจำตัวประชาชน",
+                    })}
+                  />
+                  <CardAuthen defaultImage={ImageIdCardWithSelfie} />
+                </div>
+                <div className="flex flex-col gap-4">
+                  <CustomInput
+                    name="account_number"
+                    label="เลขบัญชี"
+                    placeholder="กรอกเลขบัญชี"
+                    required
+                    error={errors.account_number?.message}
+                    register={register("account_number", {
+                      required: "กรุณาระบุเลขบัญชี",
+                    })}
+                  />
+                  <CardAuthen defaultImage={ImageIdCard} />
+                </div>
+                <div className="flex flex-col gap-4">
+                  <CustomSelect
+                    name="bank_code"
+                    label="ธนาคาร"
+                    placeholder="เลือกธนาคาร"
+                    options={bookbankData}
+                    register={register("bank_code", {
+                      required: "เลือกธนาคาร",
+                    })}
+                    value={bankCode}
+                    setValue={setBankCode}
+                  />
+                  <CardAuthen defaultImage={ImageBookBank} />
+                </div>
               </div>
             </div>
           </div>

@@ -13,3 +13,4 @@ export { default as Rating } from "./rating";
 export { default as CustomPopover } from "./custom-popover";
 export { default as CustomSelectInput } from "./custom-select-input";
 export { default as ModalInputSearch } from "./modal/modal-input-search";
+export { default as CardAuthen } from "./card/card-authen";
