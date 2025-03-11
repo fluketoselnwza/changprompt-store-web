@@ -97,7 +97,11 @@ const DatePicker: React.FC<DatePickerProps> = ({
             <CalendarIcon />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className={`w-[${calendarWidth}px] p-0`} align="start">
+        <PopoverContent
+          className={`p-0`}
+          align="start"
+          style={{ width: calendarWidth }}
+        >
           <Calendar
             mode="single"
             className="bg-white w-full"
