@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import SidebarLayout from "../sidebar-layout";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import IconHome from "@/assets/icons/icon-home.png";
 import { getPartnerProfileService } from "@/services/profile";
 import { IPartnerProfileResponse } from "@/services/interfaces";
 import {
   CustomInput,
+  CustomMultiInput,
   CustomSelect,
   CustomSelectInput,
   CardAuthen,
+  CardFileListItem,
 } from "../components";
 import { ISelectData } from "../interface";
 import { getAddressService } from "@/services/address";
@@ -43,6 +45,9 @@ type Inputs = {
   bank_id: string;
   bank_code: string;
   bank_name: string;
+  trainingHistory: {
+    value: string;
+  }[];
 };
 
 const GetStorePage: React.FC = () => {
@@ -60,9 +65,15 @@ const GetStorePage: React.FC = () => {
 
   const {
     handleSubmit,
+    control,
     register,
     formState: { errors },
   } = useForm<Inputs>();
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "trainingHistory",
+  });
 
   useEffect(() => {
     const getAddress = async (search: string) => {
@@ -157,6 +168,12 @@ const GetStorePage: React.FC = () => {
   }, []);
 
   const onSubmit: SubmitHandler<Inputs> = () => {};
+
+  useEffect(() => {
+    append({
+      value: "",
+    });
+  }, []);
 
   return (
     <>
@@ -290,6 +307,36 @@ const GetStorePage: React.FC = () => {
                   />
                   <CardAuthen defaultImage={ImageBookBank} />
                 </div>
+              </div>
+            </div>
+            <div className="mt-[28px]">
+              <p className="font-bold text-[16px]">
+                เอกสารรับรองการเปิดกิจการ (ภพ20หรือหนังสือรับรองห้าง)
+              </p>
+              <div className="mt-3">
+                <CardFileListItem />
+              </div>
+            </div>
+            <div className="mt-[28px]">
+              <p className="font-bold text-[16px]">ข้อมูลการฝึกอบรมทักษะ</p>
+              <div className="mt-3">
+                <CustomMultiInput
+                  name="trainingHistory"
+                  placeholder={"กรอกข้อมูลการฝึกอบรมหรือทักษะ"}
+                  label={"เพิ่มข้อมูลการฝึกอบรมหรือทักษะ"}
+                  // register={register("trainingHistory")}
+                  register={register}
+                  remove={remove}
+                  fields={fields}
+                />
+              </div>
+            </div>
+            <div className="mt-[28px]">
+              <p className="font-bold text-[16px]">
+                เอกสารหรือใบรับรองการฝึกอบรมทักษะ
+              </p>
+              <div className="mt-3">
+                <CardFileListItem />
               </div>
             </div>
           </div>
