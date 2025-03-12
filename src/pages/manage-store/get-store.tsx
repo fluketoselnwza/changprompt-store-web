@@ -233,8 +233,14 @@ const GetStorePage: React.FC = () => {
     <>
       <SidebarLayout breadcrumbs={breadcrumbs}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
+          <div className="flex items-center justify-between">
             <p className="font-bold text-[16px]">ข้อมูลร้านค้า</p>
+            <div className="flex gap-4">
+              <Button className="w-[84px]" variant={"outline"} type="button">
+                ย้อนกลับ
+              </Button>
+              <Button className="w-[84px]">อัปเดต</Button>
+            </div>
           </div>
           <div className="bg-white px-[16px] py-[28px] mt-[16px] rounded-[8px]">
             <div className="flex justify-between items-center">
