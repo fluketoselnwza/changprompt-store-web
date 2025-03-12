@@ -64,6 +64,21 @@ const GetStorePage: React.FC = () => {
   const [bankCode, setBankCode] = useState<string>("");
   const [bookbankData, setBookbankData] = useState<ISelectData[]>([]);
   const [trainingHistory, setTrainingHistory] = useState<string[]>([]);
+  const [imagePreviewIdCardWithSelfie, setImagePreviewIdCardWithSelfie] =
+    useState<string | null>(null);
+  const [imageIdCardWithSelfieFile, setImageIdCardWithSelfieFile] = useState<
+    File | undefined
+  >();
+  const [imagePreviewIdCard, setImagePreviewIdCard] = useState<string | null>(
+    null
+  );
+  const [imageIdCardFile, setImageIdCardFile] = useState<File | undefined>();
+  const [imagePreviewBookBank, setImagePreviewBookBank] = useState<
+    string | null
+  >(null);
+  const [imageBookBankFile, setImageBookBankFile] = useState<
+    File | undefined
+  >();
 
   const {
     handleSubmit,
@@ -291,8 +306,12 @@ const GetStorePage: React.FC = () => {
                     })}
                   />
                   <CardAuthen
-                    defaultImage={ImageIdCardWithSelfie}
+                    id="ImageIdCardWithSelfie"
+                    image={ImageIdCardWithSelfie}
                     label="ภาพภ่ายคู่กับบัตรประชาชน"
+                    imagePreview={imagePreviewIdCardWithSelfie}
+                    setImagePreview={setImagePreviewIdCardWithSelfie}
+                    setImageFlie={setImageIdCardWithSelfieFile}
                   />
                 </div>
                 <div className="flex flex-col gap-4">
@@ -307,8 +326,12 @@ const GetStorePage: React.FC = () => {
                     })}
                   />
                   <CardAuthen
-                    defaultImage={ImageIdCard}
+                    id="ImageIdCard"
+                    image={ImageIdCard}
                     label="ภาพบัตรประชาชน"
+                    imagePreview={imagePreviewIdCard}
+                    setImagePreview={setImagePreviewIdCard}
+                    setImageFlie={setImageIdCardFile}
                   />
                 </div>
                 <div className="flex flex-col gap-4">
@@ -324,8 +347,12 @@ const GetStorePage: React.FC = () => {
                     setValue={setBankCode}
                   />
                   <CardAuthen
-                    defaultImage={ImageBookBank}
+                    id="ImageBookBank"
+                    image={ImageBookBank}
                     label="ภาพภ่ายสมุดบัญชีธนาคาร"
+                    imagePreview={imagePreviewBookBank}
+                    setImagePreview={setImagePreviewBookBank}
+                    setImageFlie={setImageBookBankFile}
                   />
                 </div>
               </div>
