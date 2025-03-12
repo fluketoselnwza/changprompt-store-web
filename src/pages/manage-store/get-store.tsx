@@ -161,7 +161,24 @@ const GetStorePage: React.FC = () => {
 
     console.log("result ---*", result);
     if (result) {
+      const generalInfo = result?.general_info;
+      const ownerInfo = result?.owner_info;
       setProfileData(result);
+      if (generalInfo) {
+        setValue("business_name", generalInfo.business_name);
+        setValue("business_model", generalInfo.business_model);
+        setValue("owner_name", generalInfo.owner_name);
+        setValue("mobile_number", generalInfo.mobile_number);
+        setValue("mobile_spare", generalInfo.mobile_spare);
+        setValue("email", generalInfo.email);
+        setValue("address_name", generalInfo.address.address);
+      }
+      if (ownerInfo) {
+        setValue("id_card_number", ownerInfo.id_card_number);
+        setValue("account_number", ownerInfo.account_number);
+        setValue("bank_code", ownerInfo.bank_code);
+        setBankCode(ownerInfo.bank_code);
+      }
     }
   };
 
@@ -255,26 +272,26 @@ const GetStorePage: React.FC = () => {
                 })}
               />
               <CustomInput
-                name="business_model"
+                name="mobile_number"
                 label="เบอร์"
                 placeholder="กรอกเบอร์"
-                register={register("business_model", {
+                register={register("mobile_number", {
                   required: "กรุณาระบุเบอร์",
                 })}
               />
               <CustomInput
-                name="business_model"
+                name="mobile_spare"
                 label="เบอร์สำรอง"
                 placeholder="กรอกเบอร์สำรอง"
-                register={register("business_model", {
+                register={register("mobile_spare", {
                   required: "กรุณาระบุเบอร์สำรอง",
                 })}
               />
               <CustomInput
-                name="business_model"
+                name="email"
                 label="อีเมล"
                 placeholder="กรอกอีเมล"
-                register={register("business_model", {
+                register={register("email", {
                   required: "กรุณาระบุอีเมล",
                 })}
               />
