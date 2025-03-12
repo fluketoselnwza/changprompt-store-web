@@ -11,6 +11,7 @@ import {
   CardAuthen,
   CardFileListItem,
   CustomInputIcon,
+  UploadMultiFile,
 } from "../components";
 import { ISelectData } from "../interface";
 import { getAddressService } from "@/services/address";
@@ -21,6 +22,7 @@ import { getBookbankService } from "@/services/info-data";
 import { Button } from "@/components/ui/button";
 import IconDelete from "@/assets/icons/icon-delete-image.png";
 import { removeIndex } from "@/lib/utils";
+import { IFileItemState } from "../components/interface";
 
 const breadcrumbs = [
   {
@@ -79,6 +81,14 @@ const GetStorePage: React.FC = () => {
   const [imageBookBankFile, setImageBookBankFile] = useState<
     File | undefined
   >();
+
+  const [businessCertificateFile, setbusinessCertificateFile] = useState<
+    IFileItemState[]
+  >([]);
+
+  const [trainingCertificateFile, setTrainingCertificateFile] = useState<
+    IFileItemState[]
+  >([]);
 
   const {
     handleSubmit,
@@ -362,20 +372,17 @@ const GetStorePage: React.FC = () => {
                 เอกสารรับรองการเปิดกิจการ (ภพ20หรือหนังสือรับรองห้าง)
               </p>
               <div className="mt-3">
-                <CardFileListItem />
+                <UploadMultiFile
+                  label="อัปโหลด"
+                  id="image-upload-business-file"
+                  fileItem={businessCertificateFile}
+                  setFileItem={setbusinessCertificateFile}
+                />
               </div>
             </div>
             <div className="mt-[28px]">
               <p className="font-bold text-[16px]">ข้อมูลการฝึกอบรมทักษะ</p>
               <div className="mt-3">
-                {/* <CustomMultiInput
-                  name="trainingHistory"
-                  placeholder={"กรอกข้อมูลการฝึกอบรมหรือทักษะ"}
-                  label={"เพิ่มข้อมูลการฝึกอบรมหรือทักษะ"}
-                  register={register}
-                  remove={remove}
-                  fields={fields}
-                /> */}
                 <CustomInput
                   name="training_history"
                   placeholder="กรอกเพิ่มข้อมูลการฝึกอบรมหรือทักษะ"
@@ -425,7 +432,12 @@ const GetStorePage: React.FC = () => {
                 เอกสารหรือใบรับรองการฝึกอบรมทักษะ
               </p>
               <div className="mt-3">
-                <CardFileListItem />
+                <UploadMultiFile
+                  label="อัปโหลด"
+                  id="image-upload-traing-file"
+                  fileItem={trainingCertificateFile}
+                  setFileItem={setTrainingCertificateFile}
+                />
               </div>
             </div>
           </div>

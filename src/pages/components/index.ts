@@ -16,3 +16,4 @@ export { default as ModalInputSearch } from "./modal/modal-input-search";
 export { default as CardAuthen } from "./card/card-authen";
 export { default as CardFileListItem } from "./card/card-file-list-item";
 export { default as CustomMultiInput } from "./custom-multi-input";
+export { default as UploadMultiFile } from "./upload-multi-file";
