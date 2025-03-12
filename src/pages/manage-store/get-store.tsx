@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import SidebarLayout from "../sidebar-layout";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import IconHome from "@/assets/icons/icon-home.png";
-import { getPartnerProfileService } from "@/services/profile";
+import {
+  getPartnerProfileService,
+  updatePartnerProfileService,
+} from "@/services/profile";
 import { IPartnerProfileResponse } from "@/services/interfaces";
 import {
   CustomInput,
   CustomSelect,
   CustomSelectInput,
   CardAuthen,
-  CardFileListItem,
   CustomInputIcon,
   UploadMultiFile,
 } from "../components";
@@ -90,6 +92,9 @@ const GetStorePage: React.FC = () => {
     IFileItemState[]
   >([]);
 
+  const [addressId, setAddressId] = useState<string>("");
+  const [bankId, setBankId] = useState<string>("");
+
   const {
     handleSubmit,
     register,
@@ -163,6 +168,10 @@ const GetStorePage: React.FC = () => {
     if (result) {
       const generalInfo = result?.general_info;
       const ownerInfo = result?.owner_info;
+      const businessVerificationDocuments =
+        result?.business_verification_documents;
+      const trainingInfo = result?.training_info;
+
       setProfileData(result);
       if (generalInfo) {
         setValue("business_name", generalInfo.business_name);
@@ -172,12 +181,47 @@ const GetStorePage: React.FC = () => {
         setValue("mobile_spare", generalInfo.mobile_spare);
         setValue("email", generalInfo.email);
         setValue("address_name", generalInfo.address.address);
+        setAddressId(generalInfo.address.id);
       }
       if (ownerInfo) {
         setValue("id_card_number", ownerInfo.id_card_number);
         setValue("account_number", ownerInfo.account_number);
         setValue("bank_code", ownerInfo.bank_code);
         setBankCode(ownerInfo.bank_code);
+        setBankId(ownerInfo.bank_id);
+      }
+      if (businessVerificationDocuments?.files?.length) {
+        const result = businessVerificationDocuments.files
+          .filter((item) => item.file_group === "TAX_CERTIFICATE")
+          .map((item) => {
+            return {
+              fileUrl: item.file_path,
+              fileData: {
+                name: item.file_name,
+                size: 100000,
+                type: "GET",
+              },
+              id: item.id,
+            };
+          });
+        setbusinessCertificateFile(result);
+      }
+
+      if (trainingInfo?.files?.length) {
+        const result = trainingInfo.files
+          .filter((item) => item.file_group === "TRAINING_CERTIFICATE")
+          .map((item) => {
+            return {
+              fileUrl: item.file_path,
+              fileData: {
+                name: item.file_name,
+                size: 100000,
+                type: "GET",
+              },
+              id: item.id,
+            };
+          });
+        setTrainingCertificateFile(result);
       }
     }
   };
@@ -227,7 +271,61 @@ const GetStorePage: React.FC = () => {
     getBookbankData();
   }, []);
 
-  const onSubmit: SubmitHandler<Inputs> = () => {};
+  const onSubmit = async (data: Inputs) => {
+    console.log("submittt");
+    const resData = {
+      general_info: {
+        business_name: data.business_name,
+        business_model: data.business_model,
+        owner_name: data.owner_name,
+        mobile_number: data.mobile_number,
+        mobile_spare: data.mobile_spare,
+        email: data.email,
+        address_id: addressId,
+        address_name: data.address_name,
+        address_full_code: fullAddress.value,
+      },
+      owner_info: {
+        id_card_number: data.id_card_number,
+        account_number: data.account_number,
+        bank_id: bankId,
+        bank_code: bankCode,
+      },
+      training_info: {
+        training_details: trainingHistory,
+      },
+    };
+
+    const formData = new FormData();
+
+    if (imageIdCardFile) {
+      formData.append("id_card_photo", imageIdCardFile);
+    }
+    if (imageIdCardWithSelfieFile) {
+      formData.append("id_card_with_selfie", imageIdCardWithSelfieFile);
+    }
+    if (imageBookBankFile) {
+      formData.append("bank_book", imageBookBankFile);
+    }
+    if (trainingCertificateFile.length) {
+      const fileData = trainingCertificateFile;
+      for (let i = 0; i < fileData.length; i++) {
+        formData.append("training_certificate", fileData[i].fileData);
+      }
+    }
+    if (businessCertificateFile.length) {
+      const fileData = businessCertificateFile;
+      for (let i = 0; i < fileData.length; i++) {
+        formData.append("tax_certificate", fileData[i].fileData);
+      }
+    }
+    if (data) {
+      const objectData = JSON.stringify(resData);
+      formData.append("data", objectData);
+    }
+
+    await updatePartnerProfileService(formData);
+  };
 
   return (
     <>
