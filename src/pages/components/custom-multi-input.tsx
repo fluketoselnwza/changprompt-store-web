@@ -40,7 +40,7 @@ const CustomMultipleInput: React.FC<CustomerInputProps> = ({
     (it: { value: string }) => it.value
   );
 
-  console.log("fieldsData ==> ", fieldsData);
+  console.log("name ==> ", name);
 
   return (
     <div className="flex flex-col gap-2">

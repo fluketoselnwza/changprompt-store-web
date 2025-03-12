@@ -10,7 +10,7 @@ const CardAuthen: React.FC<ICardAuthenProps> = (props) => {
   const [image] = useState<string>(defaultImage);
 
   return (
-    <div className="border border-gray-300 rounded-[8px] p-[12px]">
+    <div className="flex flex-col border border-gray-300 rounded-[8px] p-[12px] gap-2">
       {label && <p className="font-semibold text-[16px]">{label}</p>}
       <div>
         <img src={image} className="w-full h-[210px]" alt="img-id-card" />

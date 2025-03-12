@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import SidebarLayout from "../sidebar-layout";
-import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import IconHome from "@/assets/icons/icon-home.png";
 import { getPartnerProfileService } from "@/services/profile";
 import { IPartnerProfileResponse } from "@/services/interfaces";
 import {
   CustomInput,
-  CustomMultiInput,
   CustomSelect,
   CustomSelectInput,
   CardAuthen,
   CardFileListItem,
+  CustomInputIcon,
 } from "../components";
 import { ISelectData } from "../interface";
 import { getAddressService } from "@/services/address";
@@ -18,6 +18,9 @@ import ImageIdCardWithSelfie from "@/assets/images/img-idcard-with-selfie.png";
 import ImageIdCard from "@/assets/images/img-idcard.png";
 import ImageBookBank from "@/assets/images/img-book-bank.png";
 import { getBookbankService } from "@/services/info-data";
+import { Button } from "@/components/ui/button";
+import IconDelete from "@/assets/icons/icon-delete-image.png";
+import { removeIndex } from "@/lib/utils";
 
 const breadcrumbs = [
   {
@@ -45,9 +48,7 @@ type Inputs = {
   bank_id: string;
   bank_code: string;
   bank_name: string;
-  trainingHistory: {
-    value: string;
-  }[];
+  training_history: string;
 };
 
 const GetStorePage: React.FC = () => {
@@ -62,18 +63,15 @@ const GetStorePage: React.FC = () => {
   const [addressDataList, setAddressDataList] = useState<ISelectData[]>([]);
   const [bankCode, setBankCode] = useState<string>("");
   const [bookbankData, setBookbankData] = useState<ISelectData[]>([]);
+  const [trainingHistory, setTrainingHistory] = useState<string[]>([]);
 
   const {
     handleSubmit,
-    control,
     register,
+    getValues,
+    setValue,
     formState: { errors },
   } = useForm<Inputs>();
-
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "trainingHistory",
-  });
 
   useEffect(() => {
     const getAddress = async (search: string) => {
@@ -142,6 +140,26 @@ const GetStorePage: React.FC = () => {
     }
   };
 
+  const handleAddSkill = () => {
+    const value = getValues("training_history");
+
+    if (value.trim() !== "") {
+      setTrainingHistory([...trainingHistory, value]);
+      setValue("training_history", "");
+      console.log("trainingHistory : ", trainingHistory);
+    }
+  };
+
+  const handleClearSkill = () => {
+    setValue("training_history", "");
+  };
+
+  const handleRemoveSkill = (index: number) => {
+    const newArr = removeIndex(trainingHistory, index);
+
+    setTrainingHistory(newArr);
+  };
+
   useEffect(() => {
     console.log("getProfileData ==> ", getProfileData);
     getProfile();
@@ -168,12 +186,6 @@ const GetStorePage: React.FC = () => {
   }, []);
 
   const onSubmit: SubmitHandler<Inputs> = () => {};
-
-  useEffect(() => {
-    append({
-      value: "",
-    });
-  }, []);
 
   return (
     <>
@@ -278,7 +290,10 @@ const GetStorePage: React.FC = () => {
                       required: "กรุณาระบุเลขที่บัตรประจำตัวประชาชน",
                     })}
                   />
-                  <CardAuthen defaultImage={ImageIdCardWithSelfie} />
+                  <CardAuthen
+                    defaultImage={ImageIdCardWithSelfie}
+                    label="ภาพภ่ายคู่กับบัตรประชาชน"
+                  />
                 </div>
                 <div className="flex flex-col gap-4">
                   <CustomInput
@@ -291,7 +306,10 @@ const GetStorePage: React.FC = () => {
                       required: "กรุณาระบุเลขบัญชี",
                     })}
                   />
-                  <CardAuthen defaultImage={ImageIdCard} />
+                  <CardAuthen
+                    defaultImage={ImageIdCard}
+                    label="ภาพบัตรประชาชน"
+                  />
                 </div>
                 <div className="flex flex-col gap-4">
                   <CustomSelect
@@ -305,7 +323,10 @@ const GetStorePage: React.FC = () => {
                     value={bankCode}
                     setValue={setBankCode}
                   />
-                  <CardAuthen defaultImage={ImageBookBank} />
+                  <CardAuthen
+                    defaultImage={ImageBookBank}
+                    label="ภาพภ่ายสมุดบัญชีธนาคาร"
+                  />
                 </div>
               </div>
             </div>
@@ -320,15 +341,56 @@ const GetStorePage: React.FC = () => {
             <div className="mt-[28px]">
               <p className="font-bold text-[16px]">ข้อมูลการฝึกอบรมทักษะ</p>
               <div className="mt-3">
-                <CustomMultiInput
+                {/* <CustomMultiInput
                   name="trainingHistory"
                   placeholder={"กรอกข้อมูลการฝึกอบรมหรือทักษะ"}
                   label={"เพิ่มข้อมูลการฝึกอบรมหรือทักษะ"}
-                  // register={register("trainingHistory")}
                   register={register}
                   remove={remove}
                   fields={fields}
+                /> */}
+                <CustomInput
+                  name="training_history"
+                  placeholder="กรอกเพิ่มข้อมูลการฝึกอบรมหรือทักษะ"
+                  label="เพิ่มข้อมูลการฝึกอบรมหรือทักษะ"
+                  register={register("training_history")}
                 />
+                <div className="flex gap-4 mt-6">
+                  <Button
+                    type="button"
+                    className="w-[102px]"
+                    onClick={() => handleAddSkill()}
+                  >
+                    เพิ่มทักษะ
+                  </Button>
+                  <Button
+                    type="button"
+                    variant={"outline"}
+                    className="border border-red-700 text-red-700 w-[84px]"
+                    onClick={() => handleClearSkill()}
+                  >
+                    ยกเลิก
+                  </Button>
+                </div>
+                {trainingHistory.length > 0 ? (
+                  <div className="mt-12">
+                    {trainingHistory.map((item, index) => {
+                      return (
+                        <div key={index} className="mb-4">
+                          <CustomInputIcon
+                            name={`training_history_${index}`}
+                            value={item}
+                            iconRight={IconDelete}
+                            readOnly
+                            classIcon="w-[24px] h-[24px]"
+                            classBorderInput="bg-gray-50"
+                            rightOnclick={() => handleRemoveSkill(index)}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : null}
               </div>
             </div>
             <div className="mt-[28px]">
