@@ -68,7 +68,18 @@ function App() {
               path="/manage-user/change-password"
               element={<ChangePasswordPage />}
             />
-            <Route path="/manage-store/get-store" element={<GetStorePage />} />
+            <Route
+              path="/manage-store/get-store"
+              element={
+                <GetStorePage statusType={STATE_STATUS_MANAGE_USER.GET} />
+              }
+            />
+            <Route
+              path="/manage-store/update-store"
+              element={
+                <GetStorePage statusType={STATE_STATUS_MANAGE_USER.UPDATE} />
+              }
+            />
             <Route
               path="/manage-tech/all-technician"
               element={<AllTechnicianPage />}

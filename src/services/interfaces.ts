@@ -274,7 +274,7 @@ export interface IBusinessVerificationDocumentsProfileData {
 }
 
 export interface ITrainingInfoProfileData {
-  training_details: string;
+  training_details: string[];
   files: IFilesData[];
 }
 

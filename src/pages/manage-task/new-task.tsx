@@ -530,12 +530,14 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
               <p className="font-bold text-[16px]">สร้างใบงานใหม่</p>
             )}
             {STATE_STATUS_MANAGE_USER.GET === statusType && (
-              <div className="flex items-center gap-1">
+              <div
+                className="flex items-center gap-1 cursor-pointer"
+                onClick={() => navigate("/manage-task/all-tasks")}
+              >
                 <img
                   src={IconBack}
                   className="w-[20px] h-[20px] cursor-pointer"
                   alt="icon back"
-                  onClick={() => navigate("/manage-task/all-tasks")}
                 />
                 <p className="font-bold text-[16px]">รายละเอียดใบงาน</p>
               </div>

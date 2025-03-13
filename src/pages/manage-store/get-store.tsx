@@ -26,6 +26,19 @@ import IconDelete from "@/assets/icons/icon-delete-image.png";
 import { removeIndex } from "@/lib/utils";
 import { IFileItemState } from "../components/interface";
 import { STATUS_VERIFACATION_JOB } from "../data/status-code";
+import { connect } from "react-redux";
+import { IPageProps } from "@/pages/interface";
+import {
+  openModalWarning,
+  closeModalWarning,
+} from "@/redux/modal-warning/action";
+import { Dispatch } from "redux";
+import { useToast } from "@/hooks/use-toast";
+import IconWarning from "@/assets/icons/icon-warning.png";
+import { useNavigate } from "react-router";
+import { STATE_STATUS_MANAGE_USER } from "../data/status-code";
+import IconEditTask from "@/assets/icons/icon-edit-task-white.png";
+import IconBack from "@/assets/icons/icon-back.png";
 
 const breadcrumbs = [
   {
@@ -56,7 +69,15 @@ type Inputs = {
   training_history: string;
 };
 
-const GetStorePage: React.FC = () => {
+interface IGetStorePageProps extends IPageProps {
+  statusType: "GET" | "CREATE" | "UPDATE" | "";
+}
+
+const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
+  const { openModalWarning, closeModalWarning, statusType = "" } = props;
+  const navigate = useNavigate();
+  const { toast, dismiss } = useToast();
+
   const [getProfileData, setProfileData] = useState<IPartnerProfileResponse>();
   const [searchAddress, setSearchAddress] = useState<string>("");
   const [fullAddress, setFullAddress] = useState<ISelectData>({
@@ -194,6 +215,21 @@ const GetStorePage: React.FC = () => {
         setValue("bank_code", ownerInfo.bank_code);
         setBankCode(ownerInfo.bank_code);
         setBankId(ownerInfo.bank_id);
+        if (ownerInfo?.files?.length) {
+          const idCardPreview = ownerInfo.files.find(
+            (item) => item.file_group === "ID_CARD_PHOTO"
+          );
+          const selfiePreview = ownerInfo.files.find(
+            (item) => item.file_group === "ID_CARD_WITH_SELFIE"
+          );
+          const bookbankPreview = ownerInfo.files.find(
+            (item) => item.file_group === "BANK_BOOK"
+          );
+
+          setImagePreviewIdCard(idCardPreview?.file_path ?? null);
+          setImagePreviewIdCardWithSelfie(selfiePreview?.file_path ?? null);
+          setImagePreviewBookBank(bookbankPreview?.file_path ?? null);
+        }
       }
       if (businessVerificationDocuments?.files?.length) {
         const result = businessVerificationDocuments.files
@@ -227,6 +263,11 @@ const GetStorePage: React.FC = () => {
             };
           });
         setTrainingCertificateFile(result);
+
+        const trainingDetails = trainingInfo?.training_details?.length
+          ? trainingInfo.training_details
+          : [];
+        setTrainingHistory(trainingDetails);
       }
     }
   };
@@ -278,85 +319,161 @@ const GetStorePage: React.FC = () => {
 
   const onSubmit = async (data: Inputs) => {
     console.log("submittt");
-    const resData = {
-      general_info: {
-        business_name: data.business_name,
-        business_model: data.business_model,
-        owner_name: data.owner_name,
-        mobile_number: data.mobile_number,
-        mobile_spare: data.mobile_spare,
-        email: data.email,
-        address_id: addressId,
-        address_name: data.address_name,
-        address_full_code: fullAddress.value,
-      },
-      owner_info: {
-        id_card_number: data.id_card_number,
-        account_number: data.account_number,
-        bank_id: bankId,
-        bank_code: bankCode,
-      },
-      training_info: {
-        training_details: trainingHistory,
-      },
-    };
+    try {
+      const resData = {
+        general_info: {
+          business_name: data.business_name,
+          business_model: data.business_model,
+          owner_name: data.owner_name,
+          mobile_number: data.mobile_number,
+          mobile_spare: data.mobile_spare,
+          email: data.email,
+          address_id: addressId,
+          address_name: data.address_name,
+          address_full_code: fullAddress.value,
+        },
+        owner_info: {
+          id_card_number: data.id_card_number,
+          account_number: data.account_number,
+          bank_id: bankId,
+          bank_code: bankCode,
+        },
+        training_info: {
+          training_details: trainingHistory,
+        },
+      };
 
-    const formData = new FormData();
+      const formData = new FormData();
 
-    if (imageIdCardFile) {
-      formData.append("id_card_photo", imageIdCardFile);
-    }
-    if (imageIdCardWithSelfieFile) {
-      formData.append("id_card_with_selfie", imageIdCardWithSelfieFile);
-    }
-    if (imageBookBankFile) {
-      formData.append("bank_book", imageBookBankFile);
-    }
+      console.log("imageIdCardFile => ", imageIdCardFile);
 
-    const trainingCertificate = trainingCertificateFile?.filter(
-      (item) => item.fileData?.type !== "GET"
-    );
-
-    if (trainingCertificate.length) {
-      const fileData = trainingCertificate;
-      for (let i = 0; i < fileData.length; i++) {
-        formData.append("training_certificate", fileData[i].fileData);
+      if (imageIdCardFile) {
+        formData.append("id_card_photo", imageIdCardFile);
       }
-    }
-
-    const businessCertificate = businessCertificateFile?.filter(
-      (item) => item.fileData?.type !== "GET"
-    );
-
-    if (businessCertificate.length) {
-      const fileData = businessCertificate;
-      for (let i = 0; i < fileData.length; i++) {
-        formData.append("tax_certificate", fileData[i].fileData);
+      if (imageIdCardWithSelfieFile) {
+        formData.append("id_card_with_selfie", imageIdCardWithSelfieFile);
       }
-    }
+      if (imageBookBankFile) {
+        formData.append("bank_book", imageBookBankFile);
+      }
 
-    if (data) {
-      const objectData = JSON.stringify(resData);
-      formData.append("data", objectData);
-    }
+      const trainingCertificate = trainingCertificateFile?.filter(
+        (item) => item.fileData?.type !== "GET"
+      );
 
-    await updatePartnerProfileService(formData);
+      if (trainingCertificate.length) {
+        const fileData = trainingCertificate;
+        for (let i = 0; i < fileData.length; i++) {
+          formData.append("training_certificate", fileData[i].fileData);
+        }
+      }
+
+      const businessCertificate = businessCertificateFile?.filter(
+        (item) => item.fileData?.type !== "GET"
+      );
+
+      if (businessCertificate.length) {
+        const fileData = businessCertificate;
+        for (let i = 0; i < fileData.length; i++) {
+          formData.append("tax_certificate", fileData[i].fileData);
+        }
+      }
+
+      if (data) {
+        const objectData = JSON.stringify(resData);
+        formData.append("data", objectData);
+      }
+
+      await updatePartnerProfileService(formData);
+      const { id } = toast({
+        title: "สำเร็จแล้ว",
+        description: "อัปเดทข้อมูลสำเร็จแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+        duration: 3000,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      dismiss(id);
+      navigate("/manage-store/get-store");
+    } catch (error) {
+      console.log("error => ", error);
+      toast({
+        title: "ไม่สำเร็จ",
+        description: "อัปเดทข้อมูลไม่สำเร็จแล้ว",
+        variant: "fail",
+        className: "w-[300px] mx-auto",
+      });
+    }
+  };
+
+  const confirmUpdateStore = (data: Inputs) => {
+    openModalWarning(
+      IconWarning,
+      "คุณต้องการอัพเดทข้อมูลร้านค้าเพื่อขออนุมัติอีกครั้ง",
+      "",
+      "ยกเลิก",
+      () => {
+        closeModalWarning();
+      },
+      "ยืนยัน",
+      () => {
+        closeModalWarning();
+        onSubmit(data);
+      }
+    );
   };
 
   return (
     <>
       <SidebarLayout breadcrumbs={breadcrumbs}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex items-center justify-between">
-            <p className="font-bold text-[16px]">ข้อมูลร้านค้า</p>
-            <div className="flex gap-4">
-              <Button className="w-[84px]" variant={"outline"} type="button">
-                ย้อนกลับ
+        <form onSubmit={handleSubmit(confirmUpdateStore)}>
+          <div className="flex items-end justify-between">
+            {STATE_STATUS_MANAGE_USER.UPDATE === statusType && (
+              <div
+                className="flex items-center gap-1 cursor-pointer"
+                onClick={() => navigate("/manage-store/get-store")}
+              >
+                <img
+                  src={IconBack}
+                  className="w-[20px] h-[20px] cursor-pointer"
+                  alt="icon back"
+                />
+                <p className="font-bold text-[16px]">แก้ไขข้อมูลร้านค้า</p>
+              </div>
+            )}
+            {STATE_STATUS_MANAGE_USER.GET === statusType && (
+              <p className="font-bold text-[16px]">ข้อมูลร้านค้า</p>
+            )}
+            {STATE_STATUS_MANAGE_USER.UPDATE === statusType ? (
+              <div className="flex gap-4">
+                <Button
+                  className="w-[84px]"
+                  variant={"outline"}
+                  type="button"
+                  onClick={() => navigate("/manage-store/get-store")}
+                >
+                  ย้อนกลับ
+                </Button>
+                <Button className="w-[84px]">อัปเดต</Button>
+              </div>
+            ) : (
+              <Button
+                className="w-[176px]"
+                type="button"
+                onClick={() => navigate("/manage-store/update-store")}
+              >
+                <div className="flex items-center gap-2">
+                  <img
+                    src={IconEditTask}
+                    alt="icon edit"
+                    className="w-[20px] h-[20px]"
+                  />
+                  <span>แก้ไขข้อมูลใบงาน</span>
+                </div>
               </Button>
-              <Button className="w-[84px]">อัปเดต</Button>
-            </div>
+            )}
           </div>
-          <div className="bg-white px-[16px] py-[28px] mt-[16px] rounded-[8px]">
+          <div className="bg-white px-[16px] py-[28px] mt-[24px] rounded-[8px]">
             <div className="flex justify-between items-center">
               <p className="font-bold text-[16px]">ข้อมูลทั่วไป</p>
               {getProfileData?.verification_status ===
@@ -587,4 +704,33 @@ const GetStorePage: React.FC = () => {
   );
 };
 
-export default GetStorePage;
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  openModalWarning: (
+    image: string | null,
+    title: string,
+    description: string,
+    labelBtnFirst?: string,
+    fnBtnFirst?: () => void | null,
+    labelBtnSecond?: string,
+    fnBtnSecond?: () => void | null
+  ) =>
+    openModalWarning(dispatch, {
+      image,
+      title,
+      description,
+      labelBtnFirst,
+      fnBtnFirst,
+      labelBtnSecond,
+      fnBtnSecond,
+    }),
+  closeModalWarning: () => closeModalWarning(dispatch),
+});
+
+const mapStateToProps = () => ({});
+
+const GetStorePageWithConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GetStorePage);
+
+export default GetStorePageWithConnect;
