@@ -116,6 +116,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
 
   const [addressId, setAddressId] = useState<string>("");
   const [bankId, setBankId] = useState<string>("");
+  const [itemDelete, setItemDelete] = useState<string[]>([]);
 
   const {
     handleSubmit,
@@ -124,6 +125,8 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
     setValue,
     formState: { errors },
   } = useForm<Inputs>();
+
+  const disabledFields = STATE_STATUS_MANAGE_USER.GET === statusType;
 
   useEffect(() => {
     const getAddress = async (search: string) => {
@@ -384,6 +387,13 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
         formData.append("data", objectData);
       }
 
+      if (itemDelete?.length) {
+        const itemData = itemDelete;
+        for (let i = 0; i < itemData.length; i++) {
+          formData.append("file_deletion", itemData[i]);
+        }
+      }
+
       await updatePartnerProfileService(formData);
       const { id } = toast({
         title: "สำเร็จแล้ว",
@@ -421,6 +431,18 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
         onSubmit(data);
       }
     );
+  };
+
+  const handleDeleteItem = async (id: string) => {
+    console.log("id ==> ", id);
+
+    let itemArray = [];
+
+    itemArray = [...itemDelete, id];
+
+    console.log("itemArray ==> ", itemArray);
+
+    setItemDelete(itemArray);
   };
 
   return (
@@ -491,6 +513,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
                 name="business_name"
                 label="ชื่อสถานประกอบการ"
                 placeholder="กรอกชื่อสถานประกอบการ"
+                disabled={disabledFields}
                 register={register("business_name", {
                   required: "กรุณาระบุชื่อสถานประกอบการ",
                 })}
@@ -499,6 +522,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
                 name="business_model"
                 label="รูปแบบธุรกิจ"
                 placeholder="กรอกรูปแบบธุรกิจ"
+                disabled={disabledFields}
                 register={register("business_model", {
                   required: "กรุณาระบุรูปแบบธุรกิจ",
                 })}
@@ -507,6 +531,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
                 name="owner_name"
                 label="ชื่อ - สกุล เจ้าของกิจการ"
                 placeholder="กรอกชื่อ - สกุล เจ้าของกิจการ"
+                disabled={disabledFields}
                 register={register("owner_name", {
                   required: "กรุณาระบุชื่อ - สกุล เจ้าของกิจการ",
                 })}
@@ -516,6 +541,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
                 label="เบอร์"
                 placeholder="กรอกเบอร์"
                 maxLength={10}
+                disabled={disabledFields}
                 register={register("mobile_number", {
                   required: "กรุณาระบุเบอร์",
                 })}
@@ -524,6 +550,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
                 name="mobile_spare"
                 label="เบอร์สำรอง"
                 maxLength={10}
+                disabled={disabledFields}
                 placeholder="กรอกเบอร์สำรอง"
                 register={register("mobile_spare")}
               />
@@ -531,6 +558,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
                 name="email"
                 label="อีเมล"
                 placeholder="กรอกอีเมล"
+                disabled={disabledFields}
                 register={register("email", {
                   required: "กรุณาระบุอีเมล",
                 })}
@@ -540,6 +568,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
                 label="ที่อยู่(ตามบัตรประชาชน) บ้านเลขที่ หมู่บ้าน ซอย ถนน"
                 placeholder="กรอกที่อยู่(ตามบัตรประชาชน)"
                 required
+                disabled={disabledFields}
                 error={errors.address_name?.message}
                 register={register("address_name", {
                   required: "กรุณาระบุที่อยู่",
@@ -549,6 +578,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
                 <CustomSelectInput
                   label="ตำบล/อำเภอ/จังหวัด/รหัสไปรษณีย์"
                   required
+                  disabled={disabledFields}
                   valueSearch={searchAddress}
                   setValueSearch={setSearchAddress}
                   value={fullAddress}
@@ -567,6 +597,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
                     label="เลขที่บัตรประจำตัวประชาชน"
                     placeholder="กรอกเลขที่บัตรประจำตัวประชาชน"
                     required
+                    disabled={disabledFields}
                     error={errors.id_card_number?.message}
                     register={register("id_card_number", {
                       required: "กรุณาระบุเลขที่บัตรประจำตัวประชาชน",
@@ -579,6 +610,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
                     imagePreview={imagePreviewIdCardWithSelfie}
                     setImagePreview={setImagePreviewIdCardWithSelfie}
                     setImageFlie={setImageIdCardWithSelfieFile}
+                    disabled={disabledFields}
                   />
                 </div>
                 <div className="flex flex-col gap-4">
@@ -587,6 +619,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
                     label="เลขบัญชี"
                     placeholder="กรอกเลขบัญชี"
                     required
+                    disabled={disabledFields}
                     error={errors.account_number?.message}
                     register={register("account_number", {
                       required: "กรุณาระบุเลขบัญชี",
@@ -599,6 +632,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
                     imagePreview={imagePreviewIdCard}
                     setImagePreview={setImagePreviewIdCard}
                     setImageFlie={setImageIdCardFile}
+                    disabled={disabledFields}
                   />
                 </div>
                 <div className="flex flex-col gap-4">
@@ -610,6 +644,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
                     register={register("bank_code", {
                       required: "เลือกธนาคาร",
                     })}
+                    disabled={disabledFields}
                     value={bankCode}
                     setValue={setBankCode}
                   />
@@ -620,6 +655,7 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
                     imagePreview={imagePreviewBookBank}
                     setImagePreview={setImagePreviewBookBank}
                     setImageFlie={setImageBookBankFile}
+                    disabled={disabledFields}
                   />
                 </div>
               </div>
@@ -630,39 +666,57 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
               </p>
               <div className="mt-3">
                 <UploadMultiFile
-                  label="อัปโหลด"
+                  label={disabledFields ? "" : "อัปโหลด"}
                   id="image-upload-business-file"
                   fileItem={businessCertificateFile}
                   setFileItem={setbusinessCertificateFile}
+                  setDeleteItem={handleDeleteItem}
+                  disabled={disabledFields}
                 />
               </div>
             </div>
             <div className="mt-[28px]">
               <p className="font-bold text-[16px]">ข้อมูลการฝึกอบรมทักษะ</p>
               <div className="mt-3">
-                <CustomInput
-                  name="training_history"
-                  placeholder="กรอกเพิ่มข้อมูลการฝึกอบรมหรือทักษะ"
-                  label="เพิ่มข้อมูลการฝึกอบรมหรือทักษะ"
-                  register={register("training_history")}
-                />
-                <div className="flex gap-4 mt-6">
-                  <Button
-                    type="button"
-                    className="w-[102px]"
-                    onClick={() => handleAddSkill()}
-                  >
-                    เพิ่มทักษะ
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={"outline"}
-                    className="border border-red-700 text-red-700 w-[84px]"
-                    onClick={() => handleClearSkill()}
-                  >
-                    ยกเลิก
-                  </Button>
-                </div>
+                {!disabledFields ? (
+                  <>
+                    <CustomInput
+                      name="training_history"
+                      placeholder="กรอกเพิ่มข้อมูลการฝึกอบรมหรือทักษะ"
+                      label="เพิ่มข้อมูลการฝึกอบรมหรือทักษะ"
+                      register={register("training_history")}
+                    />
+                    <div className="flex gap-4 mt-6">
+                      <Button
+                        type="button"
+                        className="w-[102px]"
+                        onClick={() => handleAddSkill()}
+                      >
+                        เพิ่มทักษะ
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={"outline"}
+                        className="border border-red-700 text-red-700 w-[84px]"
+                        onClick={() => handleClearSkill()}
+                      >
+                        ยกเลิก
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {trainingHistory.length > 0 ? (
+                      <span className="font-medium text-[14px] text-gray-900">
+                        ข้อมูลการฝึกอบรมหรือทักษะ
+                      </span>
+                    ) : (
+                      <span className="font-medium text-[14px] text-gray-900">
+                        ไม่มีข้อมูลการฝึกอบรมหรือทักษะ
+                      </span>
+                    )}
+                  </>
+                )}
                 {trainingHistory.length > 0 ? (
                   <div className="mt-12">
                     {trainingHistory.map((item, index) => {
@@ -690,10 +744,12 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
               </p>
               <div className="mt-3">
                 <UploadMultiFile
-                  label="อัปโหลด"
+                  label={disabledFields ? "" : "อัปโหลด"}
                   id="image-upload-traing-file"
                   fileItem={trainingCertificateFile}
                   setFileItem={setTrainingCertificateFile}
+                  setDeleteItem={handleDeleteItem}
+                  disabled={disabledFields}
                 />
               </div>
             </div>

@@ -14,6 +14,7 @@ interface IUploadProps {
   fileItem: IFileItemState[] | [];
   setFileItem: (value: IFileItemState[]) => void;
   setDeleteItem?: (id: string) => void;
+  disabled?: boolean;
 }
 
 const UploadMultiFile: React.FC<IUploadProps> = ({
@@ -24,6 +25,7 @@ const UploadMultiFile: React.FC<IUploadProps> = ({
   fileItem,
   setFileItem,
   setDeleteItem,
+  disabled,
 }) => {
   // const [fileItem, setFileItem] = useState<IFileItemState[]>([]);
   const [progress, setProgress] = useState<number>(0);
@@ -91,18 +93,22 @@ const UploadMultiFile: React.FC<IUploadProps> = ({
           {label} {required && <span className="text-red-600 text-xs">*</span>}
         </label>
       )}
-      <div
-        className="h-[42px] w-full bg-gray-50 border border-gray-200 rounded-[8px] gap-4 flex items-center"
-        onClick={() => document.getElementById(id)?.click()}
-      >
-        <div className="bg-blue-700 h-full w-[90px] flex items-center justify-center rounded-tl-[8px] rounded-bl-[8px]">
-          <span className="text-white">เลือกไฟล์</span>
-        </div>
-        <span>ยังไม่พบไฟล์</span>
-      </div>
-      <span className="text-[12px] text-gray-500">
-        อัปโหลดได้มากกว่า 1 ไฟล์
-      </span>
+      {!disabled && (
+        <>
+          <div
+            className="h-[42px] w-full bg-gray-50 border border-gray-200 rounded-[8px] gap-4 flex items-center"
+            onClick={() => document.getElementById(id)?.click()}
+          >
+            <div className="bg-blue-700 h-full w-[90px] flex items-center justify-center rounded-tl-[8px] rounded-bl-[8px]">
+              <span className="text-white">เลือกไฟล์</span>
+            </div>
+            <span>ยังไม่พบไฟล์</span>
+          </div>
+          <span className="text-[12px] text-gray-500">
+            อัปโหลดได้มากกว่า 1 ไฟล์
+          </span>
+        </>
+      )}
       {error && <span className="mt-1 text-red-600 text-xs">{error}</span>}
       {fileItem?.length ? (
         <>
@@ -147,16 +153,18 @@ const UploadMultiFile: React.FC<IUploadProps> = ({
                           alt="icon dowload"
                         />
                       </div>
-                      <div
-                        onClick={() => handleDelete(item.id)}
-                        className="cursor-pointer"
-                      >
-                        <img
-                          src={IconDalete}
-                          className="w-[24px] h-[24px]"
-                          alt="icon delete"
-                        />
-                      </div>
+                      {!disabled && (
+                        <div
+                          onClick={() => handleDelete(item.id)}
+                          className="cursor-pointer"
+                        >
+                          <img
+                            src={IconDalete}
+                            className="w-[24px] h-[24px]"
+                            alt="icon delete"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                   {isLoadingFile && index === 0 ? (

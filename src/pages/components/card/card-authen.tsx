@@ -9,11 +9,19 @@ interface ICardAuthenProps {
   imagePreview: string | null;
   setImagePreview: (value: string | null) => void;
   setImageFlie: (value: File | undefined) => void;
+  disabled?: boolean;
 }
 
 const CardAuthen: React.FC<ICardAuthenProps> = (props) => {
-  const { id, label, image, imagePreview, setImagePreview, setImageFlie } =
-    props;
+  const {
+    id,
+    label,
+    image,
+    imagePreview,
+    setImagePreview,
+    setImageFlie,
+    disabled,
+  } = props;
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -42,15 +50,17 @@ const CardAuthen: React.FC<ICardAuthenProps> = (props) => {
         />
       </div>
 
-      <Button
-        variant="ghost"
-        type="button"
-        className="bg-gray-50 w-full flex items-center mt-2"
-        onClick={() => document.getElementById(`image-upload-${id}`)?.click()}
-      >
-        <img src={IconUpload} width={18} height={18} alt="upload image" />
-        <span className="text-primary leading-4">อัปโหลดรูปภาพ</span>
-      </Button>
+      {!disabled && (
+        <Button
+          variant="ghost"
+          type="button"
+          className="bg-gray-50 w-full flex items-center mt-2"
+          onClick={() => document.getElementById(`image-upload-${id}`)?.click()}
+        >
+          <img src={IconUpload} width={18} height={18} alt="upload image" />
+          <span className="text-primary leading-4">อัปโหลดรูปภาพ</span>
+        </Button>
+      )}
 
       <input
         type="file"
