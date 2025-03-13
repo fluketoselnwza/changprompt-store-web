@@ -692,9 +692,7 @@ const NewTaskPage: React.FC<INewTaskPage> = (props) => {
                   maxLength={10}
                   disabled={disabledFields}
                   placeholder="เบอร์โทรศัพท์ (สำรอง)"
-                  register={register("mobile_number_secondary", {
-                    required: "กรุณาระบุเบอร์โทรศัพท์ (สำรอง)",
-                  })}
+                  register={register("mobile_number_secondary")}
                 />
                 <DatePicker
                   name="appointment_date"

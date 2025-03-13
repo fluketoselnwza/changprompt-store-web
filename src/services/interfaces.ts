@@ -232,6 +232,7 @@ export interface IAddressInfoProfileData {
   id: string;
   address: string;
   full_address: string;
+  full_address_code: string;
   sub_district_code: string;
   sub_district_name: string;
   district_code: string;

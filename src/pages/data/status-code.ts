@@ -30,6 +30,10 @@ export const STATUS_NAME_MANAGE_USER = {
   },
 };
 
+export const STATUS_VERIFACATION_JOB = {
+  WAITING: "WAITING",
+};
+
 export const statusTaskColor = (status: string) => {
   switch (status) {
     case "รอมอบหมาย":

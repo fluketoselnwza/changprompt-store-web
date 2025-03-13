@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button";
 import IconDelete from "@/assets/icons/icon-delete-image.png";
 import { removeIndex } from "@/lib/utils";
 import { IFileItemState } from "../components/interface";
+import { STATUS_VERIFACATION_JOB } from "../data/status-code";
 
 const breadcrumbs = [
   {
@@ -182,6 +183,10 @@ const GetStorePage: React.FC = () => {
         setValue("email", generalInfo.email);
         setValue("address_name", generalInfo.address.address);
         setAddressId(generalInfo.address.id);
+        setFullAddress({
+          label: generalInfo.address.full_address ?? "",
+          value: generalInfo.address.full_address_code ?? "",
+        });
       }
       if (ownerInfo) {
         setValue("id_card_number", ownerInfo.id_card_number);
@@ -307,18 +312,29 @@ const GetStorePage: React.FC = () => {
     if (imageBookBankFile) {
       formData.append("bank_book", imageBookBankFile);
     }
-    if (trainingCertificateFile.length) {
-      const fileData = trainingCertificateFile;
+
+    const trainingCertificate = trainingCertificateFile?.filter(
+      (item) => item.fileData?.type !== "GET"
+    );
+
+    if (trainingCertificate.length) {
+      const fileData = trainingCertificate;
       for (let i = 0; i < fileData.length; i++) {
         formData.append("training_certificate", fileData[i].fileData);
       }
     }
-    if (businessCertificateFile.length) {
-      const fileData = businessCertificateFile;
+
+    const businessCertificate = businessCertificateFile?.filter(
+      (item) => item.fileData?.type !== "GET"
+    );
+
+    if (businessCertificate.length) {
+      const fileData = businessCertificate;
       for (let i = 0; i < fileData.length; i++) {
         formData.append("tax_certificate", fileData[i].fileData);
       }
     }
+
     if (data) {
       const objectData = JSON.stringify(resData);
       formData.append("data", objectData);
@@ -343,12 +359,15 @@ const GetStorePage: React.FC = () => {
           <div className="bg-white px-[16px] py-[28px] mt-[16px] rounded-[8px]">
             <div className="flex justify-between items-center">
               <p className="font-bold text-[16px]">ข้อมูลทั่วไป</p>
-              <div className="flex items-center gap-2">
-                <div className="bg-[#FFCD42] w-[10px] h-[10px] rounded-full"></div>
-                <p className="text-[#374257]">
-                  อยู่ระหว่างตรวจสอบข้อมูลและเอกสาร
-                </p>
-              </div>
+              {getProfileData?.verification_status ===
+                STATUS_VERIFACATION_JOB.WAITING && (
+                <div className="flex items-center gap-2">
+                  <div className="bg-[#FFCD42] w-[10px] h-[10px] rounded-full"></div>
+                  <p className="text-[#374257]">
+                    อยู่ระหว่างตรวจสอบข้อมูลและเอกสาร
+                  </p>
+                </div>
+              )}
             </div>
             <div className="mt-4 grid grid-cols-3 gap-6">
               <CustomInput
@@ -379,6 +398,7 @@ const GetStorePage: React.FC = () => {
                 name="mobile_number"
                 label="เบอร์"
                 placeholder="กรอกเบอร์"
+                maxLength={10}
                 register={register("mobile_number", {
                   required: "กรุณาระบุเบอร์",
                 })}
@@ -386,10 +406,9 @@ const GetStorePage: React.FC = () => {
               <CustomInput
                 name="mobile_spare"
                 label="เบอร์สำรอง"
+                maxLength={10}
                 placeholder="กรอกเบอร์สำรอง"
-                register={register("mobile_spare", {
-                  required: "กรุณาระบุเบอร์สำรอง",
-                })}
+                register={register("mobile_spare")}
               />
               <CustomInput
                 name="email"
