@@ -234,7 +234,7 @@ const WaitingTechTaskPage: React.FC = () => {
               />
               <CustomSelect
                 name="product_name"
-                placeholder="เลืกสินค้า"
+                placeholder="เลือกสินค้า"
                 options={PRODUCT_NAME_OPTION}
                 register={register("product_name")}
                 value={productName}

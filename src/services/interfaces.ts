@@ -232,6 +232,7 @@ export interface IAddressInfoProfileData {
   id: string;
   address: string;
   full_address: string;
+  full_address_code: string;
   sub_district_code: string;
   sub_district_name: string;
   district_code: string;
@@ -273,7 +274,7 @@ export interface IBusinessVerificationDocumentsProfileData {
 }
 
 export interface ITrainingInfoProfileData {
-  training_details: string;
+  training_details: string[];
   files: IFilesData[];
 }
 
@@ -323,4 +324,13 @@ export interface IGetJobResponse {
 export interface IUpdateAssignTechParam {
   job_id: string;
   tech_id: string;
+}
+
+export interface IBookbankData {
+  bank_code: string;
+  bank_desc: string;
+}
+
+export interface IBookbankResponse {
+  data: IBookbankData[];
 }

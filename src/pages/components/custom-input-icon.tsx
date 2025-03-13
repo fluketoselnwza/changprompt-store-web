@@ -19,6 +19,9 @@ interface CustomerInputProps {
   classLabel?: string;
   classBorderInput?: string;
   classInput?: string;
+  classIcon?: string;
+  value?: string;
+  readOnly?: boolean;
 }
 
 const CustomInputIcon: React.FC<CustomerInputProps> = ({
@@ -36,6 +39,7 @@ const CustomInputIcon: React.FC<CustomerInputProps> = ({
   classLabel,
   classBorderInput,
   classInput,
+  classIcon,
   ...props
 }) => {
   return (
@@ -81,7 +85,8 @@ const CustomInputIcon: React.FC<CustomerInputProps> = ({
               onClick={() => (rightOnclick ? rightOnclick() : null)}
               className={cn(
                 "w-[16px] h-[16px] object-contain",
-                rightOnclick ? "cursor-pointer" : ""
+                rightOnclick ? "cursor-pointer" : "",
+                classIcon
               )}
             />
           </div>
