@@ -180,3 +180,18 @@ export const ROLE_NAME_OPTION = [
     value: "พนักงานขาย",
   },
 ];
+
+export const TECH_SKILL_OPTION = [
+  {
+    label: "ซ่อมแอร์",
+    value: "ซ่อมแอร์",
+  },
+  {
+    label: "ซ่อมพัดลม",
+    value: "ซ่อมพัดลม",
+  },
+  {
+    label: "ซ่อมตู้เย็น",
+    value: "ซ่อมตู้เย็น",
+  },
+];
