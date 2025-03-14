@@ -21,7 +21,7 @@ const AllTechnicianPage: React.FC = () => {
     <>
       <SidebarLayout breadcrumbs={breadcrumbs}>
         <div>
-          <p className="font-bold text-[16px]">ช่างทั้งหมด</p>
+          <p className="font-bold text-[16px]">ช่างทั้งหมด (0 คน)</p>
         </div>
         <div className="bg-white p-[16px] mt-[16px] rounded-[8px]">
           AllTechnicianPage

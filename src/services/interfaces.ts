@@ -334,3 +334,39 @@ export interface IBookbankData {
 export interface IBookbankResponse {
   data: IBookbankData[];
 }
+
+export interface ITechAllParams {
+  tech_name: string;
+  tech_code: string;
+  tech_skill: string;
+  skip: number;
+  take?: number;
+}
+
+export interface ITechJobScheduleParams {
+  job_code: string;
+  customer_name: string;
+  appointment_date: string;
+  job_type: string;
+  skip: number;
+  take?: number;
+}
+
+export interface ITechBlackListParams {
+  tech_code: string;
+  tech_name: string;
+  approved_date: string;
+  inactivated_date: string;
+  skip: number;
+  take?: number;
+}
+
+export interface ITechHistoryJobsParams {
+  tech_code: string;
+  tech_name: string;
+  customer_name: string;
+  job_created_date: string;
+  service_date: string;
+  skip: number;
+  take?: number;
+}
