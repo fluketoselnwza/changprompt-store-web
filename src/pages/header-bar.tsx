@@ -8,9 +8,15 @@ import { Dispatch } from "redux";
 import { ISidebarProps, ISidebarState } from "./interface";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
+import { IUserData } from "@/redux/user/interface";
+import { userDataAction } from "@/redux/user/action";
 
-const HeaderBarComponent = (props: ISidebarProps) => {
-  const { openSidebar, hideSidebar, isSidebar } = props;
+interface IHeaderBarProps extends ISidebarProps {
+  userDataAction: (payload: IUserData) => void;
+}
+
+const HeaderBarComponent = (props: IHeaderBarProps) => {
+  const { openSidebar, hideSidebar, isSidebar, userDataAction } = props;
   const navigate = useNavigate();
   const [partnerName, setPartnerName] = useState<string>("");
   const [partnerCode, setPartnerCode] = useState<string>("");
@@ -22,6 +28,7 @@ const HeaderBarComponent = (props: ISidebarProps) => {
 
     console.log("user ===>", user);
 
+    userDataAction(user);
     setPartnerName(user?.partner_name);
     setPartnerCode(user?.partner_code);
   }, []);
@@ -96,6 +103,7 @@ const HeaderBarComponent = (props: ISidebarProps) => {
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   openSidebar: () => openSidebarAction(dispatch),
   hideSidebar: () => hideSidebarAction(dispatch),
+  userDataAction: (body: IUserData) => userDataAction(dispatch, body),
 });
 
 const mapStateToProps = (state: { onSidebar: ISidebarState }) => ({

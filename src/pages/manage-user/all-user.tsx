@@ -13,7 +13,7 @@ import {
 } from "../components";
 import { useForm, SubmitHandler } from "react-hook-form";
 import IconSearch from "@/assets/icons/icon-search.png";
-import { ROLE_CODE } from "../data/role-code";
+import { ROLE_CODE_OPTION } from "../data/option-data";
 import { STATE_CODE, STATE_STATUS_MANAGE_USER } from "../data/status-code";
 import {
   getPartnerUserService,
@@ -362,7 +362,7 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
                 <CustomSelect
                   name="role_code"
                   placeholder="ตำแหน่ง"
-                  options={ROLE_CODE}
+                  options={ROLE_CODE_OPTION}
                   register={register("role_code")}
                   value={roleCode}
                   setValue={setRoleCode}

@@ -150,3 +150,33 @@ export const APPOINTMENT_TIME_OPTION = [
     value: "13:00 - 17:00",
   },
 ];
+
+export const ROLE_CODE_OPTION = [
+  {
+    label: "เจ้าของร้าน",
+    value: "OWN",
+  },
+  {
+    label: "พนักงานธุรการ",
+    value: "ADMIN",
+  },
+  {
+    label: "พนักงานขาย",
+    value: "SALE",
+  },
+];
+
+export const ROLE_NAME_OPTION = [
+  {
+    label: "เจ้าของร้าน",
+    value: "เจ้าของร้าน",
+  },
+  {
+    label: "พนักงานธุรการ",
+    value: "พนักงานธุรการ",
+  },
+  {
+    label: "พนักงานขาย",
+    value: "พนักงานขาย",
+  },
+];
