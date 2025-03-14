@@ -20,6 +20,8 @@ const HeaderBarComponent = (props: ISidebarProps) => {
 
     const user = userObject ? JSON.parse(userObject) : "";
 
+    console.log("user ===>", user);
+
     setPartnerName(user?.partner_name);
     setPartnerCode(user?.partner_code);
   }, []);
