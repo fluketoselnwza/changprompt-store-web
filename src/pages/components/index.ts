@@ -17,3 +17,5 @@ export { default as CardAuthen } from "./card/card-authen";
 export { default as CardFileListItem } from "./card/card-file-list-item";
 export { default as CustomMultiInput } from "./custom-multi-input";
 export { default as UploadMultiFile } from "./upload-multi-file";
+export { default as CustomInputText } from "./customer-input-text";
+export { default as CustomInputNumber } from "./customer-input-number";

@@ -100,6 +100,7 @@ export interface IPartnerUserDetailResponse {
   nation_id: string;
   email: string;
   address: string;
+  address_name: string;
   full_address: string;
   subdistrict_code: string;
   district_code: string;

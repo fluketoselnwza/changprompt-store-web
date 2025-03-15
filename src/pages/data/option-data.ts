@@ -152,10 +152,10 @@ export const APPOINTMENT_TIME_OPTION = [
 ];
 
 export const ROLE_CODE_OPTION = [
-  {
-    label: "เจ้าของร้าน",
-    value: "OWN",
-  },
+  // {
+  //   label: "เจ้าของร้าน",
+  //   value: "OWN",
+  // },
   {
     label: "พนักงานธุรการ",
     value: "ADMIN",
