@@ -54,13 +54,13 @@ const BlacklistTechnicianPage: React.FC = () => {
       dataType: "DATA",
       title: "ชื่อเล่น (ชื่อผู้ใช้)",
       class: "w-[100px]",
-      id: "nickname",
+      id: "nick_name",
     },
     {
       dataType: "DATA",
       title: "เบอร์โทรศัพท์",
       class: "w-[100px]",
-      id: "phone_number",
+      id: "mobile_number",
     },
     {
       dataType: "DATA",
@@ -84,7 +84,7 @@ const BlacklistTechnicianPage: React.FC = () => {
       dataType: "DATA",
       title: "วันที่ปิดใช้งานล่าสุด",
       class: "w-[100px]",
-      id: "close_date",
+      id: "inapprove_date",
     },
   ];
 
