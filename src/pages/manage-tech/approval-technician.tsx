@@ -17,6 +17,7 @@ import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 import { useNavigate } from "react-router";
 import IconApprove from "@/assets/icons/icon-approve.png";
 import IconSearchDetailUser from "@/assets/icons/icon-search-detail-user.png";
+import { IAllTechData } from "@/services/interfaces";
 
 const breadcrumbs = [
   {
@@ -39,7 +40,7 @@ type Inputs = {
 
 const ApproveTechnicianPage: React.FC = () => {
   const navigate = useNavigate();
-  const [jobsData, setTechData] = useState<IJobData[]>([]);
+  const [jobsData, setTechData] = useState<IAllTechData[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { register, handleSubmit, setValue, getValues } = useForm<Inputs>();
@@ -48,10 +49,10 @@ const ApproveTechnicianPage: React.FC = () => {
   const itemPopOverData = [
     {
       label: "ดูข้อมูลช่าง",
-      onClick: (data?: IJobData) => {
-        if (data?.id) {
+      onClick: (data?: IAllTechData) => {
+        if (data?.tech_id) {
           console.log("data ==> ", data);
-          // navigate(`/manage-task/all-tasks/detail-task/${data.id}`);
+          navigate(`/manage-tech/approval-technician/get-tech/${data.tech_id}`);
         }
       },
       icon: IconSearchDetailUser,
@@ -59,8 +60,8 @@ const ApproveTechnicianPage: React.FC = () => {
 
     {
       label: "อนุมัติ",
-      onClick: (data?: IJobData) => {
-        if (data?.id) {
+      onClick: (data?: IAllTechData) => {
+        if (data?.tech_id) {
           console.log("value ==> ", data);
           // confirmDeleteJob(data);
         }
@@ -86,13 +87,13 @@ const ApproveTechnicianPage: React.FC = () => {
       dataType: "DATA",
       title: "ชื่อเล่น (ชื่อผู้ใช้)",
       class: "w-[100px]",
-      id: "nickname",
+      id: "nick_name",
     },
     {
       dataType: "DATA",
       title: "เบอร์โทรศัพท์",
       class: "w-[100px]",
-      id: "phone_number",
+      id: "mobile_number",
     },
     {
       dataType: "DATA",
@@ -104,13 +105,13 @@ const ApproveTechnicianPage: React.FC = () => {
       dataType: "DATA",
       title: "เข้าร่วมร้านค้า",
       class: "w-[100px]",
-      id: "join_date",
+      id: "register_date",
     },
     {
       dataType: "DATA",
       title: "อนุมัติโดย",
       class: "w-[100px]",
-      id: "approve_by",
+      id: "approved_by",
     },
     {
       dataType: "SUB_MENU",

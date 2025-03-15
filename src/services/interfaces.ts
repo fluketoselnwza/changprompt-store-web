@@ -370,3 +370,19 @@ export interface ITechHistoryJobsParams {
   skip: number;
   take?: number;
 }
+
+export interface IAllTechData {
+  approved_by: string;
+  full_name: string;
+  mobile_number: string;
+  nick_name: string;
+  register_date: string;
+  tech_code: string;
+  tech_id: string;
+  tech_skill: string;
+}
+
+export interface IAllTechResponse {
+  total_count: number;
+  techs: IAllTechData[];
+}

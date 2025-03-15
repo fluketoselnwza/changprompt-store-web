@@ -4,6 +4,7 @@ import {
   ITechJobScheduleParams,
   ITechBlackListParams,
   ITechHistoryJobsParams,
+  IAllTechResponse,
 } from "./interfaces";
 
 export const getAllTechService = async (params: ITechAllParams) => {
@@ -17,7 +18,7 @@ export const getAllTechService = async (params: ITechAllParams) => {
 
   const response = await axiosInstance.get(urlPath, config);
 
-  return response.data;
+  return response.data as IAllTechResponse;
 };
 
 export const getTechProfileService = async (techId: string) => {

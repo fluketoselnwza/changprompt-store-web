@@ -97,6 +97,12 @@ function App() {
               element={<ApprovalTechnicianPage />}
             />
             <Route
+              path="/manage-tech/approval-technician/get-tech/:tech_id"
+              element={
+                <GetTechnicianPage statusType={STATE_STATUS_MANAGE_USER.GET} />
+              }
+            />
+            <Route
               path="/manage-tech/backlist-technician"
               element={<BlacklistTechnicianPage />}
             />

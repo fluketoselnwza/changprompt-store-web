@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import SidebarLayout from "../sidebar-layout";
 import IconHome from "@/assets/icons/icon-home.png";
 import { getAllTechService } from "@/services/tech";
-import { IJobData } from "@/services/interfaces";
+import { IAllTechData } from "@/services/interfaces";
 import { useForm, SubmitHandler } from "react-hook-form";
 import IconSearch from "@/assets/icons/icon-search.png";
 import {
@@ -39,7 +39,7 @@ type Inputs = {
 
 const AllTechnicianPage: React.FC = () => {
   const navigate = useNavigate();
-  const [jobsData, setTechData] = useState<IJobData[]>([]);
+  const [jobsData, setTechData] = useState<IAllTechData[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { register, handleSubmit, setValue, getValues } = useForm<Inputs>();
@@ -48,10 +48,10 @@ const AllTechnicianPage: React.FC = () => {
   const itemPopOverData = [
     {
       label: "ดูข้อมูลช่าง",
-      onClick: (data?: IJobData) => {
-        if (data?.id) {
+      onClick: (data?: IAllTechData) => {
+        if (data?.tech_id) {
           console.log("data ==> ", data);
-          // navigate(`/manage-task/all-tasks/detail-task/${data.id}`);
+          navigate(`/manage-tech/all-technician/get-tech/${data.tech_id}`);
         }
       },
       icon: IconSearchDetailUser,
@@ -59,8 +59,8 @@ const AllTechnicianPage: React.FC = () => {
 
     {
       label: "ลบข้อมูลผู้ใช้งาน",
-      onClick: (data?: IJobData) => {
-        if (data?.id) {
+      onClick: (data?: IAllTechData) => {
+        if (data?.tech_id) {
           console.log("value ==> ", data);
           // confirmDeleteJob(data);
         }
@@ -117,7 +117,7 @@ const AllTechnicianPage: React.FC = () => {
       title: "",
       class: "w-[40px]",
       id: "",
-      renderCell: ({ row }: { row: IJobData }) => {
+      renderCell: ({ row }: { row: IAllTechData }) => {
         return (
           <div className="flex items-center justify-center">
             <CustomPopover
