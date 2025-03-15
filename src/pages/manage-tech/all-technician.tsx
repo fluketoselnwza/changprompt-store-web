@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SidebarLayout from "../sidebar-layout";
 import IconHome from "@/assets/icons/icon-home.png";
-import { getAllTechService } from "@/services/tech";
+import { getAllTechService, deleteTechProfileService } from "@/services/tech";
 import { IAllTechData } from "@/services/interfaces";
 import { useForm, SubmitHandler } from "react-hook-form";
 import IconSearch from "@/assets/icons/icon-search.png";
@@ -17,6 +17,15 @@ import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 import { useNavigate } from "react-router";
 import IconDeleteUser from "@/assets/icons/icon-delete-user.png";
 import IconSearchDetailUser from "@/assets/icons/icon-search-detail-user.png";
+import { connect } from "react-redux";
+import { IPageProps } from "@/pages/interface";
+import {
+  openModalWarning,
+  closeModalWarning,
+} from "@/redux/modal-warning/action";
+import { Dispatch } from "redux";
+import IconDeleteModal from "@/assets/icons/icon-delete-tech.png";
+import { useToast } from "@/hooks/use-toast";
 
 const breadcrumbs = [
   {
@@ -37,7 +46,10 @@ type Inputs = {
   tech_skill: string;
 };
 
-const AllTechnicianPage: React.FC = () => {
+const AllTechnicianPage: React.FC<IPageProps> = (props) => {
+  const { openModalWarning, closeModalWarning } = props;
+  const { toast, dismiss } = useToast();
+
   const navigate = useNavigate();
   const [jobsData, setTechData] = useState<IAllTechData[]>([]);
   const [total, setTotal] = useState<number>(0);
@@ -56,13 +68,11 @@ const AllTechnicianPage: React.FC = () => {
       },
       icon: IconSearchDetailUser,
     },
-
     {
       label: "ลบข้อมูลผู้ใช้งาน",
       onClick: (data?: IAllTechData) => {
         if (data?.tech_id) {
-          console.log("value ==> ", data);
-          // confirmDeleteJob(data);
+          confirmDeleteTech(data);
         }
       },
       icon: IconDeleteUser,
@@ -173,6 +183,48 @@ const AllTechnicianPage: React.FC = () => {
     getAllTech();
   };
 
+  const handleDeleteTech = async (techId: string) => {
+    try {
+      await deleteTechProfileService(techId);
+      const { id } = toast({
+        title: "สำเร็จแล้ว",
+        description: "ลบข้อมูลช่างเรียบร้อยแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+        duration: 3000,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      dismiss(id);
+      getAllTech();
+    } catch (error) {
+      console.log("error : ", error);
+      toast({
+        title: "ไม่สำเร็จ",
+        description: "เกิดข้อผิดพลาด",
+        variant: "fail",
+        className: "w-[300px] mx-auto",
+      });
+    }
+  };
+
+  const confirmDeleteTech = (data: IAllTechData) => {
+    console.log("data user :", data);
+    openModalWarning(
+      IconDeleteModal,
+      "คุณต้องการลบข้อมูลช่าง",
+      `${data?.tech_code} : ${data?.full_name}`,
+      "ยกเลิก",
+      () => {
+        closeModalWarning();
+      },
+      "ยืนยัน",
+      () => {
+        closeModalWarning();
+        handleDeleteTech(data.tech_id);
+      }
+    );
+  };
+
   return (
     <>
       <SidebarLayout breadcrumbs={breadcrumbs}>
@@ -235,4 +287,33 @@ const AllTechnicianPage: React.FC = () => {
   );
 };
 
-export default AllTechnicianPage;
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  openModalWarning: (
+    image: string | null,
+    title: string,
+    description: string,
+    labelBtnFirst?: string,
+    fnBtnFirst?: () => void | null,
+    labelBtnSecond?: string,
+    fnBtnSecond?: () => void | null
+  ) =>
+    openModalWarning(dispatch, {
+      image,
+      title,
+      description,
+      labelBtnFirst,
+      fnBtnFirst,
+      labelBtnSecond,
+      fnBtnSecond,
+    }),
+  closeModalWarning: () => closeModalWarning(dispatch),
+});
+
+const mapStateToProps = () => ({});
+
+const AllTechnicianPageeWithConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AllTechnicianPage);
+
+export default AllTechnicianPageeWithConnect;
