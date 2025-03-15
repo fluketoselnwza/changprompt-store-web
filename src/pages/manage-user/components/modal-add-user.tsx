@@ -47,7 +47,7 @@ type Inputs = {
   mobile_number: string;
   email: string;
   password: string;
-  address: string;
+  address_name: string;
   addresses: string;
 };
 
@@ -76,7 +76,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
   const [addressDataList, setAddressDataList] = useState<ISelectData[]>([]);
   const [isFlagPage, setIsFlagPage] = useState<boolean>(false);
 
-  const { toast } = useToast();
+  const { toast, dismiss } = useToast();
 
   const {
     register,
@@ -96,7 +96,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
   const mobileNumber = watch("mobile_number");
   const email = watch("email");
   const password = watch("password");
-  const address = watch("address");
+  const address = watch("address_name");
 
   const isDisabledBuuton =
     empCode &&
@@ -149,7 +149,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
           ...params,
           emp_code: data?.emp_code,
           password: data?.password,
-          address_name: data?.address,
+          address_name: data?.address_name,
           address_full_code: fullAddress.value,
         };
 
@@ -157,12 +157,23 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
       } else {
         const paramsUpdate = {
           ...params,
-          address_name: data?.address,
+          address_name: data?.address_name,
           address_full_code: fullAddress.value,
         };
 
         await updatePartnerUserService(paramsUpdate, userId ?? "");
       }
+      const { id } = toast({
+        title: "สำเร็จแล้ว",
+        description:
+          status === STATE_STATUS_MANAGE_USER.CREATE
+            ? "เพิ่มข้อมูลผู้ใช้ใหม่เรียบร้อยแล้ว"
+            : "แก้ไขข้อมูลผู้ใช้ใหม่เรียบร้อยแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+      });
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      dismiss(id);
       setIsOpen(false, "success");
     } catch (error) {
       console.log("error ====> ", error);
@@ -195,7 +206,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
       setValue("mobile_number", result.mobile_number);
       setValue("email", result.email);
       setValue("password", "********");
-      setValue("address", result.address);
+      setValue("address_name", result.address_name);
 
       const addressName = result.full_address;
       const addressFullCode =
@@ -212,6 +223,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
         label: addressName,
         value: addressFullCode,
       });
+      setIsFlagPage(true);
     }
   };
 
@@ -238,7 +250,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
           mobile_number: "",
           email: "",
           password: "",
-          address: "",
+          address_name: "",
           addresses: "",
         });
         setSearchAddress("");
@@ -446,12 +458,12 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   <CustomInput
                     name="address"
                     label="ที่อยู่"
-                    register={register("address", {
+                    register={register("address_name", {
                       required: "กรุณาระบุที่อยู่",
                     })}
                     placeholder="บ้านเลขที่ ซอย ถนน..."
                     required
-                    error={errors.address?.message}
+                    error={errors.address_name?.message}
                     disabled={isDisabled}
                   />
                 </div>

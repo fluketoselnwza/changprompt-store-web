@@ -304,12 +304,6 @@ const ManageAllUserPage: React.FC<IPageProps> = (props) => {
     setIsAddUser(value);
     if (status === STATE_CODE.success) {
       getAllUserData();
-      toast({
-        title: "สำเร็จแล้ว",
-        description: "เพิ่มข้อมูลผู้ใช้ใหม่เรียบร้อยแล้ว",
-        variant: "success",
-        className: "w-[300px] mx-auto",
-      });
     }
   };
 
