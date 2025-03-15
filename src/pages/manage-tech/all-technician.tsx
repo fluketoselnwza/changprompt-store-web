@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SidebarLayout from "../sidebar-layout";
 import IconHome from "@/assets/icons/icon-home.png";
-import { getAllTechService, deleteTechProfileService } from "@/services/tech";
+import { getAllTechService } from "@/services/tech";
 import { IAllTechData } from "@/services/interfaces";
 import { useForm, SubmitHandler } from "react-hook-form";
 import IconSearch from "@/assets/icons/icon-search.png";
@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { TECH_SKILL_OPTION } from "../data/option-data";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 import { useNavigate } from "react-router";
-import IconDeleteUser from "@/assets/icons/icon-delete-user.png";
+// import IconDeleteUser from "@/assets/icons/icon-delete-user.png";
 import IconSearchDetailUser from "@/assets/icons/icon-search-detail-user.png";
 import { connect } from "react-redux";
 import { IPageProps } from "@/pages/interface";
@@ -24,8 +24,8 @@ import {
   closeModalWarning,
 } from "@/redux/modal-warning/action";
 import { Dispatch } from "redux";
-import IconDeleteModal from "@/assets/icons/icon-delete-tech.png";
-import { useToast } from "@/hooks/use-toast";
+// import IconDeleteModal from "@/assets/icons/icon-delete-tech.png";
+// import { useToast } from "@/hooks/use-toast";
 
 const breadcrumbs = [
   {
@@ -46,9 +46,9 @@ type Inputs = {
   tech_skill: string;
 };
 
-const AllTechnicianPage: React.FC<IPageProps> = (props) => {
-  const { openModalWarning, closeModalWarning } = props;
-  const { toast, dismiss } = useToast();
+const AllTechnicianPage: React.FC<IPageProps> = () => {
+  // const { openModalWarning, closeModalWarning } = props;
+  // const { toast, dismiss } = useToast();
 
   const navigate = useNavigate();
   const [jobsData, setTechData] = useState<IAllTechData[]>([]);
@@ -68,15 +68,15 @@ const AllTechnicianPage: React.FC<IPageProps> = (props) => {
       },
       icon: IconSearchDetailUser,
     },
-    {
-      label: "ลบข้อมูลผู้ใช้งาน",
-      onClick: (data?: IAllTechData) => {
-        if (data?.tech_id) {
-          confirmDeleteTech(data);
-        }
-      },
-      icon: IconDeleteUser,
-    },
+    // {
+    //   label: "ลบข้อมูลผู้ใช้งาน",
+    //   onClick: (data?: IAllTechData) => {
+    //     if (data?.tech_id) {
+    //       confirmDeleteTech(data);
+    //     }
+    //   },
+    //   icon: IconDeleteUser,
+    // },
   ];
 
   const HeaderTable = [
@@ -183,47 +183,47 @@ const AllTechnicianPage: React.FC<IPageProps> = (props) => {
     getAllTech();
   };
 
-  const handleDeleteTech = async (techId: string) => {
-    try {
-      await deleteTechProfileService(techId);
-      const { id } = toast({
-        title: "สำเร็จแล้ว",
-        description: "ลบข้อมูลช่างเรียบร้อยแล้ว",
-        variant: "success",
-        className: "w-[300px] mx-auto",
-        duration: 3000,
-      });
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      dismiss(id);
-      getAllTech();
-    } catch (error) {
-      console.log("error : ", error);
-      toast({
-        title: "ไม่สำเร็จ",
-        description: "เกิดข้อผิดพลาด",
-        variant: "fail",
-        className: "w-[300px] mx-auto",
-      });
-    }
-  };
+  // const handleDeleteTech = async (techId: string) => {
+  //   try {
+  //     await deleteTechProfileService(techId);
+  //     const { id } = toast({
+  //       title: "สำเร็จแล้ว",
+  //       description: "ลบข้อมูลช่างเรียบร้อยแล้ว",
+  //       variant: "success",
+  //       className: "w-[300px] mx-auto",
+  //       duration: 3000,
+  //     });
+  //     await new Promise((resolve) => setTimeout(resolve, 3000));
+  //     dismiss(id);
+  //     getAllTech();
+  //   } catch (error) {
+  //     console.log("error : ", error);
+  //     toast({
+  //       title: "ไม่สำเร็จ",
+  //       description: "เกิดข้อผิดพลาด",
+  //       variant: "fail",
+  //       className: "w-[300px] mx-auto",
+  //     });
+  //   }
+  // };
 
-  const confirmDeleteTech = (data: IAllTechData) => {
-    console.log("data user :", data);
-    openModalWarning(
-      IconDeleteModal,
-      "คุณต้องการลบข้อมูลช่าง",
-      `${data?.tech_code} : ${data?.full_name}`,
-      "ยกเลิก",
-      () => {
-        closeModalWarning();
-      },
-      "ยืนยัน",
-      () => {
-        closeModalWarning();
-        handleDeleteTech(data.tech_id);
-      }
-    );
-  };
+  // const confirmDeleteTech = (data: IAllTechData) => {
+  //   console.log("data user :", data);
+  //   openModalWarning(
+  //     IconDeleteModal,
+  //     "คุณต้องการลบข้อมูลช่าง",
+  //     `${data?.tech_code} : ${data?.full_name}`,
+  //     "ยกเลิก",
+  //     () => {
+  //       closeModalWarning();
+  //     },
+  //     "ยืนยัน",
+  //     () => {
+  //       closeModalWarning();
+  //       handleDeleteTech(data.tech_id);
+  //     }
+  //   );
+  // };
 
   return (
     <>

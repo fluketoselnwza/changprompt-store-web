@@ -14,13 +14,14 @@ import IconBack from "@/assets/icons/icon-back.png";
 import { Button } from "@/components/ui/button";
 // import IconEdit from "@/assets/icons/icon-edit-user.png";
 import IconUnlock from "@/assets/icons/icon-unlock.png";
-import IconDelete from "@/assets/icons/icon-delete-job.png";
+// import IconDelete from "@/assets/icons/icon-delete-job.png";
 import {
   activeTechProfileService,
-  deleteTechProfileService,
+  // deleteTechProfileService,
   getTechProfileService,
+  approveTechWaitingService,
 } from "@/services/tech";
-import { ITechProfileResponse } from "@/services/interfaces";
+// import { ITechProfileResponse } from "@/services/interfaces";
 import {
   CustomInput,
   CustomSelect,
@@ -40,9 +41,12 @@ import { getAddressService } from "@/services/address";
 import { STATE_STATUS_MANAGE_USER } from "../data/status-code";
 import { formatStringtoDate } from "@/lib/format";
 import { getBookbankService } from "@/services/info-data";
-import IconDeleteModal from "@/assets/icons/icon-delete-tech.png";
+// import IconDeleteModal from "@/assets/icons/icon-delete-tech.png";
 import IconWarning from "@/assets/icons/icon-warning-blue.png";
+import IconApprove from "@/assets/icons/icon-approve.png";
 import { useToast } from "@/hooks/use-toast";
+import { useLocation } from "react-router";
+import IconLock from "@/assets/icons/icon-edit-task.png";
 
 type Inputs = {
   full_name: string;
@@ -91,8 +95,17 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
   const { toast, dismiss } = useToast();
 
   const { tech_id = "" } = useParams();
+  const location = useLocation();
+
+  const { pathname } = location;
+  console.log("pathname ==> ", pathname);
+
+  const subPage = pathname?.split("/")[2];
+
+  console.log("subPage ==> ", subPage);
+
   const navigate = useNavigate();
-  const [getProfileDetail, setProfileDetail] = useState<ITechProfileResponse>();
+  // const [getProfileDetail, setProfileDetail] = useState<ITechProfileResponse>();
   const [birthDate, setBirthDate] = useState<Date | undefined>();
   const [bankCode, setBankCode] = useState<string>("");
   const [bookbankData, setBookbankData] = useState<ISelectData[]>([]);
@@ -129,7 +142,7 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
   // const [bankId, setBankId] = useState<string>("");
   const [itemDelete, setItemDelete] = useState<string[]>([]);
   const [educationLevel, setEducationLevel] = useState<string>("");
-  const [isActive, setIsActive] = useState<boolean>(true);
+  const [isActive, setIsActive] = useState<boolean>(false);
 
   const {
     handleSubmit,
@@ -205,7 +218,7 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
 
     console.log("result ==> ", result);
     if (result) {
-      setProfileDetail(result);
+      // setProfileDetail(result);
       setValue("full_name", result.first_name + " " + result.last_name);
       setValue("birth_date", formatStringtoDate(result.birth_date));
       setValue("nick_name", result.nick_name);
@@ -216,7 +229,7 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
       setValue("national_id", result.national_id);
       setValue("bank_account", result.bank.bank_account);
       setValue("bank_code", result.bank.bank_code);
-      setIsActive(true);
+      setIsActive(false);
       setBankCode(result.bank.bank_code);
       setBirthDate(formatStringtoDate(result.birth_date));
       if (result?.files?.length) {
@@ -316,47 +329,47 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
     setValue("training_history", "");
   };
 
-  const handleDeleteTech = async (techId: string) => {
-    try {
-      await deleteTechProfileService(techId);
-      const { id } = toast({
-        title: "สำเร็จแล้ว",
-        description: "ลบข้อมูลช่างเรียบร้อยแล้ว",
-        variant: "success",
-        className: "w-[300px] mx-auto",
-        duration: 3000,
-      });
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      dismiss(id);
-      navigate("/manage-tech/all-technician");
-    } catch (error) {
-      console.log("error : ", error);
-      toast({
-        title: "ไม่สำเร็จ",
-        description: "เกิดข้อผิดพลาด",
-        variant: "fail",
-        className: "w-[300px] mx-auto",
-      });
-    }
-  };
+  // const handleDeleteTech = async (techId: string) => {
+  //   try {
+  //     await deleteTechProfileService(techId);
+  //     const { id } = toast({
+  //       title: "สำเร็จแล้ว",
+  //       description: "ลบข้อมูลช่างเรียบร้อยแล้ว",
+  //       variant: "success",
+  //       className: "w-[300px] mx-auto",
+  //       duration: 3000,
+  //     });
+  //     await new Promise((resolve) => setTimeout(resolve, 3000));
+  //     dismiss(id);
+  //     navigate("/manage-tech/all-technician");
+  //   } catch (error) {
+  //     console.log("error : ", error);
+  //     toast({
+  //       title: "ไม่สำเร็จ",
+  //       description: "เกิดข้อผิดพลาด",
+  //       variant: "fail",
+  //       className: "w-[300px] mx-auto",
+  //     });
+  //   }
+  // };
 
-  const confirmDeleteTech = (data?: ITechProfileResponse) => {
-    console.log("data user :", data);
-    openModalWarning(
-      IconDeleteModal,
-      "คุณต้องการลบข้อมูลช่าง",
-      `${data?.tech_code} : ${data?.first_name} ${data?.last_name}`,
-      "ยกเลิก",
-      () => {
-        closeModalWarning();
-      },
-      "ยืนยัน",
-      () => {
-        closeModalWarning();
-        handleDeleteTech(tech_id);
-      }
-    );
-  };
+  // const confirmDeleteTech = (data?: ITechProfileResponse) => {
+  //   console.log("data user :", data);
+  //   openModalWarning(
+  //     IconDeleteModal,
+  //     "คุณต้องการลบข้อมูลช่าง",
+  //     `${data?.tech_code} : ${data?.first_name} ${data?.last_name}`,
+  //     "ยกเลิก",
+  //     () => {
+  //       closeModalWarning();
+  //     },
+  //     "ยืนยัน",
+  //     () => {
+  //       closeModalWarning();
+  //       handleDeleteTech(tech_id);
+  //     }
+  //   );
+  // };
 
   const handleActive = async (techId: string) => {
     try {
@@ -401,6 +414,47 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
     );
   };
 
+  const handleApprove = async (techId: string) => {
+    try {
+      await approveTechWaitingService({ status: "APPROVED" }, techId);
+      const { id } = toast({
+        title: "สำเร็จแล้ว",
+        description: "ทำรายการสำเร็จแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+        duration: 3000,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      dismiss(id);
+      navigate("/manage-tech/approval-technician");
+    } catch (error) {
+      console.log("error : ", error);
+      toast({
+        title: "ไม่สำเร็จ",
+        description: "เกิดข้อผิดพลาด",
+        variant: "fail",
+        className: "w-[300px] mx-auto",
+      });
+    }
+  };
+
+  const confirmApprove = () => {
+    openModalWarning(
+      IconWarning,
+      "ยืนยันการอนุมัติเพื่อเข้าร่วมร้านค้าใช่หรือไม่",
+      "",
+      "ยกเลิก",
+      () => {
+        closeModalWarning();
+      },
+      "ยืนยัน",
+      () => {
+        closeModalWarning();
+        handleApprove(tech_id);
+      }
+    );
+  };
+
   return (
     <>
       <SidebarLayout breadcrumbs={breadcrumbs}>
@@ -417,38 +471,39 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
               />
               <p className="font-bold text-[16px]">ข้อมูลส่วนตัวช่าง</p>
             </div>
-            <div className="flex gap-4">
-              <Button
-                className="w-[125px]"
-                variant={"outline"}
-                type="button"
-                onClick={() => confirmDeleteTech(getProfileDetail)}
-              >
-                <div className="flex items-center gap-2">
-                  <img
-                    src={IconDelete}
-                    alt="icon edit"
-                    className="w-[20px] h-[20px]"
-                  />
-                  <span>ลบข้อมูล</span>
-                </div>
-              </Button>
-              <Button
-                className="w-[157px]"
-                variant={"outline"}
-                type="button"
-                onClick={() => confirmActive()}
-              >
-                <div className="flex items-center gap-2">
-                  <img
-                    src={IconUnlock}
-                    alt="icon edit"
-                    className="w-[20px] h-[20px]"
-                  />
-                  <span>{isActive ? "เปิดการใช้งาน" : "ปิดการใช้งาน"}</span>
-                </div>
-              </Button>
-              {/* <Button className="w-[136px]" variant={"outline"} type="button">
+            {subPage !== "approval-technician" ? (
+              <div className="flex gap-4">
+                {/* <Button
+                  className="w-[125px]"
+                  variant={"outline"}
+                  type="button"
+                  onClick={() => confirmDeleteTech(getProfileDetail)}
+                >
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={IconDelete}
+                      alt="icon edit"
+                      className="w-[20px] h-[20px]"
+                    />
+                    <span>ลบข้อมูล</span>
+                  </div>
+                </Button> */}
+                <Button
+                  className="w-[157px]"
+                  variant={"outline"}
+                  type="button"
+                  onClick={() => confirmActive()}
+                >
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={isActive ? IconUnlock : IconLock}
+                      alt="icon edit"
+                      className="w-[20px] h-[20px]"
+                    />
+                    <span>{isActive ? "เปิดการใช้งาน" : "ปิดการใช้งาน"}</span>
+                  </div>
+                </Button>
+                {/* <Button className="w-[136px]" variant={"outline"} type="button">
                 <div className="flex items-center gap-2">
                   <img
                     src={IconEdit}
@@ -458,7 +513,26 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
                   <span>แก้ไขข้อมูล</span>
                 </div>
               </Button> */}
-            </div>
+              </div>
+            ) : (
+              <div className="flex gap-4">
+                <Button
+                  className="w-[157px]"
+                  variant={"outline"}
+                  type="button"
+                  onClick={() => confirmApprove()}
+                >
+                  <div className="flex items-center gap-2">
+                    <img
+                      src={IconApprove}
+                      alt="icon edit"
+                      className="w-[20px] h-[20px]"
+                    />
+                    <span>อนุมัติช่าง</span>
+                  </div>
+                </Button>
+              </div>
+            )}
           </div>
           <div className="bg-white px-[16px] py-[28px] mt-[24px] rounded-[8px]">
             <p className="font-bold text-[16px]">ข้อมูลทั่วไป</p>
