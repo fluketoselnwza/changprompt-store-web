@@ -11,6 +11,8 @@ import {
   CustomInput,
   CustomSelect,
   CustomSelectInput,
+  CustomInputText,
+  CustomInputNumber,
 } from "@/pages/components";
 import { ROLE_CODE_OPTION } from "@/pages/data/option-data";
 import { Button } from "@/components/ui/button";
@@ -71,6 +73,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
   });
   const [debouncedQuery, setDebouncedQuery] = useState<string>(searchAddress);
   const [addressDataList, setAddressDataList] = useState<ISelectData[]>([]);
+  const [isFlagPage, setIsFlagPage] = useState<boolean>(false);
 
   const {
     register,
@@ -98,7 +101,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
     firstName &&
     lastName &&
     nickName &&
-    nationId &&
+    nationId.length === 13 &&
     mobileNumber &&
     email &&
     password &&
@@ -228,6 +231,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
         setSearchAddress("");
         setFullAddress({ label: "", value: "" });
         setAddressDataList([]);
+        setIsFlagPage(true);
       }
     } else {
       if (userId) {
@@ -311,176 +315,176 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
           />
         </div>
         <DialogHeader className="flex flex-col items-center gap-4 text-left">
-          <form
-            onSubmit={handleSubmit(handleConfirm)}
-            className="flex flex-col items-center w-full gap-3"
-          >
-            <DialogDescription className="w-full">
-              <div className="grid grid-cols-2 gap-4">
-                <CustomInput
-                  name="emp_code"
-                  label="รหัสพนักงาน"
-                  disabled
-                  register={register("emp_code", {
-                    required: "กรุณาระบุรหัสพนักงาน",
-                  })}
-                />
-                <CustomSelect
-                  name="role_code"
-                  placeholder="เลือก..."
-                  label="ตำแหน่ง"
-                  options={ROLE_CODE_OPTION}
-                  value={roleCode}
-                  setValue={setRoleCode}
-                  defaultValue={roleCode}
-                  register={register("role_code", {
-                    required: "กรุณาเลือกตำแหน่ง",
-                  })}
-                  required
-                  error={errors.role_code?.message}
-                  disabled={isDisabled}
-                />
-                <CustomInput
-                  name="first_name"
-                  label="ชื่อ"
-                  register={register("first_name", {
-                    required: "กรุณาระบุชื่อ",
-                  })}
-                  placeholder="ระบุ..."
-                  required
-                  error={errors.first_name?.message}
-                  disabled={isDisabled}
-                />
-                <CustomInput
-                  name="last_name"
-                  label="นามสกุล"
-                  register={register("last_name", {
-                    required: "กรุณาระบุนามสกุล",
-                  })}
-                  placeholder="ระบุ..."
-                  required
-                  error={errors.last_name?.message}
-                  disabled={isDisabled}
-                />
-                <CustomInput
-                  name="nick_name"
-                  label="ชื่อเล่น"
-                  register={register("nick_name", {
-                    required: "กรุณาระบุชื่อเล่น",
-                  })}
-                  placeholder="ระบุ..."
-                  required
-                  error={errors.nick_name?.message}
-                  disabled={isDisabled}
-                />
-                <CustomInput
-                  name="nation_id"
-                  type="number"
-                  label="รหัสบัตรประชาชน"
-                  register={register("nation_id", {
-                    required: "กรุณาระบุรหัสบัตรประชาชน",
-                  })}
-                  placeholder="ระบุ..."
-                  required
-                  error={errors.nation_id?.message}
-                  maxLength={13}
-                  disabled={isDisabled}
-                />
-                <CustomInput
-                  name="mobile_number"
-                  label="เบอร์โทรศัพท์"
-                  type="number"
-                  register={register("mobile_number", {
-                    required: "กรุณาระบุเบอร์โทรศัพท์",
-                  })}
-                  maxLength={10}
-                  placeholder="ระบุ..."
-                  required
-                  error={errors.mobile_number?.message}
-                  disabled={isDisabled}
-                />
-                <CustomInput
-                  name="email"
-                  label="อีเมล"
-                  register={register("email", {
-                    required: "กรุณาระบุอีเมล",
-                  })}
-                  placeholder="ระบุ..."
-                  required
-                  error={errors.email?.message}
-                  disabled={isDisabled}
-                />
-                <CustomInput
-                  name="password"
-                  label="รหัสผ่าน"
-                  register={register("password", {
-                    required: "กรุณาระบุรหัสผ่าน",
-                  })}
-                  placeholder="ระบุ..."
-                  required
-                  error={errors.password?.message}
-                  disabled={
-                    status !== STATE_STATUS_MANAGE_USER.CREATE ? true : false
-                  }
-                />
-                <CustomInput
-                  name="address"
-                  label="ที่อยู่"
-                  register={register("address", {
-                    required: "กรุณาระบุที่อยู่",
-                  })}
-                  placeholder="บ้านเลขที่ ซอย ถนน..."
-                  required
-                  error={errors.address?.message}
-                  disabled={isDisabled}
-                />
-              </div>
-              <div className="mt-3">
-                <CustomSelectInput
-                  label="ตำบล/อำเภอ/จังหวัด"
-                  required
-                  valueSearch={searchAddress}
-                  setValueSearch={setSearchAddress}
-                  value={fullAddress}
-                  setValue={setFullAddress}
-                  placeholderSearch="ค้นหา รหัสไปรษณีย์ ตำบล อำเภอ จังหวัด"
-                  option={addressDataList}
-                  disabled={isDisabled}
-                />
-              </div>
-              {status !== STATE_STATUS_MANAGE_USER.GET ? (
-                <div className="flex items-center justify-center mt-[22px] gap-4">
-                  <Button
-                    className="w-[82px]"
-                    variant={"cancel"}
-                    type="button"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    ยกเลิก
-                  </Button>
-                  <Button
-                    className="w-[82px]"
-                    disabled={isDisabledBuuton ? false : true}
-                  >
-                    {status === STATE_STATUS_MANAGE_USER.CREATE
-                      ? "เพิ่ม"
-                      : "ตกลง"}
-                  </Button>
+          {isFlagPage && (
+            <form
+              onSubmit={handleSubmit(handleConfirm)}
+              className="flex flex-col items-center w-full gap-3"
+            >
+              <DialogDescription className="w-full">
+                <div className="grid grid-cols-2 gap-4">
+                  <CustomInput
+                    name="emp_code"
+                    label="รหัสพนักงาน"
+                    disabled
+                    register={register("emp_code", {
+                      required: "กรุณาระบุรหัสพนักงาน",
+                    })}
+                  />
+                  <CustomSelect
+                    name="role_code"
+                    placeholder="เลือก..."
+                    label="ตำแหน่ง"
+                    options={ROLE_CODE_OPTION}
+                    value={roleCode}
+                    setValue={setRoleCode}
+                    defaultValue={roleCode}
+                    register={register("role_code", {
+                      required: "กรุณาเลือกตำแหน่ง",
+                    })}
+                    required
+                    error={errors.role_code?.message}
+                    disabled={isDisabled}
+                  />
+                  <CustomInputText
+                    name="first_name"
+                    label="ชื่อ"
+                    register={register("first_name", {
+                      required: "กรุณาระบุชื่อ",
+                    })}
+                    placeholder="ระบุ..."
+                    required
+                    error={errors.first_name?.message}
+                    disabled={isDisabled}
+                  />
+                  <CustomInputText
+                    name="last_name"
+                    label="นามสกุล"
+                    register={register("last_name", {
+                      required: "กรุณาระบุนามสกุล",
+                    })}
+                    placeholder="ระบุ..."
+                    required
+                    error={errors.last_name?.message}
+                    disabled={isDisabled}
+                  />
+                  <CustomInputText
+                    name="nick_name"
+                    label="ชื่อเล่น"
+                    register={register("nick_name", {
+                      required: "กรุณาระบุชื่อเล่น",
+                    })}
+                    placeholder="ระบุ..."
+                    required
+                    error={errors.nick_name?.message}
+                    disabled={isDisabled}
+                  />
+                  <CustomInputNumber
+                    name="nation_id"
+                    label="รหัสบัตรประชาชน"
+                    register={register("nation_id", {
+                      required: "กรุณาระบุรหัสบัตรประชาชน",
+                    })}
+                    placeholder="ระบุ..."
+                    required
+                    error={errors.nation_id?.message}
+                    maxLength={13}
+                    disabled={isDisabled}
+                  />
+                  <CustomInputNumber
+                    name="mobile_number"
+                    label="เบอร์โทรศัพท์"
+                    register={register("mobile_number", {
+                      required: "กรุณาระบุเบอร์โทรศัพท์",
+                    })}
+                    maxLength={10}
+                    placeholder="ระบุ..."
+                    required
+                    error={errors.mobile_number?.message}
+                    disabled={isDisabled}
+                  />
+                  <CustomInput
+                    name="email"
+                    label="อีเมล"
+                    register={register("email", {
+                      required: "กรุณาระบุอีเมล",
+                    })}
+                    placeholder="ระบุ..."
+                    required
+                    error={errors.email?.message}
+                    disabled={isDisabled}
+                  />
+                  <CustomInput
+                    name="password"
+                    label="รหัสผ่าน"
+                    register={register("password", {
+                      required: "กรุณาระบุรหัสผ่าน",
+                    })}
+                    placeholder="ระบุ..."
+                    required
+                    error={errors.password?.message}
+                    disabled={
+                      status !== STATE_STATUS_MANAGE_USER.CREATE ? true : false
+                    }
+                  />
+                  <CustomInput
+                    name="address"
+                    label="ที่อยู่"
+                    register={register("address", {
+                      required: "กรุณาระบุที่อยู่",
+                    })}
+                    placeholder="บ้านเลขที่ ซอย ถนน..."
+                    required
+                    error={errors.address?.message}
+                    disabled={isDisabled}
+                  />
                 </div>
-              ) : (
-                <div className="flex items-center justify-center mt-[22px] gap-4">
-                  <Button
-                    className="w-[97px]"
-                    variant={"cancel"}
-                    type="button"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    ย้อนกลับ
-                  </Button>
+                <div className="mt-3">
+                  <CustomSelectInput
+                    label="ตำบล/อำเภอ/จังหวัด"
+                    required
+                    valueSearch={searchAddress}
+                    setValueSearch={setSearchAddress}
+                    value={fullAddress}
+                    setValue={setFullAddress}
+                    placeholderSearch="ค้นหา รหัสไปรษณีย์ ตำบล อำเภอ จังหวัด"
+                    option={addressDataList}
+                    disabled={isDisabled}
+                  />
                 </div>
-              )}
-            </DialogDescription>
-          </form>
+                {status !== STATE_STATUS_MANAGE_USER.GET ? (
+                  <div className="flex items-center justify-center mt-[22px] gap-4">
+                    <Button
+                      className="w-[82px]"
+                      variant={"cancel"}
+                      type="button"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      ยกเลิก
+                    </Button>
+                    <Button
+                      className="w-[82px]"
+                      disabled={isDisabledBuuton ? false : true}
+                    >
+                      {status === STATE_STATUS_MANAGE_USER.CREATE
+                        ? "เพิ่ม"
+                        : "ตกลง"}
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center mt-[22px] gap-4">
+                    <Button
+                      className="w-[97px]"
+                      variant={"cancel"}
+                      type="button"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      ย้อนกลับ
+                    </Button>
+                  </div>
+                )}
+              </DialogDescription>
+            </form>
+          )}
         </DialogHeader>
       </DialogContent>
     </Dialog>
