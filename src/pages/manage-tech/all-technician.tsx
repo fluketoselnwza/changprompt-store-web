@@ -48,7 +48,7 @@ const AllTechnicianPage: React.FC = () => {
 
   const itemPopOverData = [
     {
-      label: "ดูรายละเอียดผู้ใช้งาน",
+      label: "ดูข้อมูลช่าง",
       onClick: (data?: IJobData) => {
         if (data?.id) {
           console.log("data ==> ", data);
