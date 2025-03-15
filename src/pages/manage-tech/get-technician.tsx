@@ -15,7 +15,11 @@ import { Button } from "@/components/ui/button";
 // import IconEdit from "@/assets/icons/icon-edit-user.png";
 import IconUnlock from "@/assets/icons/icon-unlock.png";
 import IconDelete from "@/assets/icons/icon-delete-job.png";
-import { getTechProfileService } from "@/services/tech";
+import {
+  activeTechProfileService,
+  deleteTechProfileService,
+  getTechProfileService,
+} from "@/services/tech";
 import { ITechProfileResponse } from "@/services/interfaces";
 import {
   CustomInput,
@@ -31,12 +35,14 @@ import { IFileItemState } from "../components/interface";
 import ImageIdCardWithSelfie from "@/assets/images/img-idcard-with-selfie.png";
 import ImageIdCard from "@/assets/images/img-idcard.png";
 import ImageBookBank from "@/assets/images/img-book-bank.png";
-import { removeIndex } from "@/lib/utils";
 import { EDUCATIONAL_OPTION } from "../data/option-data";
 import { getAddressService } from "@/services/address";
 import { STATE_STATUS_MANAGE_USER } from "../data/status-code";
 import { formatStringtoDate } from "@/lib/format";
 import { getBookbankService } from "@/services/info-data";
+import IconDeleteModal from "@/assets/icons/icon-delete-tech.png";
+import IconWarning from "@/assets/icons/icon-warning-blue.png";
+import { useToast } from "@/hooks/use-toast";
 
 type Inputs = {
   full_name: string;
@@ -82,9 +88,11 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
   console.log("props", props);
   const { openModalWarning, closeModalWarning, statusType = "" } = props;
 
+  const { toast, dismiss } = useToast();
+
   const { tech_id = "" } = useParams();
   const navigate = useNavigate();
-  // const [getProfileDetail, setProfileDetail] = useState<ITechProfileResponse>();
+  const [getProfileDetail, setProfileDetail] = useState<ITechProfileResponse>();
   const [birthDate, setBirthDate] = useState<Date | undefined>();
   const [bankCode, setBankCode] = useState<string>("");
   const [bookbankData, setBookbankData] = useState<ISelectData[]>([]);
@@ -121,6 +129,7 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
   // const [bankId, setBankId] = useState<string>("");
   const [itemDelete, setItemDelete] = useState<string[]>([]);
   const [educationLevel, setEducationLevel] = useState<string>("");
+  const [isActive, setIsActive] = useState<boolean>(true);
 
   const {
     handleSubmit,
@@ -196,7 +205,7 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
 
     console.log("result ==> ", result);
     if (result) {
-      // setProfileDetail(result);
+      setProfileDetail(result);
       setValue("full_name", result.first_name + " " + result.last_name);
       setValue("birth_date", formatStringtoDate(result.birth_date));
       setValue("nick_name", result.nick_name);
@@ -207,6 +216,7 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
       setValue("national_id", result.national_id);
       setValue("bank_account", result.bank.bank_account);
       setValue("bank_code", result.bank.bank_code);
+      setIsActive(true);
       setBankCode(result.bank.bank_code);
       setBirthDate(formatStringtoDate(result.birth_date));
       if (result?.files?.length) {
@@ -306,10 +316,89 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
     setValue("training_history", "");
   };
 
-  const handleRemoveSkill = (index: number) => {
-    const newArr = removeIndex(trainingHistory, index);
+  const handleDeleteTech = async (techId: string) => {
+    try {
+      await deleteTechProfileService(techId);
+      const { id } = toast({
+        title: "สำเร็จแล้ว",
+        description: "ลบข้อมูลช่างเรียบร้อยแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+        duration: 3000,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      dismiss(id);
+      navigate("/manage-tech/all-technician");
+    } catch (error) {
+      console.log("error : ", error);
+      toast({
+        title: "ไม่สำเร็จ",
+        description: "เกิดข้อผิดพลาด",
+        variant: "fail",
+        className: "w-[300px] mx-auto",
+      });
+    }
+  };
 
-    setTrainingHistory(newArr);
+  const confirmDeleteTech = (data?: ITechProfileResponse) => {
+    console.log("data user :", data);
+    openModalWarning(
+      IconDeleteModal,
+      "คุณต้องการลบข้อมูลช่าง",
+      `${data?.tech_code} : ${data?.first_name} ${data?.last_name}`,
+      "ยกเลิก",
+      () => {
+        closeModalWarning();
+      },
+      "ยืนยัน",
+      () => {
+        closeModalWarning();
+        handleDeleteTech(tech_id);
+      }
+    );
+  };
+
+  const handleActive = async (techId: string) => {
+    try {
+      await activeTechProfileService(isActive, techId);
+      const { id } = toast({
+        title: "สำเร็จแล้ว",
+        description: isActive
+          ? "เปิดการใช้งานช่างเรียบร้อยแล้ว"
+          : "ปิดการใช้งานช่างเรียบร้อยแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+        duration: 3000,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      dismiss(id);
+      navigate("/manage-tech/all-technician");
+    } catch (error) {
+      console.log("error : ", error);
+      toast({
+        title: "ไม่สำเร็จ",
+        description: "เกิดข้อผิดพลาด",
+        variant: "fail",
+        className: "w-[300px] mx-auto",
+      });
+    }
+  };
+
+  const confirmActive = () => {
+    openModalWarning(
+      IconWarning,
+      "คุณต้องการปิดการใช้งานช่างจากรายการที่เลือกใช่หรือไม่",
+      "",
+      "ยกเลิก",
+      () => {
+        closeModalWarning();
+      },
+      "ยืนยัน",
+      () => {
+        closeModalWarning();
+        handleActive(tech_id);
+      }
+    );
   };
 
   return (
@@ -329,7 +418,12 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
               <p className="font-bold text-[16px]">ข้อมูลส่วนตัวช่าง</p>
             </div>
             <div className="flex gap-4">
-              <Button className="w-[125px]" variant={"outline"} type="button">
+              <Button
+                className="w-[125px]"
+                variant={"outline"}
+                type="button"
+                onClick={() => confirmDeleteTech(getProfileDetail)}
+              >
                 <div className="flex items-center gap-2">
                   <img
                     src={IconDelete}
@@ -339,14 +433,19 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
                   <span>ลบข้อมูล</span>
                 </div>
               </Button>
-              <Button className="w-[157px]" variant={"outline"} type="button">
+              <Button
+                className="w-[157px]"
+                variant={"outline"}
+                type="button"
+                onClick={() => confirmActive()}
+              >
                 <div className="flex items-center gap-2">
                   <img
                     src={IconUnlock}
                     alt="icon edit"
                     className="w-[20px] h-[20px]"
                   />
-                  <span>เปิดการใช้งาน</span>
+                  <span>{isActive ? "เปิดการใช้งาน" : "ปิดการใช้งาน"}</span>
                 </div>
               </Button>
               {/* <Button className="w-[136px]" variant={"outline"} type="button">
@@ -590,11 +689,9 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
                           <CustomInputIcon
                             name={`training_history_${index}`}
                             value={item}
-                            iconRight={IconDelete}
                             readOnly
                             classIcon="w-[24px] h-[24px]"
                             classBorderInput="bg-gray-50"
-                            rightOnclick={() => handleRemoveSkill(index)}
                           />
                         </div>
                       );

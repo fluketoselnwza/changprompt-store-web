@@ -54,12 +54,19 @@ export const deleteTechProfileService = async (techId: string) => {
   return response.data;
 };
 
-export const activeTechProfileService = async (techId: string) => {
+export const activeTechProfileService = async (
+  status: boolean,
+  techId: string
+) => {
   const path = `/partners/techs/${techId}/set-active`;
 
   const config = {};
 
-  const response = await axiosInstance.patch(path, config);
+  const response = await axiosInstance.patch(
+    path,
+    { is_active: status },
+    config
+  );
 
   return response.data;
 };
