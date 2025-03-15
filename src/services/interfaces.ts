@@ -386,3 +386,42 @@ export interface IAllTechResponse {
   total_count: number;
   techs: IAllTechData[];
 }
+
+export interface IBankData {
+  id: string;
+  bank_account_name: string;
+  bank_account: string;
+  bank_code: string;
+  bank_branch_code: string;
+  bank_branch_name: string;
+}
+
+export interface ISkillData {
+  tech_skill: string;
+  education_level: string;
+  training_experience: string[];
+}
+
+export interface ITechProfileResponse {
+  id: string;
+  tech_code: string;
+  pre_name: string;
+  first_name: string;
+  last_name: string;
+  national_id: string;
+  nick_name: string;
+  birth_date: string;
+  email: string;
+  mobile_number: string;
+  mobile_spare: string;
+  mobile_contact: string;
+  joined_date: string;
+  addresses: IAddressesData[];
+  bank: IBankData;
+  skill: ISkillData;
+  is_same_addr: boolean;
+  line_id: string;
+  line_token: string;
+  line_name: string;
+  files: IFilesData[];
+}

@@ -6,6 +6,7 @@ import {
   ITechHistoryJobsParams,
   IAllTechResponse,
 } from "./interfaces";
+import { ITechProfileResponse } from "@/services/interfaces";
 
 export const getAllTechService = async (params: ITechAllParams) => {
   const { tech_code, tech_name, tech_skill, skip = 1, take = 10 } = params;
@@ -27,7 +28,7 @@ export const getTechProfileService = async (techId: string) => {
 
   const response = await axiosInstance.get(path, config);
 
-  return response.data;
+  return response.data as ITechProfileResponse;
 };
 
 export const updateTechProfileService = async (
