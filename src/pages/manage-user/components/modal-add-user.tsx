@@ -12,7 +12,7 @@ import {
   CustomSelect,
   CustomSelectInput,
 } from "@/pages/components";
-import { ROLE_CODE } from "@/pages/data/role-code";
+import { ROLE_CODE_OPTION } from "@/pages/data/option-data";
 import { Button } from "@/components/ui/button";
 import {
   getPartnerEmployeeCodeService,
@@ -329,7 +329,7 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                   name="role_code"
                   placeholder="เลือก..."
                   label="ตำแหน่ง"
-                  options={ROLE_CODE}
+                  options={ROLE_CODE_OPTION}
                   value={roleCode}
                   setValue={setRoleCode}
                   defaultValue={roleCode}

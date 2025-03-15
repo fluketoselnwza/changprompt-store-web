@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import SidebarLayout from "../sidebar-layout";
 import { useForm } from "react-hook-form";
@@ -39,6 +40,8 @@ import { useNavigate } from "react-router";
 import { STATE_STATUS_MANAGE_USER } from "../data/status-code";
 import IconEditTask from "@/assets/icons/icon-edit-task-white.png";
 import IconBack from "@/assets/icons/icon-back.png";
+import { IUserData } from "@/redux/user/interface";
+import { ROLE_CODE } from "../data/role-code";
 
 const breadcrumbs = [
   {
@@ -71,10 +74,16 @@ type Inputs = {
 
 interface IGetStorePageProps extends IPageProps {
   statusType: "GET" | "CREATE" | "UPDATE" | "";
+  userData: IUserData;
 }
 
 const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
-  const { openModalWarning, closeModalWarning, statusType = "" } = props;
+  const {
+    openModalWarning,
+    closeModalWarning,
+    statusType = "",
+    userData,
+  } = props;
   const navigate = useNavigate();
   const { toast, dismiss } = useToast();
 
@@ -450,19 +459,20 @@ const GetStorePage: React.FC<IGetStorePageProps> = (props) => {
       <SidebarLayout breadcrumbs={breadcrumbs}>
         <form onSubmit={handleSubmit(confirmUpdateStore)}>
           <div className="flex items-end justify-between">
-            {STATE_STATUS_MANAGE_USER.UPDATE === statusType && (
-              <div
-                className="flex items-center gap-1 cursor-pointer"
-                onClick={() => navigate("/manage-store/get-store")}
-              >
-                <img
-                  src={IconBack}
-                  className="w-[20px] h-[20px] cursor-pointer"
-                  alt="icon back"
-                />
-                <p className="font-bold text-[16px]">แก้ไขข้อมูลร้านค้า</p>
-              </div>
-            )}
+            {STATE_STATUS_MANAGE_USER.UPDATE === statusType &&
+              userData.role_code === ROLE_CODE.OWN && (
+                <div
+                  className="flex items-center gap-1 cursor-pointer"
+                  onClick={() => navigate("/manage-store/get-store")}
+                >
+                  <img
+                    src={IconBack}
+                    className="w-[20px] h-[20px] cursor-pointer"
+                    alt="icon back"
+                  />
+                  <p className="font-bold text-[16px]">แก้ไขข้อมูลร้านค้า</p>
+                </div>
+              )}
             {STATE_STATUS_MANAGE_USER.GET === statusType && (
               <p className="font-bold text-[16px]">ข้อมูลร้านค้า</p>
             )}
@@ -782,7 +792,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   closeModalWarning: () => closeModalWarning(dispatch),
 });
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state: any) => ({
+  userData: state?.userReducer?.userData,
+});
 
 const GetStorePageWithConnect = connect(
   mapStateToProps,

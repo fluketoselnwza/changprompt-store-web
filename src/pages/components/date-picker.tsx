@@ -65,6 +65,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
     register?.onChange({
       target: { name, value: value },
     });
+
     setDate(value);
   }, [defaultValue]);
 
