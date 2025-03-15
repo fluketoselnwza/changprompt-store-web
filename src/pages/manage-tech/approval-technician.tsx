@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import SidebarLayout from "../sidebar-layout";
 import IconHome from "@/assets/icons/icon-home.png";
-import { getTechWaitingApproveService } from "@/services/tech";
+import {
+  getTechWaitingApproveService,
+  approveTechWaitingService,
+} from "@/services/tech";
 import { IJobData } from "@/services/interfaces";
 import { useForm, SubmitHandler } from "react-hook-form";
 import IconSearch from "@/assets/icons/icon-search.png";
@@ -18,6 +21,15 @@ import { useNavigate } from "react-router";
 import IconApprove from "@/assets/icons/icon-approve.png";
 import IconSearchDetailUser from "@/assets/icons/icon-search-detail-user.png";
 import { IAllTechData } from "@/services/interfaces";
+import { connect } from "react-redux";
+import { IPageProps } from "@/pages/interface";
+import {
+  openModalWarning,
+  closeModalWarning,
+} from "@/redux/modal-warning/action";
+import { Dispatch } from "redux";
+import { useToast } from "@/hooks/use-toast";
+import IconWarning from "@/assets/icons/icon-warning-blue.png";
 
 const breadcrumbs = [
   {
@@ -38,7 +50,10 @@ type Inputs = {
   tech_skill: string;
 };
 
-const ApproveTechnicianPage: React.FC = () => {
+const ApproveTechnicianPage: React.FC<IPageProps> = (props) => {
+  const { openModalWarning, closeModalWarning } = props;
+
+  const { toast, dismiss } = useToast();
   const navigate = useNavigate();
   const [jobsData, setTechData] = useState<IAllTechData[]>([]);
   const [total, setTotal] = useState<number>(0);
@@ -63,7 +78,7 @@ const ApproveTechnicianPage: React.FC = () => {
       onClick: (data?: IAllTechData) => {
         if (data?.tech_id) {
           console.log("value ==> ", data);
-          // confirmDeleteJob(data);
+          confirmApprove(data.tech_id);
         }
       },
       icon: IconApprove,
@@ -174,6 +189,47 @@ const ApproveTechnicianPage: React.FC = () => {
     getAllTech();
   };
 
+  const handleApprove = async (techId: string) => {
+    try {
+      await approveTechWaitingService({ status: "APPROVED" }, techId);
+      const { id } = toast({
+        title: "สำเร็จแล้ว",
+        description: "ทำรายการสำเร็จแล้ว",
+        variant: "success",
+        className: "w-[300px] mx-auto",
+        duration: 3000,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      dismiss(id);
+      navigate("/manage-tech/approval-technician");
+    } catch (error) {
+      console.log("error : ", error);
+      toast({
+        title: "ไม่สำเร็จ",
+        description: "เกิดข้อผิดพลาด",
+        variant: "fail",
+        className: "w-[300px] mx-auto",
+      });
+    }
+  };
+
+  const confirmApprove = (tech_id: string) => {
+    openModalWarning(
+      IconWarning,
+      "ยืนยันการอนุมัติเพื่อเข้าร่วมร้านค้าใช่หรือไม่",
+      "",
+      "ยกเลิก",
+      () => {
+        closeModalWarning();
+      },
+      "ยืนยัน",
+      () => {
+        closeModalWarning();
+        handleApprove(tech_id);
+      }
+    );
+  };
+
   return (
     <>
       <SidebarLayout breadcrumbs={breadcrumbs}>
@@ -236,4 +292,33 @@ const ApproveTechnicianPage: React.FC = () => {
   );
 };
 
-export default ApproveTechnicianPage;
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  openModalWarning: (
+    image: string | null,
+    title: string,
+    description: string,
+    labelBtnFirst?: string,
+    fnBtnFirst?: () => void | null,
+    labelBtnSecond?: string,
+    fnBtnSecond?: () => void | null
+  ) =>
+    openModalWarning(dispatch, {
+      image,
+      title,
+      description,
+      labelBtnFirst,
+      fnBtnFirst,
+      labelBtnSecond,
+      fnBtnSecond,
+    }),
+  closeModalWarning: () => closeModalWarning(dispatch),
+});
+
+const mapStateToProps = () => ({});
+
+const ApproveTechnicianPageWithConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ApproveTechnicianPage);
+
+export default ApproveTechnicianPageWithConnect;
