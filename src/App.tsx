@@ -16,6 +16,7 @@ import {
   BlacklistTechnicianPage,
   HistoryTechnicianPage,
   ScheduleTechnicianPage,
+  GetTechnicianPage,
 } from "./pages";
 import MainLayout from "./main-layout";
 import { STATE_STATUS_MANAGE_USER } from "./pages/data/status-code";
@@ -83,6 +84,13 @@ function App() {
             <Route
               path="/manage-tech/all-technician"
               element={<AllTechnicianPage />}
+            />
+
+            <Route
+              path="/manage-tech/all-technician/get-tech/:tech_id"
+              element={
+                <GetTechnicianPage statusType={STATE_STATUS_MANAGE_USER.GET} />
+              }
             />
             <Route
               path="/manage-tech/approval-technician"

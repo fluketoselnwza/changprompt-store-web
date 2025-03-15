@@ -25,7 +25,7 @@ const breadcrumbs = [
     icon: IconHome,
   },
   {
-    label: "ช่างทั้งหมด",
+    label: "ขออนุมัติเข้าร่วมร้าน",
     link: "",
     icon: "",
   },

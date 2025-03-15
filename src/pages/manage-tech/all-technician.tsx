@@ -16,7 +16,6 @@ import { TECH_SKILL_OPTION } from "../data/option-data";
 import IconSubMenu from "@/assets/icons/icon-sub-menu.png";
 import { useNavigate } from "react-router";
 import IconDeleteUser from "@/assets/icons/icon-delete-user.png";
-import IconEditUser from "@/assets/icons/icon-edit-user.png";
 import IconSearchDetailUser from "@/assets/icons/icon-search-detail-user.png";
 
 const breadcrumbs = [
@@ -81,19 +80,19 @@ const AllTechnicianPage: React.FC = () => {
       dataType: "DATA",
       title: "ชื่อ - นามสกุล",
       class: "w-[100px]",
-      id: "tech_name",
+      id: "full_name",
     },
     {
       dataType: "DATA",
       title: "ชื่อเล่น (ชื่อผู้ใช้)",
       class: "w-[100px]",
-      id: "nickname",
+      id: "nick_name",
     },
     {
       dataType: "DATA",
       title: "เบอร์โทรศัพท์",
       class: "w-[100px]",
-      id: "phone_number",
+      id: "mobile_number",
     },
     {
       dataType: "DATA",
@@ -105,13 +104,13 @@ const AllTechnicianPage: React.FC = () => {
       dataType: "DATA",
       title: "เข้าร่วมร้านค้า",
       class: "w-[100px]",
-      id: "join_date",
+      id: "register_date",
     },
     {
       dataType: "DATA",
       title: "อนุมัติโดย",
       class: "w-[100px]",
-      id: "approve_by",
+      id: "approved_by",
     },
     {
       dataType: "SUB_MENU",

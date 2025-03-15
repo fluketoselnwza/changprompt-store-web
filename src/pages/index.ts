@@ -12,3 +12,4 @@ export { default as AllTechnicianPage } from "./manage-tech/all-technician";
 export { default as ApprovalTechnicianPage } from "./manage-tech/approval-technician";
 export { default as BlacklistTechnicianPage } from "./manage-tech/blacklist-technician";
 export { default as HistoryTechnicianPage } from "./manage-tech/history-technician";
+export { default as GetTechnicianPage } from "./manage-tech/get-technician";
