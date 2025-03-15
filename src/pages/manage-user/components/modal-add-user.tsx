@@ -35,6 +35,7 @@ import {
   STATUS_NAME_MANAGE_USER,
 } from "@/pages/data/status-code";
 import { getAddressService } from "@/services/address";
+import { useToast } from "@/hooks/use-toast";
 
 type Inputs = {
   emp_code: string;
@@ -74,6 +75,8 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
   const [debouncedQuery, setDebouncedQuery] = useState<string>(searchAddress);
   const [addressDataList, setAddressDataList] = useState<ISelectData[]>([]);
   const [isFlagPage, setIsFlagPage] = useState<boolean>(false);
+
+  const { toast } = useToast();
 
   const {
     register,
@@ -164,6 +167,16 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
     } catch (error) {
       console.log("error ====> ", error);
       // setIsOpen(false, "fail");
+      toast({
+        title: "ไม่สำเร็จ",
+        description:
+          status === STATE_STATUS_MANAGE_USER.CREATE
+            ? "ไม่สามารถเพิ่มข้อมูลได้"
+            : "ไม่สามารถแก้ไขข้อมูลได้",
+        variant: "fail",
+        className: "w-[300px] mx-auto",
+        duration: 3000,
+      });
     }
   };
 
@@ -407,6 +420,10 @@ const ModalAddUser: React.FC<IModalAddUserProps> = ({
                     label="อีเมล"
                     register={register("email", {
                       required: "กรุณาระบุอีเมล",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "กรุณาระบุในรูปแบบอีเมล",
+                      },
                     })}
                     placeholder="ระบุ..."
                     required
