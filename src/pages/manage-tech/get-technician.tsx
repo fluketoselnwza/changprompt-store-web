@@ -12,7 +12,7 @@ import IconHome from "@/assets/icons/icon-home.png";
 import { useNavigate, useParams } from "react-router";
 import IconBack from "@/assets/icons/icon-back.png";
 import { Button } from "@/components/ui/button";
-import IconEdit from "@/assets/icons/icon-edit-user.png";
+// import IconEdit from "@/assets/icons/icon-edit-user.png";
 import IconUnlock from "@/assets/icons/icon-unlock.png";
 import IconDelete from "@/assets/icons/icon-delete-job.png";
 import { getTechProfileService } from "@/services/tech";
@@ -21,10 +21,10 @@ import {
   CustomInput,
   CustomSelect,
   DatePicker,
-  CustomSelectInput,
   CardAuthen,
   UploadMultiFile,
   CustomInputIcon,
+  CustomSelectInput,
 } from "../components";
 import { ISelectData } from "../interface";
 import { IFileItemState } from "../components/interface";
@@ -33,14 +33,17 @@ import ImageIdCard from "@/assets/images/img-idcard.png";
 import ImageBookBank from "@/assets/images/img-book-bank.png";
 import { removeIndex } from "@/lib/utils";
 import { EDUCATIONAL_OPTION } from "../data/option-data";
+import { getAddressService } from "@/services/address";
+import { STATE_STATUS_MANAGE_USER } from "../data/status-code";
+import { formatStringtoDate } from "@/lib/format";
+import { getBookbankService } from "@/services/info-data";
 
 type Inputs = {
-  first_name: string;
-  last_name: string;
+  full_name: string;
   pre_name: string;
   national_id: string;
   nick_name: string;
-  birth_date: string;
+  birth_date: Date;
   email: string;
   mobile_number: string;
   mobile_spare: string;
@@ -77,16 +80,12 @@ interface IGetTechnicianPageProps extends IPageProps {
 
 const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
   console.log("props", props);
+  const { openModalWarning, closeModalWarning, statusType = "" } = props;
+
   const { tech_id = "" } = useParams();
   const navigate = useNavigate();
-  const [getProfileDetail, setProfileDetail] = useState<ITechProfileResponse>();
+  // const [getProfileDetail, setProfileDetail] = useState<ITechProfileResponse>();
   const [birthDate, setBirthDate] = useState<Date | undefined>();
-  const [searchAddress, setSearchAddress] = useState<string>("");
-  const [fullAddress, setFullAddress] = useState<ISelectData>({
-    label: "",
-    value: "",
-  });
-  const [addressDataList, setAddressDataList] = useState<ISelectData[]>([]);
   const [bankCode, setBankCode] = useState<string>("");
   const [bookbankData, setBookbankData] = useState<ISelectData[]>([]);
   const [trainingHistory, setTrainingHistory] = useState<string[]>([]);
@@ -109,6 +108,14 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
   const [trainingCertificateFile, setTrainingCertificateFile] = useState<
     IFileItemState[]
   >([]);
+  const [searchAddress, setSearchAddress] = useState<string>("");
+  const [fullAddress, setFullAddress] = useState<ISelectData>({
+    label: "",
+    value: "",
+  });
+  const [debouncedQueryAddress, setDebouncedQueryAddress] =
+    useState<string>(searchAddress);
+  const [addressDataList, setAddressDataList] = useState<ISelectData[]>([]);
 
   // const [addressId, setAddressId] = useState<string>("");
   // const [bankId, setBankId] = useState<string>("");
@@ -123,7 +130,65 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const disabledFields = false;
+  const disabledFields = STATE_STATUS_MANAGE_USER.GET === statusType;
+
+  useEffect(() => {
+    const getAddress = async (search: string) => {
+      try {
+        const result = await getAddressService(search);
+
+        console.log("result ==> ", result);
+        if (result?.length) {
+          const dataAddress: ISelectData[] = [];
+          result.map((item) => {
+            const addressName =
+              item.subdistrict_thai +
+              ">" +
+              item.district_thai +
+              ">" +
+              item.province_thai +
+              ">" +
+              item.post_code;
+
+            const addressFullCode =
+              item.subdistrict_code +
+              "|" +
+              item.district_code +
+              "|" +
+              item.province_code +
+              "|" +
+              item.post_code;
+
+            dataAddress.push({
+              label: addressName,
+              value: addressFullCode,
+            });
+          });
+
+          console.log("data ===> ", dataAddress);
+          setAddressDataList(dataAddress);
+        } else {
+          setAddressDataList([]);
+        }
+      } catch {
+        setAddressDataList([]);
+      }
+    };
+
+    if (debouncedQueryAddress && debouncedQueryAddress.length > 2) {
+      getAddress(debouncedQueryAddress);
+    } else {
+      setAddressDataList([]);
+    }
+  }, [debouncedQueryAddress]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQueryAddress(searchAddress);
+    }, 500); // 500ms debounce delay
+
+    return () => clearTimeout(timer);
+  }, [searchAddress]);
 
   const getTechDetail = async (techId: string) => {
     console.log("jobId ===> ", techId);
@@ -131,23 +196,86 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
 
     console.log("result ==> ", result);
     if (result) {
-      setProfileDetail(result);
-      setValue("first_name", result.first_name);
-      setValue("last_name", result.last_name);
-      setValue("birth_date", result.birth_date);
+      // setProfileDetail(result);
+      setValue("full_name", result.first_name + " " + result.last_name);
+      setValue("birth_date", formatStringtoDate(result.birth_date));
       setValue("nick_name", result.nick_name);
-      setBirthDate(undefined);
-      setAddressDataList([]);
-      setBookbankData([]);
+      setValue("email", result.email);
+      setValue("mobile_number", result.mobile_number);
+      setValue("mobile_spare", result.mobile_spare);
+      setValue("mobile_contact", result.mobile_contact);
+      setValue("national_id", result.national_id);
+      setValue("bank_account", result.bank.bank_account);
+      setValue("bank_code", result.bank.bank_code);
+      setBankCode(result.bank.bank_code);
+      setBirthDate(formatStringtoDate(result.birth_date));
+      if (result?.files?.length) {
+        const idCardPreview = result.files.find(
+          (item) => item.file_group === "ID_CARD_PHOTO"
+        );
+        const selfiePreview = result.files.find(
+          (item) => item.file_group === "ID_CARD_WITH_SELFIE"
+        );
+        const bookbankPreview = result.files.find(
+          (item) => item.file_group === "BANK_BOOK"
+        );
+
+        setImagePreviewIdCard(idCardPreview?.file_path ?? null);
+        setImagePreviewIdCardWithSelfie(selfiePreview?.file_path ?? null);
+        setImagePreviewBookBank(bookbankPreview?.file_path ?? null);
+
+        const traningCertificatePreview = result.files
+          .filter((item) => item.file_group === "TRAINING_CERTIFICATE")
+          .map((item) => {
+            return {
+              fileUrl: item.file_path,
+              fileData: {
+                name: item.file_name,
+                size: 100000,
+                type: "GET",
+              },
+              id: item.id,
+            };
+          });
+
+        console.log("result file => ", result);
+        setTrainingCertificateFile(traningCertificatePreview);
+      }
+      setValue("education_level", result.skill.education_level);
+      setEducationLevel(result?.skill?.education_level);
+
+      const trainingDetails = result?.skill?.training_experience?.length
+        ? result.skill.training_experience
+        : [];
+      setTrainingHistory(trainingDetails);
     }
   };
 
   useEffect(() => {
-    console.log("getProfileDetail ===> ", getProfileDetail);
-    console.log("imageIdCardWithSelfieFile ===> ", imageIdCardWithSelfieFile);
-    console.log("imageIdCardFile ==> ", imageIdCardFile);
-    console.log("imageBookBankFile ==> ", imageBookBankFile);
+    console.log("imageIdCardWithSelfieFile : ", imageIdCardWithSelfieFile);
+    console.log("imageIdCardFile : ", imageIdCardFile);
+    console.log("imageBookBankFile : ", imageBookBankFile);
     getTechDetail(tech_id);
+  }, []);
+
+  useEffect(() => {
+    const getBookbankData = async () => {
+      const result = await getBookbankService();
+
+      console.log("result ==> ", result);
+      if (result?.data?.length) {
+        const resData = result.data.map((item) => {
+          return {
+            label: item.bank_desc,
+            value: item.bank_code,
+          };
+        });
+
+        setBookbankData(resData);
+      }
+    };
+
+    getBookbankData();
   }, []);
 
   const confirmUpdateTech = () => {};
@@ -221,7 +349,7 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
                   <span>เปิดการใช้งาน</span>
                 </div>
               </Button>
-              <Button className="w-[136px]" variant={"outline"} type="button">
+              {/* <Button className="w-[136px]" variant={"outline"} type="button">
                 <div className="flex items-center gap-2">
                   <img
                     src={IconEdit}
@@ -230,28 +358,19 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
                   />
                   <span>แก้ไขข้อมูล</span>
                 </div>
-              </Button>
+              </Button> */}
             </div>
           </div>
           <div className="bg-white px-[16px] py-[28px] mt-[24px] rounded-[8px]">
             <p className="font-bold text-[16px]">ข้อมูลทั่วไป</p>
             <div className="mt-4 grid grid-cols-3 gap-6">
               <CustomInput
-                name="first_name"
-                label="ชื่อ"
-                placeholder="กรอกชื่อ"
+                name="full_name"
+                label="ชื่อ - นามสกุล"
+                placeholder="กรอกชื่อ - นามสกุล"
                 disabled={disabledFields}
-                register={register("first_name", {
-                  required: "กรุณาระบุชื่อ",
-                })}
-              />
-              <CustomInput
-                name="last_name"
-                label="นามสกุล"
-                placeholder="กรอกนามสกุล"
-                disabled={disabledFields}
-                register={register("last_name", {
-                  required: "กรุณาระบุนามสกุล",
+                register={register("full_name", {
+                  required: "กรุณาระบุชื่อ - นามกุล",
                 })}
               />
               <CustomInput
@@ -269,6 +388,7 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
                 classInput="text-[14px]"
                 register={register("birth_date")}
                 defaultValue={birthDate}
+                disabledPicker={disabledFields}
               />
               <CustomInput
                 name="email"
@@ -317,19 +437,17 @@ const GetTechnicianPage: React.FC<IGetTechnicianPageProps> = (props) => {
                   required: "กรุณาระบุที่อยู่",
                 })}
               />
-              <div className="col-span-2">
-                <CustomSelectInput
-                  label="ตำบล/อำเภอ/จังหวัด/รหัสไปรษณีย์"
-                  required
-                  disabled={disabledFields}
-                  valueSearch={searchAddress}
-                  setValueSearch={setSearchAddress}
-                  value={fullAddress}
-                  setValue={setFullAddress}
-                  placeholderSearch="ค้นหา รหัสไปรษณีย์ ตำบล อำเภอ จังหวัด"
-                  option={addressDataList}
-                />
-              </div>
+              <CustomSelectInput
+                label="ตำบล/อำเภอ/จังหวัด/รหัสไปรษณีย์"
+                required
+                disabled={disabledFields}
+                valueSearch={searchAddress}
+                setValueSearch={setSearchAddress}
+                value={fullAddress}
+                setValue={setFullAddress}
+                placeholderSearch="ค้นหา รหัสไปรษณีย์ ตำบล อำเภอ จังหวัด"
+                option={addressDataList}
+              />
             </div>
             <div className="mt-[28px]">
               <p className="font-bold text-[16px]">
